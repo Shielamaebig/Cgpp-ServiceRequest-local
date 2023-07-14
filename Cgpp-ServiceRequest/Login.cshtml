@@ -1,0 +1,221 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Login</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="/Content/assets/img/cgpp-2.png" rel="icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <link href="/Content/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <!-- Vendor CSS Files -->
+    <link href="/Content/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/Content/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="/Content/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="/Content/assets/vendor/quill/quill.snow.css" rel="stylesheet" />
+    <link href="/Content/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+    <link href="/Content/assets/vendor/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
+    <link href="/Content/summernote-lite.css" rel="stylesheet" />
+    <link href="/Content/toastr.css" rel="stylesheet" />
+    <link href="/Content/jquery.datetimepicker.css" rel="stylesheet" />
+    <link href="/Content/custom.css" rel="stylesheet" />
+    <!-- Template Main CSS File -->
+    <link href="/Content/assets/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <section class="vh-100 login_background">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col col-xl-10">
+                    <div class="card_login" style="border-radius: 1rem;">
+                        <div class="row g-0 login_container">
+                            <div class="col-md-6 col-lg-5 d-none d-md-block left">
+                                <img src="/Content/assets/img/servicedesk2.png"
+                                     alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem; margin:10px;" />
+                                <div class="justify-content-center">
+                                    <h5 class="card-title text-center ms-5 fs-4">Service Desk</h5>
+                                    <p class="mt-0 text-center small ms-5">The service desk assists throughout the entire product lifecycle and ensures that all users receive help promptly.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                                <div class=" p-5 text-black">
+                                    <div class="d-flex justify-content-center">
+
+                                        <div class="brand_logo_container">
+                                            <img src="/Content/assets/img/cgpp-2.png" class="brand_logo" alt="logo" style="width:150px;">
+                                        </div>
+
+                                    </div>
+                                    <form class="row g-3 needs-validation justify-content-center" id="logInForm" novalidate>
+                                        <div class="justify-content-center">
+                                            <h1 class="card-title text-center" style="font-size:30px;">Log in</h1>
+                                            <p class="mt-0 text-center small"> Enter your username & password to login </p>
+                                        </div>
+                                        <div class="col-10 mb-3">
+                                            <label for="yourUsername" class="form-label">User Name</label>
+                                            <div class="input-group has-validation">
+                                                <span class="input-group-text" id="inputGroupPrepend"><i class="fas fa-envelope"></i></span>
+                                                <input type="text" name="userName" class="form-control" id="userName" required>
+                                                <div class="invalid-feedback ">Please enter your email.</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-10 mt-1 mb-3">
+                                            <label for="yourPassword" class="form-label">Password</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text fas fa-eye-slash field-icon toggle-password" id="revealPassword"></span>
+                                                <input type="password" name="password" class="form-control" id="password" style="border-bottom-right-radius: 5px; border-top-right-radius:5px;" required>
+                                                <div class="invalid-feedback ">Please enter your password!</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-10 ">
+                                            <button class="btn btn-primary w-100" type="submit">Login</button>
+                                        </div>
+                                    </form>
+                                    <div class="col-12 ms-5 mt-3">
+                                        <p class="small mb-0">Don't have account? <a href="~/UserRegistration.cshtml">Create an account</a></p>
+                                    </div>                                    
+                                    <div class="col-12 ms-5 mt-2">
+                                        <p class="small mb-0"><a href="~/UserForgotPassword.cshtml">Forgot Password or Username</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <div class="modal fade" id="loadingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered  modal-notify modal-info" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border text-primary mt-3" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="justify-content-center">
+                        <h2 class="text-center ms-3 mt-3" style="font-size:20px;">Loading...</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+<!-- Vendor JS Files -->
+
+
+<script src="/Scripts/jquery-3.4.1.js"></script>
+
+<script src="/Scripts/bootbox.js"></script>
+<script src="/Scripts/extra-libs/DataTables/DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="/Content/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/Content/assets/vendor/quill/quill.min.js"></script>
+<script src="/Scripts/extra-libs/DataTables/datatables.min.js"></script>
+<script src="/Scripts/extra-libs/DataTables/datatables-select.min.js"></script>
+<script src="/Scripts/extra-libs/DataTables/datatables.js"></script>
+<script src="/Scripts/jquery.datetimepicker.js"></script>
+<script src="/Scripts/moment.js"></script>
+<script src="/Scripts/toastr.js"></script>
+<script src="/Scripts/bootstrap-datepicker.js"></script>
+
+
+<!-- Template Main JS File -->
+<!-- Template Main JS File -->
+<script src="/Content/assets/js/main.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(function () {
+            //Password Reveal
+            $('#revealPassword').click(function () {
+                if ($(this).hasClass('fa-eye-slash')) {
+                    $(this).removeClass('fa-eye-slash');
+                    $(this).addClass('fa-eye');
+                    $('#password').attr('type', 'text');
+                } else {
+                    $(this).removeClass('fa-eye');
+                    $(this).addClass('fa-eye-slash');
+                    $('#password').attr('type', 'password');
+                }
+            });
+        });
+        $.ajax({
+            type: 'GET',
+            url: '/api/v1/roles/users',
+            success: function (data) {
+                // check data has content
+                if (data.length > 0) {
+                    console.log('data has content');
+                } else {
+                    // redirect to login page
+                    window.location.href = "/CreateUser";
+                }
+            },
+            //if failed
+            error: function (data) {
+                toastr.info("Success")
+            }
+        });
+        if (localStorage.getItem("username") != null) {
+            window.location.href = "/home";
+        }
+        $('#logInForm').submit(function (e) {
+            // get role
+            e.preventDefault();
+            var formData = $(this).serialize();
+            // define password
+            var pass = $('#password').val();
+            // grant type
+            var grantType = 'password';
+            // find email
+            var userName = $('#userName').val();
+            // define data
+            var data = {
+                grant_type: grantType,
+                username: userName,
+                password: pass
+            };
+            $('#loadingModal').modal('show');
+            setTimeout(function () {
+                $.ajax({
+                    url: '/token',
+                    type: 'POST',
+                    data: data,
+                    success: function (data) {
+                        localStorage.setItem('access_token', data.access_token);
+                        // store email to local storage
+                        localStorage.setItem('username', data.userName);
+                        //alert(data.userName);
+                        setTimeout(function () {
+                            toastr.success('Welcome ' + data.userName);
+                        }, 3000),
+                            setTimeout(function () {
+                                window.location.href = '/';
+                            }, 4000);
+                    },
+                    error: function (data) {
+                        $('#loadingModal').modal('hide');
+                        toastr.error('Login Failed');
+                    }
+                });
+            }, 2000);
+        });
+    });
+</script>

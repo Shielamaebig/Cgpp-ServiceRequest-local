@@ -1,0 +1,138 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+@using Microsoft.AspNet.Identity.EntityFramework
+@model Microsoft.AspNet.Identity.EntityFramework.IdentityRole
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Register</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="/Content/assets/img/cgpp-2.png" rel="icon">
+
+
+    <link href="/Content/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <!-- Vendor CSS Files -->
+    <link href="/Content/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/Content/toastr.css" rel="stylesheet" />
+    <link href="/Content/custom.css" rel="stylesheet" />
+    <!-- Template Main CSS File -->
+    <link href="/Content/assets/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                        <img src="/image/cgpp-2.png" class="rounded-circle mt-4" style=" width: 120px !important; height: 120px !important;" />
+                        <h2 class="card-title m-3">Roles & Privileges</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                        <img src="/image/icon-admin-2.png" class="ms-3" style=" width: 160px !important; height: 160px !important;" />
+                        <h2 class="card-title">Create Role</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <h4 class="card-title d-flex justify-content-center pt-3 pb-3 ms-0 mt-5 mb-4">
+                            Roles
+                        </h4>
+                        <div style="width: 300px; margin: 0 auto;  text-align: left; position: relative;  left: 0;  right: 0; padding-left: 3.5%;">
+                            @using (Html.BeginForm())
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary()
+                                <div class="form-group col-12 text-center align-center mb-4">
+                                    <input type="text" name="RoleName" class="form-control " />
+                                </div>
+                                <div class="form-group ms-5">
+                                    <button type="submit" class="btn btn-primary mt-4 ms-5"> Save </button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<!-- Vendor JS Files -->
+<script src="/Scripts/jquery-3.4.1.js"></script>
+<script src="/Scripts/bootbox.js"></script>
+<script src="/Content/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/Scripts/toastr.js"></script>
+<!-- Template Main JS File -->
+<script src="/Content/assets/js/main.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $.ajax({
+            type: 'GET',
+            url: '/api/v1/roles/users',
+            success: function (data) {
+                // check data has content
+                if (data.length > 0) {
+                    console.log('data has content');
+                } else {
+                    // redirect to login page
+                    /* window.location.href = "/CreateUser";*/
+                }
+            },
+            //if failed
+            error: function (data) {
+                toastr.info("Success")
+            }
+        });
+
+        $('#registerForm').submit(function (e) {
+            e.preventDefault();
+            var valdata = $(this).serialize();
+            $.ajax({
+                url: '/api/Account/RegisterDev',
+                type: 'POST',
+                data: valdata,
+                success: function (data) {
+                    $('#createModal').modal('hide');
+                    setTimeout(function () {
+                        toastr.success("Account Created Successfully");
+                        // hide please wait modal
+                    }, 2000),
+                        setTimeout(function () {
+                            window.location.href = "/Roles/DefaultRole";
+                        }, 3000);
+                },
+                error: function (data) {
+                    toastr.error('Error');
+                }
+            })
+        });
+    });
+</script>

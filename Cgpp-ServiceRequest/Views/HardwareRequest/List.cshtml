@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (User.IsInRole("HardwareAdmin") || User.IsInRole("SuperAdmin") || User.IsInRole("Developer"))
+{
+    <h1 class="card-title">Hardware Total Reports </h1>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body mb-4">
+                    <h4 class="card-title d-flex justify-content-between">
+                      Technician Assigned Request
+                    </h4>
+                    <h6 class="card-subtitle"></h6>
+                    <div class="table-responsive">
+                        <table id="techlistCount" class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Year</th>
+                                    <th>Month</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body mb-4">
+                    <h4 class="card-title d-flex justify-content-between">
+                        Unit Category
+                    </h4>
+                    <h6 class="card-subtitle"></h6>
+                    <div class="table-responsive">
+                        <table id="hrdListCount" class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Unit</th>
+                                    <th>Year</th>
+                                    <th>Month</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body mb-4">
+                    <h4 class="card-title d-flex justify-content-between">
+                        Hardware Category Services
+                    </h4>
+                    <h6 class="card-subtitle"></h6>
+                    <div class="table-responsive">
+                        <table id="hrdCatCount" class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Services</th>
+                                    <th>Year</th>
+                                    <th>Month</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            HardwareList();
+        });
+    </script>
+}

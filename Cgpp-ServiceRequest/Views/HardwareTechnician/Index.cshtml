@@ -1,0 +1,126 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Index";
+}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title d-flex justify-content-between mx-2">
+                    Technician List
+                    <button class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#hardwareTechModal">
+                        <i class="fas fa-solid fa-plus fa-sm text-white-50"></i> Add Technicians
+                    </button>
+                </h4>
+                <h6 class="card-subtitle"></h6>
+                <div class="table-responsive">
+                    <table id="hardwareList" class="table table-condensed display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Date Added</th>
+                                <th>Technicians</th>
+                                <th>Email</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="hardwareTechModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-m modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="heading" id="exampleModalLabel"><h4 class="card-title d-flex justify-content-between" style="padding:0;">Hardware Technician</h4></p>
+            </div>
+            <div class="modal-body">
+                <form id="save">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="">Name</label>
+                            <input type="text" class="form-control mt-2 mb-3" name="name" placeholder="Technician" id="name" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="">Email</label>
+                            <input type="text" class="form-control mt-2 mb-3" name="email" placeholder="Technician Email" id="email" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="">Phone Number</label>
+                            <input type="text" class="form-control mt-2 mb-3" name="phoneNumber" placeholder="Phone Number" id="phoneNumber" required />
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="id" name="id" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" value=" submit" class="btn btn-success " id="btnSubmit">Save</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-m modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="heading" id="exampleModalLabel"><h4 class="card-title d-flex justify-content-between" style="padding:0;">Hardware Technician</h4></p>
+            </div>
+            <div class="modal-body">
+                <form id="edit">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="">Name</label>
+                            <input type="text" class="form-control mt-2 mb-3" name="name" placeholder="Technician" id="name" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="">Email</label>
+                            <input type="text" class="form-control mt-2 mb-3" name="email" placeholder="Technician Email" id="email" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="">Phone Number</label>
+                            <input type="text" class="form-control mt-2 mb-3" name="phoneNumber" placeholder="Phone Number" id="phoneNumber" required />
+                        </div>
+                    </div>
+                    <input type="hidden" id="id" name="id" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" value=" submit" class="btn btn-success " id="Updatetech">Save</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* <div class="modal fade" id="pleasewait" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border text-primary mt-3" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="justify-content-center">
+                    <h2 class="text-center ms-3 mt-3" style="font-size:20px;">Loading...</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> *@
+
+@section scripts
+    {
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    GetTechnician();
+                });
+            </script>
+}
+

@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "Activity";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title d-flex justify-content-between mx-2">
+                    Activity Logs
+                </h4>
+                <div class="table-responsive">
+                    <table id="useractivity" class="table table-condensed display">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Log</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script>
+        $(document).ready(function () {
+                $("#useractivity").DataTable({
+                "ajax": {
+                    "url": "/ServiceRequest/api/all/byRole",
+                    "headers": {
+                        "Authorization": "Bearer " + localStorage.getItem('access_token')
+                    },
+                    "type": "GET",
+                    "dataType": "json",
+                },
+                "processing": "true",
+                "serverSide": "true",
+                "ordering": "true",
+                "paging": "true",
+                "order": [[0, "desc"]],
+                "language": {
+                    "processing": "Loading... Please wait"
+
+                },
+                "autoWidth": false,
+                "columns": [
+
+                    { "data": "userName"},
+                    { "data": "activityMessage" },
+                    { "data": "activityDate" },
+                ],
+            });
+        });
+    </script>
+}
+

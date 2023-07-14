@@ -1,0 +1,77 @@
+﻿@model Cgpp_ServiceRequest.Models.UserRoleViewModel
+@using Cgpp_ServiceRequest.Models.Extensions
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "ManageUserRoles3";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                    <img src="/image/cgpp-2.png" class="rounded-circle mt-4" style=" width: 120px !important; height: 120px !important;" />
+                    <h2 class="card-title m-3">Roles & Privileges</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@if (Model != null)
+{
+    <div class="row">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                        <img src="/image/person-icon-blue-7563.png" class="mt-4" style=" width: 120px !important; height: 120px !important;" />
+                        <h2 class="card-title m-3 fa-2xl">@Model.UserName</h2>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <h4 class="card-title d-flex justify-content-center pt-3 pb-3 ms-0">
+                            Manage Roles
+                        </h4>
+
+                        @using (Html.BeginForm("UpdateRoles2", "Roles", FormMethod.Post, new { @class = "form" }))
+                        {
+                            @Html.HiddenFor(m => m.UserId)
+                            // @Html.HiddenFor(m => m.UserName)
+                            <div class="col-12">
+                                <div class="form-check" style="width: 190px; margin: 0 auto;  text-align: left; position: relative;  left: 0;  right: 0; padding-left: 3.5%;">
+                                    @for (int i = 0; i < Model.UserRoles.Count; i++)
+                                    {
+
+                                        <div class="checkbox ">
+                                            @Html.CheckBoxFor(m => m.UserRoles[i].IsSelected, new { id = "userRoles_" + i })
+
+                                            @Html.HiddenFor(m => m.UserRoles[i].Id)
+                                            @Html.HiddenFor(m => m.UserRoles[i].Id)
+                                            @Html.DisplayFor(m => m.UserRoles[i].Name, new { @style = "position: relative;" })
+                                        </div>
+                                    }
+                                    <input type="submit" value="Submit Role" class="btn btn-primary mt-3" />
+
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+

@@ -1,0 +1,349 @@
+﻿@using Cgpp_ServiceRequest.Models.Extensions
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "HardwareRequest2";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title d-flex justify-content-between mx-2">
+                    Hardware Category Services
+                    <button class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#AddHardware">
+                        <i class="fas fa-solid fa-plus fa-sm text-white-50"></i> Add Category Services
+                    </button>
+                </h4>
+                <h6 class="card-subtitle"></h6>
+                <div class="table-responsive">
+                    <table id="hardwareList" class="table table-condensed display">
+                        <thead>
+                            <tr>
+                                <th>Hardware Category</th>
+                                <th>Request</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="AddHardware" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-m modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="heading" id="exampleModalLabel"><h4 class="card-title d-flex justify-content-between">Hardware Category Services</h4></p>
+            </div>
+            <div class="modal-body">
+                <form id="save">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="">Name</label>
+                            <input type="text" class="form-control mt-2 mb-3" name="name" placeholder="Category Services" id="name" required />
+                        </div>
+                    </div>
+                    <input type="hidden" id="id" name="id" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" value=" submit" class="btn btn-success " id="btnSubmit">Submit</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*modal for Request*@
+<div class="modal fade" id="editmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-m modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="heading" id="exampleModalLabel"><h4 class="card-title d-flex justify-content-between">Software Category Services</h4></p>
+            </div>
+            <div class="modal-body">
+                <form id="edit">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="">Name</label>
+                            <input type="text" class="form-control mt-2 mb-3" name="name" placeholder="Category Services" id="name" required />
+                        </div>
+
+                    </div>
+                    <input type="hidden" id="id" name="id" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" value=" submit" class="btn btn-success " id="updateDate">Submit</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="hardwareeRequestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="heading" id="exampleModalLabel"><h5 class="card-title d-flex justify-content-between">Service Request Form</h5></p>
+            </div>
+            <div class="modal-body">
+                <form id="SaveRequest" name="SaveRequest" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="form-group col-md-4 mb-3">
+                            <label for="">Unit Name</label>
+                            <select class="form-control mt-2 mb-3" name="unitTypeId" id="unitTypeId">
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for=""> Brand Name</label>
+                            <input type="text" class="form-control mt-2 mb-2" name="brandName" id="brandName" required />
+                        </div>
+                        <div class="col-md-4">
+                            <label for=""> Model Name</label>
+                            <input type="text" class="form-control mt-2 mb-2" name="modelName" id="modelName" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="" class=" mb-1">Description</label>
+                            <textarea class="form-control" id="description" name="description" style="height: 250px;"> </textarea>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="hardwareId" id="hardwareId">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="btnRequest" type="button" class="btn btn-success">Submit</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script>
+
+        $(document).ready(function () {
+
+            var Datatables;
+            Datatables = $("#hardwareList").DataTable({
+                ajax: {
+                    url: "/ServiceRequest/api/hard/get",
+                    dataSrc: "",
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem('access_token')
+                    }
+                },
+                ordering: false,
+                autoWidth: false,
+                columns: [
+
+                    {
+                        data: "name",
+                    },
+
+                    {
+                        data: null,
+                        render: function (data) {
+                            return '<button class="btn btn-primary btn-sm request" data-id="' + data.id + '"><i class="far fa-folder"></i> Request</button>'
+                        },
+                        orderable: false,
+                    },
+                    {
+                        data: null,
+                        render: function (data) {
+                            return '<button class="btn btn-success btn-sm edit" data-id="' + data.id + '"><i class="fas fa-edit"></i> Edit</button>'
+                        //        + '  <button class="btn btn-danger btn-sm delete" data-id="' + data.id + '"><i class="fas fa-trash"></i> Delete</button>'
+                        },
+                        orderable: false,
+                    }
+
+                ]
+            });
+
+            $('#btnSubmit').click(function (e) {
+                e.preventDefault();
+
+                //find name
+                var name = $('input[name=name]').val();
+                // data
+                var data = {
+                    name: name,
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: '/ServiceRequest/api/hard/save',
+                    data: data,
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                    },
+                    success: function (data) {
+                        toastr.success("Directory Successfully Added!");
+                        Datatables.ajax.reload();
+                        $("#AddHardware").modal('hide');
+                        $("#name").val("");
+                    },
+                    //if failed
+                    error: function (data) {
+                        toastr.error("Name Already Exist In the Database/ Invalid")
+                    }
+                });
+            });
+
+            //Get edit
+            $("#hardwareList").on('click', '.edit', function () {
+                var id = $(this).attr('data-id');
+                var url = '/ServiceRequest/api/hard/gethardware/' + id;
+                alert(id);
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    success: function (data) {
+                        $("#editmodal").modal('show');
+                        $('#edit').find('input[name="id"]').val(data.id);
+                        $('#edit').find('input[name="name"]').val(data.name);
+                    },
+                    //if failed
+                    error: function (data) {
+                        // console.log(data, data.id, data.name);
+                        toastr.info("Success")
+                    }
+                })
+            })
+
+            //Update
+            $("#updateDate").click(function (e) {
+                e.preventDefault();
+                var data = {
+                    name: $('#edit').find('input[name=name]').val(),
+                };
+                var id = $('#edit').find('input[name="id"]').val();
+                $.ajax({
+                    type: 'PUT',
+                    url: '/ServiceRequest/api/hard/updateHardware/' + id,
+                    data: data,
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                    },
+                    success: function (data) {
+                        toastr.success("Data Successfully Updated!");
+                        Datatables.ajax.reload();
+                        $('#editmodal').modal('hide');
+
+                    },
+                    //if failed
+                    error: function (data) {
+                        toastr.info("Success")
+                    }
+                });
+            });
+
+            $('#hardwareList').on('click', '.delete', function () {
+                var id = $(this).attr('data-id');
+                var url = '/api/hard/Delete/' + id;
+                $.ajax({
+                    // confirm before delete
+                    beforeSend: function (xhr) {
+                        // use bootbox
+                        bootbox.confirm({
+                            message: "Are you sure you want to delete this record?",
+                            buttons: {
+                                // yes and no sequence
+
+                                confirm: {
+                                    label: 'Yes',
+                                    className: 'btn-success btn-sm'
+                                },
+                                cancel: {
+                                    label: 'No',
+                                    className: 'btn-danger btn-sm'
+                                }
+                            },
+                            callback: function (result) {
+                                if (result) {
+                                    $.ajax({
+                                        type: 'DELETE',
+                                        url: url,
+                                        headers: {
+                                            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                                        },
+                                        success: function (data) {
+                                            toastr.success("Data Successfully Deleted!");
+                                            Datatables.ajax.reload();
+                                        },
+                                        //if failed
+                                        error: function (data) {
+                                            toastr.info("Success")
+                                        }
+                                    });
+                                }
+                            }
+                        });
+
+                    },
+                });
+            });
+
+            //Get id hardware Request
+            $('#hardwareList').on('click', '.request', function () {
+                var data = $(this).attr('data-id');
+                $('#hardwareeRequestModal').modal('show');
+                $('#hardwareeRequestModal').find('input[name=hardwareId]').val(data);
+                $('#hardwareeRequestModal').find('select[name=unitTypeId]').val("-1");
+                $('#hardwareeRequestModal').find('input[name=brandName]').val("");
+                $('#hardwareeRequestModal').find('input[name=modelName]').val("");
+
+               // alert(data);
+            });
+
+
+            $('#btnRequest').click(function (e) {
+                e.preventDefault();
+                var id = $('input[name=hardwareId]').val();
+                var valdata = $('#SaveRequest').serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: '/ServiceRequest/api/hardwareRequest/SaveRequest',
+                    data: valdata,
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                    },
+                    success: function (data) {
+                        toastr.success("Directory Successfully Added!");
+                        //Datatables.ajax.reload();
+                        $("#hardwareeRequestModal").modal('hide');
+                        $('#description').val(" ")
+                    },
+                    //if failed
+                    error: function (data) {
+                        //   alert(id);
+                        toastr.error("Fill up alll forms / Invalid")
+                    }
+                });
+            });
+
+
+            $.ajax({
+                type: 'GET',
+                url: '/ServiceRequest/api/hardwareRequest/unitType',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                },
+                success: function (data) {
+                    $('select[name=unitTypeId]').append('<option value="-1"> Select UnitType</option>');
+                    $.each(data, function (index, value) {
+                        $('select[name=unitTypeId]').append('<option value="' + value.id + '">' + value.name + '</option>');
+                    }
+                    );
+                },
+
+            });
+        });
+    </script>
+}
+
+

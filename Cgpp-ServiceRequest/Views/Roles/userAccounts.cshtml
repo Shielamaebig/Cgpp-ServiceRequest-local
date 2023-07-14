@@ -1,0 +1,410 @@
+﻿@model IEnumerable<Cgpp_ServiceRequest.ViewModels.UsersInRoleViewModel>
+@using Cgpp_ServiceRequest.Models.Extensions
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "User Activation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title d-flex justify-content-between mx-2">
+                    List of Users
+                    <p class="box-title" style="font-size: 14px;"><b>Total Users @String.Format("{0 : dddd, MMMM d, yyyy}", DateTime.Now)  : </b><span class="label label-primary"><b>@Model.Count() Users</b></span></p>
+                </div>
+                <h6 class="card-subtitle"></h6>
+                <div class="table-responsive">
+                    <table id="UsersAccount" class="table table-condensed display ">
+                        <thead>
+                            <tr>
+                                <th>Profile Image </th>
+                                <th>Date Created</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Department</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var users in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @if (users.ImagePath == null)
+                                            {
+                                                <div style="height: 50px; width: 50px;" class="ms-2 mt-2">
+                                                    <a>
+                                                        <img src="image/cgpp-2.png"
+                                                             style="width: 100%; border-radius: 100%; height: 50px;">
+                                                    </a>
+                                                </div>
+
+                                            }
+                                            else
+                                            {
+                                                <div style="height: 50px; width: 50px;" class="ms-4 mt-2">
+                                                    <a>
+                                                        <img src="@users.ImagePath"
+                                                             style="width: 100%; border-radius: 100%; height: 50px;">
+                                                    </a>
+                                                </div>
+
+                                            }
+                                    </td>
+                                    <td>
+                                        @if (users.DateCreated.HasValue)
+                                        {
+                                            <div class="mt-3">
+                                                @users.DateCreated.Value.ToString("MM/dd/yyyy hh:mm")
+                                            </div>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="mt-3">
+                                            @users.FullName
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="mt-3">
+                                            @users.Email
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="mt-3">
+                                            @if (users.Departments == null)
+                                            {
+
+                                                <span>Not Applicable</span>
+                                            }
+                                            else
+                                            {
+                                                <span>
+                                                    @users.Departments.Name
+                                                </span>
+                                            }
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="mt-3">
+                                            @users.Role
+
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="mt-3">
+                                            @if (users.IsUserApproved == true)
+                                            {
+                                                <span class="badge bg-secondary">Activate</span>
+
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">Deactivate</span>
+                                            }
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button type="submit" class="btn btn-outline-primary btn-sm mt-2 approvedUser"
+                                                id="@users.UserId" style="width: 140px;">
+                                            Activate User
+                                        </button>
+                                        <button type="submit" class="btn btn-outline-primary btn-sm mt-2 deactiveUser"
+                                                id="@users.UserId" style="width: 140px;">
+                                            Deactive User
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="approvedUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-m" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title card-title" id="exampleModalLabel">ACtivate User</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3 needs-validation" id="UserInfo" novalidate>
+                    <input type="hidden" id="id" name="id" />
+                    <div class="col-12">
+                        <label for="fullName" class="form-label">Full Name</label>
+                        <div class="input-group has-validation">
+                            <input type="text" name="fullName" class="form-control" id="fullName" disabled>
+
+                        </div>
+                    </div>
+
+                    <div class="col-12 ">
+                        <label for="fullName" class="form-label">Department</label>
+                        <div class="input-group has-validation">
+                            <select class="form-control" name="departmentsId" id="departmentsId" disabled></select>
+
+                        </div>
+                    </div>
+
+                    <div class=" col-12 ">
+                        <label for="phoneNumber" class="form-label">Division</label>
+                        <div class="input-group has-validation">
+                            <select class="form-control" name="divisionsId" id="divisionsId" disabled>
+                                <option>Select Division</option>
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class=" col-12 mt-0">
+                        <label for="phoneNumber" class="form-label">Mobile Number</label>
+                        <div class="input-group has-validation">
+                            <span class="input-group-text" id="inputGroupPrepend"><i class="fas fa-mobile-alt"></i></span>
+                            <input type="text" name="mobileNumber" class="form-control" id="mobileNumber" disabled>
+
+                        </div>
+                    </div>
+
+                    <div class=" col-12 mt-0">
+                        <label for="yourUsername" class="form-label">Email</label>
+                        <div class="input-group has-validation">
+                            <span class="input-group-text" id="inputGroupPrepend"><i class="fas fa-envelope"></i></span>
+                            <input type="text" name="email" class="form-control" id="email" placeholder="JuanDelaCruz@gmail.com" disabled>
+
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success approve" data-bs-dismiss="modal">Active</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deactiveUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-m" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title card-title" id="exampleModalLabel">Deactive User</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3 needs-validation" id="UserInfo2" novalidate>
+                    <input type="hidden" id="id" name="id" />
+                    <div class="col-12">
+                        <label for="fullName" class="form-label">Full Name</label>
+                        <div class="input-group has-validation">
+                            <input type="text" name="fullName" class="form-control" id="fullName" disabled>
+
+                        </div>
+                    </div>
+
+                    <div class="col-12 ">
+                        <label for="fullName" class="form-label">Department</label>
+                        <div class="input-group has-validation">
+                            <select class="form-control" name="departmentsId" id="departmentsId" disabled></select>
+
+                        </div>
+                    </div>
+
+                    <div class=" col-12 ">
+                        <label for="phoneNumber" class="form-label">Division</label>
+                        <div class="input-group has-validation">
+                            <select class="form-control" name="divisionsId" id="divisionsId" disabled>
+                                <option>Select Division</option>
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class=" col-12 mt-0">
+                        <label for="phoneNumber" class="form-label">Mobile Number</label>
+                        <div class="input-group has-validation">
+                            <span class="input-group-text" id="inputGroupPrepend"><i class="fas fa-mobile-alt"></i></span>
+                            <input type="text" name="mobileNumber" class="form-control" id="mobileNumber" disabled>
+
+                        </div>
+                    </div>
+
+                    <div class=" col-12 mt-0">
+                        <label for="yourUsername" class="form-label">Email</label>
+                        <div class="input-group has-validation">
+                            <span class="input-group-text" id="inputGroupPrepend"><i class="fas fa-envelope"></i></span>
+                            <input type="text" name="email" class="form-control" id="email" placeholder="JuanDelaCruz@gmail.com" disabled>
+
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success approve2" data-bs-dismiss="modal">Deactive</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#UsersAccount').DataTable();
+
+            //Department
+            $.ajax({
+                type: 'GET',
+                url: '/api/User/department',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                },
+                success: function (data) {
+                    $('select[name=departmentsId]').append('<option value=""> Select Department</option>');
+                    $.each(data, function (index, value) {
+                        $('select[name=departmentsId]').append('<option value="' + value.id + '">' + value.name + '</option>');
+                    }
+                    );
+                },
+            });
+            //Division
+            $.ajax({
+                type: 'GET',
+                url: '/api/User/division',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                },
+                success: function (data) {
+                    $('select[name=divisionsId]').append('<option value=""> Select Division</option>');
+                    $.each(data, function (index, value) {
+                        $('select[name=divisionsId]').append('<option value="' + value.id + '">' + value.name + '</option>');
+                    }
+                    );
+                },
+            });
+
+
+            $('#UsersAccount').on('click', '.approvedUser', function () {
+                var id = $(this).attr('id');
+                var url = '/api/v1/users/getid/' + id;
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                    },
+                    success: function (data) {
+                        $('#approvedUserModal').modal('show');
+                        $('#UserInfo').find('input[name="id"]').val(data.id);
+                        $('#UserInfo').find('input[name="fullName"]').val(data.fullName);
+                        $('#UserInfo').find('select[name=departmentsId]').val(data.departmentsId);
+                        $('#UserInfo').find('select[name=divisionsId]').val(data.divisionsId);
+                        $('#UserInfo').find('input[name="mobileNumber"]').val(data.mobileNumber);
+                        $('#UserInfo').find('input[name="email"]').val(data.email);
+
+                        
+                    }
+                });
+            });
+
+            $('#UsersAccount').on('click', '.deactiveUser', function () {
+                var id = $(this).attr('id');
+                var url = '/api/v1/users/getid/' + id;
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                    },
+                    success: function (data) {
+                        $('#deactiveUserModal').modal('show');
+                        $('#UserInfo2').find('input[name="id"]').val(data.id);
+                        $('#UserInfo2').find('input[name="fullName"]').val(data.fullName);
+                        $('#UserInfo2').find('select[name=departmentsId]').val(data.departmentsId);
+                        $('#UserInfo2').find('select[name=divisionsId]').val(data.divisionsId);
+                        $('#UserInfo2').find('input[name="mobileNumber"]').val(data.mobileNumber);
+                        $('#UserInfo2').find('input[name="email"]').val(data.email);
+
+                        if (data.isUserApproved == 1)
+                            $('.approve').prop('disabled', true)
+                        else
+                            $('.approve').prop('disabled', false)
+                        // alert(data.id);
+                    }
+                });
+            });
+             
+            $('#approvedUserModal').submit(function (e) {
+                e.preventDefault();
+                var id = $('#UserInfo').find('input[name="id"]').val();
+                var data = {
+                    "id": id
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/Account/UserApproval/' + id,
+                    data: data,
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                    },
+                    success: function (data) {
+                        //console.log(data);
+                        $('#pleasewait').modal('show');
+                        //show toastr after 3
+                        setTimeout(function () {
+                            toastr.success(" Successfully Approved!");
+                            // hide please wait modal
+
+                        }, 2000);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 3000);
+                    }
+                });
+            });
+
+            $('#deactiveUserModal').submit(function (e) {
+                e.preventDefault();
+                var id = $('#UserInfo2').find('input[name="id"]').val();
+                var data = {
+                    "id": id
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/Account/UserDeactive/' + id,
+                    data: data,
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                    },
+                    success: function (data) {
+                       // console.log(data);
+                        $('#pleasewait').modal('show');
+                        //show toastr after 3
+                        setTimeout(function () {
+                            toastr.success(" Successfully Deactivated!");
+                            // hide please wait modal
+
+                        }, 2000);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 3000);
+                    }
+                });
+            });
+        });
+    </script>
+}

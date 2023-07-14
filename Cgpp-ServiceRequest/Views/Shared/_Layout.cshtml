@@ -1,0 +1,1654 @@
+﻿@using Cgpp_ServiceRequest.Models.Extensions
+@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>@ViewBag.Title</title>
+
+    <!-- Favicon -->
+    <link href="/Content/assets/img/cgpp-2.png" rel="icon">
+
+    <!-- Google Fonts -->
+    @*<link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">*@
+
+    <link href="/Content/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <!-- Vendor CSS Files -->
+    <link href="/Content/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/Content/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="/Content/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="/Content/assets/vendor/quill/quill.snow.css" rel="stylesheet" />
+    <link href="/Content/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+    <link href="/Content/assets/vendor/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
+    <link href="/Content/summernote-lite.css" rel="stylesheet" />
+    <link href="/Content/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
+    <link href="/Content/toastr.css" rel="stylesheet" />
+    <link href="/Content/fullcalendar.min.css" rel="stylesheet" />
+    <link href="/Content/fullcalendar.print.css" rel="stylesheet" media="print" />
+    <link href="/Content/custom.css" rel="stylesheet" />
+    <link href="/Content/css/select2.css" rel="stylesheet" />
+    <!-- Template Main CSS File -->
+    <link href="/Content/assets/css/style.css" rel="stylesheet">
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body id="mainbody">
+
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="header fixed-top d-flex align-items-center">
+
+        <div class="d-flex align-items-center justify-content-between">
+            <a href="@Url.Action("Index", "Home", null)" class="logo d-flex align-items-center">
+                <img src="/Content/assets/img/cgpp.jpg" class="ms-4" alt="" style="width:40px; height:40px;">
+                <span class="d-none d-lg-block ms-1">Service Desk</span>
+            </a>
+            <i class="bi bi-list toggle-sidebar-btn"></i>
+        </div>
+        <nav class="header-nav ms-auto">
+            <ul class="d-flex align-items-center">
+                <li class="nav-item d-block d-lg-none">
+                    <a class="nav-link nav-icon search-bar-toggle " href="#">
+                    </a>
+                </li><!-- End Search Icon-->
+
+
+                <li class="nav-item dropdown maintenance">
+                    @if (User.IsInRole("Technicians") || User.IsInRole("Hardware&Software"))
+                    {
+                        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-bell"></i>
+                            <span class="badge bg-primary badge-number" id="countReps3"></span>
+                        </a><!-- End Notification Icon -->
+
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+                            <li class="dropdown-header" id="notifBar3"></li>
+                        </ul>
+                    }
+                    @if (User.IsInRole("HardwareAdmin"))
+                    {
+                        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-bell"></i>
+                            <span class="badge bg-primary badge-number" id="countReps4"></span>
+                        </a><!-- End Notification Icon -->
+
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+                            <li class="dropdown-header" id="notifBar4"></li>
+                        </ul>
+                    }
+
+                    @if (User.IsInRole("Programmers"))
+                    {
+                        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-bell"></i>
+                            <span class="badge bg-primary badge-number" id="countReps"></span>
+                        </a><!-- End Notification Icon -->
+
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+                            <li class="dropdown-header" id="notifBar"></li>
+                        </ul><!-- End Notification Dropdown Items -->
+                    }
+                    @if (User.IsInRole("SoftwareAdmin"))
+                    {
+                        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-bell"></i>
+                            <span class="badge bg-primary badge-number" id="countReps2"></span>
+                        </a><!-- End Notification Icon -->
+
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+                            <li class="dropdown-header" id="notifBar1"></li>
+                        </ul><!-- End Notification Dropdown Items -->
+                    }
+                    @if (User.IsInRole("DivisionApprover"))
+                    {
+                        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-bell"></i>
+                            <span class="badge bg-primary badge-number" id="countReps5"></span>
+                        </a><!-- End Notification Icon -->
+
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+                            <li class="dropdown-header" id="notifBar6"></li>
+                        </ul><!-- End Notification Dropdown Items -->
+                    }
+                    @if (User.IsInRole("SuperAdmin"))
+                    {
+                        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-bell"></i>
+                            <span class="badge bg-primary badge-number" id="countsuper"></span>
+                        </a><!-- End Notification Icon -->
+
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+                            <li class="dropdown-header" id="notifBarsuper"></li>
+                        </ul><!-- End Notification Dropdown Items -->
+                    }
+
+                    @if (User.IsInRole("Developer"))
+                    {
+
+                        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-bell"></i>
+                            <span class="badge bg-primary badge-number" id="newusercount"></span>
+                        </a><!-- End Notification Icon -->
+
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+                            <li class="dropdown-header" id="newAccountList"></li>
+                        </ul><!-- End Notification Dropdown Items -->
+
+                    }
+                </li>
+                @if (User.IsInRole("Developer"))
+                {
+                    <li>
+                        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-display"></i>
+                            <span class="badge bg-primary badge-number" id="newRequest"></span>
+                        </a><!-- End Notification Icon -->
+
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+                            <li class="dropdown-header" id="newRequestList"></li>
+                        </ul><!-- End Notification Dropdown Items -->
+                    </li>
+                }
+
+                @if (User.IsInRole("Developer"))
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-person"></i>
+                            <span class="badge bg-primary badge-number" id="newforgot"></span>
+                        </a><!-- End Notification Icon -->
+
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+                            <li class="dropdown-header" id="newforgotList"></li>
+                        </ul><!-- End Notification Dropdown Items -->
+                    </li>
+                }
+                @if (User.IsInRole("SuperAdmin") || User.IsInRole("Developer"))
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link nav-icon" href="#" data-bs-toggle="modal" data-bs-target="#WarningModal">
+                            <i class="bi bi-gear-fill"></i>
+                        </a><!-- End Messages Icon -->
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+                        </ul><!-- End Messages Dropdown Items -->
+
+                    </li><!-- End Messages Nav -->
+
+                }
+
+
+                <li class="nav-item dropdown pe-3">
+
+                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                        @if (User.IsInRole("Users"))
+                        {
+                            if (User.Identity.GetImgFile().IsEmpty())
+                            {
+                                <img src="/image/cgpp-2.png" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+                            if (User.Identity.GetImgFile() == null)
+                            {
+                                <img src="/image/cgpp-2.png" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+                            else
+                            {
+                                <img id="userLoggedImg" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+
+                        }
+                        @if (User.IsInRole("Technicians"))
+                        {
+                            if (User.Identity.GetImgFile().IsEmpty())
+                            {
+                                <img src="/image/cgpp-2.png" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+                            if (User.Identity.GetImgFile() == null)
+                            {
+                                <img src="/image/cgpp-2.png" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+                            else
+                            {
+                                <img id="userLoggedImg" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+
+                        }
+                        @if (User.IsInRole("Programmers"))
+                        {
+                            if (User.Identity.GetImgFile().IsEmpty())
+                            {
+                                <img src="/image/cgpp-2.png" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+                            if (User.Identity.GetImgFile() == null)
+                            {
+                                <img src="/image/cgpp-2.png" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+                            else
+                            {
+                                <img id="userLoggedImg" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+
+                        }
+                        @if (User.IsInRole("SuperAdmin"))
+                        {
+                            if (User.Identity.GetImgFile().IsEmpty())
+                            {
+                                <img src="/image/cgpp-2.png" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+                            if (User.Identity.GetImgFile() == null)
+                            {
+                                <img src="/image/cgpp-2.png" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+                            else
+                            {
+                                <img id="userLoggedImg" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+
+                        }
+                        @if (User.IsInRole("HardwareAdmin"))
+                        {
+                            if (User.Identity.GetImgFile().IsEmpty())
+                            {
+                                <img src="/image/cgpp-2.png" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+                            if (User.Identity.GetImgFile() == null)
+                            {
+                                <img src="/image/cgpp-2.png" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+                            else
+                            {
+                                <img id="userLoggedImg" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+
+                        }
+                        @if (User.IsInRole("SoftwareAdmin"))
+                        {
+                            if (User.Identity.GetImgFile().IsEmpty())
+                            {
+                                <img src="/image/cgpp-2.png" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+                            if (User.Identity.GetImgFile() == null)
+                            {
+                                <img src="/image/cgpp-2.png" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+                            else
+                            {
+                                <img id="userLoggedImg" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+
+                        }
+                        @if (User.IsInRole("Developer"))
+                        {
+                            if (User.Identity.GetImgFile().IsEmpty())
+                            {
+                                <img src="/image/cgpp-2.png" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+                            if (User.Identity.GetImgFile() == null)
+                            {
+                                <img src="/image/cgpp-2.png" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+                            else
+                            {
+                                <img id="userLoggedImg" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+
+                        }
+                        @if (User.IsInRole("DivisionApprover"))
+                        {
+                            if (User.Identity.GetImgFile().IsEmpty())
+                            {
+                                <img src="/image/cgpp-2.png" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+                            if (User.Identity.GetImgFile() == null)
+                            {
+                                <img src="/image/cgpp-2.png" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+                            else
+                            {
+                                <img id="userLoggedImg" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+
+                        }
+                        @if (User.IsInRole("Hardware&Software"))
+                        {
+                            if (User.Identity.GetImgFile().IsEmpty())
+                            {
+                                <img src="/image/cgpp-2.png" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+                            if (User.Identity.GetImgFile() == null)
+                            {
+                                <img src="/image/cgpp-2.png" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+                            else
+                            {
+                                <img id="userLoggedImg" alt="Profile" class="rounded-circle" style="width: 38px !important; height: 38px !important;">
+                            }
+                        }
+                        <span class="d-none d-md-block dropdown-toggle ps-2" id="side-name">
+                            @User.Identity.GetFirstName()
+                        </span>
+
+                    </a><!-- End Profile Iamge Icon -->
+
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="@Url.Action("UserProfile", "Roles")">
+                                <i class="bi bi-person"></i>
+                                <span>My Profile</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" id="signout" href="#" data-id="@User.Identity.GetUserId()">
+                                <i class="bi bi-box-arrow-right"></i>
+                                <span>Sign Out</span>
+                            </a>
+                        </li>
+
+                    </ul><!-- End Profile Dropdown Items -->
+                </li><!-- End Profile Nav -->
+
+            </ul>
+        </nav><!-- End Icons Navigation -->
+
+    </header><!-- End Header -->
+    <!-- ======= Sidebar ======= -->
+    <aside id="sidebar" class="sidebar">
+        <ul class="sidebar-nav" id="sidebar-nav">
+            <li class="nav-item mt-3">
+                <a class="nav-link collapsed" href="@Url.Action("Index", "Home", null)">
+                    <i class="bi bi-grid"></i>
+                    <span>Dashboard</span>
+                    <div>
+                        @* is auth  *@
+                        <!--@User.Identity.IsAuthenticated-->
+                    </div>
+
+                </a>
+            </li>
+            @if (User.IsInRole("Users"))
+            {
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#hardware-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-pc-display"></i><span>Hardware Services</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="hardware-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("HardwareRequest", "Hardware", null)">
+                                <i class="bi bi-circle"></i><span>Request</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("HardwareRequestList","HardwareRequest")">
+                                <i class="bi bi-circle"></i><span>Request List</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#software-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-window-plus"></i><span>Software Services</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="software-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("SoftwareRequest","Software")">
+                                <i class="bi bi-circle"></i><span>Request</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("RequestList","SoftwareRequest")">
+                                <i class="bi bi-circle"></i><span>Request List</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("NewSystemRequest2","SoftwareRequest")">
+                        <i class="bi bi-person-workspace"></i>
+                        <span>New System Request</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("UserProfile", "Roles")">
+                        <i class="bi bi-person"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" id="logout" href="#" data-id="@User.Identity.GetUserId()">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        <span>Log out</span>
+                    </a>
+                </li>
+
+            }
+            @if (User.IsInRole("Technicians"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("index", "HardwareRequest", null)">
+                        <i class="bi bi-pc-display"></i>
+                        <span>Assigned Request</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("UserRequestList", "HardwareRequest", null)">
+                        <i class="bi bi-list-ul"></i>
+                        <span>Hardware Request List</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#hardware-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-pencil-square"></i><span>Manual Request</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="hardware-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("ManualRequest", "HardwareRequest", null)">
+                                <i class="bi bi-circle"></i><span>With Account</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("ManualRequest2","HardwareRequest")">
+                                <i class="bi bi-circle"></i><span>Without Account</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#tools-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-gear"></i><span>Tools</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="tools-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("Index", "Hardware", null)">
+
+                                <i class="bi bi-circle"></i><span>Hardware Category</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("Index","UnitTypes")">
+                                <i class="bi bi-circle"></i><span>Unit</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("index", "EventList")">
+                        <i class="bi bi-calendar-check"></i>
+                        <span>Calendar</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("UserProfile", "Roles")">
+                        <i class="bi bi-person"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" id="logout" href="#" data-id="@User.Identity.GetUserId()">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        <span>Log out</span>
+                    </a>
+                </li>
+            }
+            @if (User.IsInRole("Programmers"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("RequestList2", "SoftwareRequest")">
+                        <i class="bi bi-list-ul"></i>
+                        <span>Software Request List</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("Index","SoftwareRequest")">
+                        <i class="bi bi-window-plus"></i>
+                        <span>Assigned Request</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("NewSystemRequest","SoftwareRequest")">
+                        <i class="bi bi-person-workspace"></i>
+                        <span>New System Assigned</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#hardware-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-pencil-square"></i><span>Manual Request</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="hardware-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("ManualRequest", "SoftwareRequest")">
+                                <i class="bi bi-circle"></i><span>With Account</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("ManualRequest2","SoftwareRequest")">
+                                <i class="bi bi-circle"></i><span>Without Account</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("index", "EventList")">
+                        <i class="bi bi-calendar-check"></i>
+                        <span>Calendar</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("UserProfile", "Roles")">
+                        <i class="bi bi-person"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("UserLogin", "Roles")">
+                        <i class="bi bi-person-lines-fill"></i>
+                        <span>Users</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" id="logout" href="#" data-id="@User.Identity.GetUserId()">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        <span>Log out</span>
+                    </a>
+                </li>
+            }
+            @if (User.IsInRole("Hardware&Software"))
+            {
+                <li class="nav-item ">
+                    <a class="nav-link collapsed" data-bs-target="#list-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-pc-display"></i><span>Software Request</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="list-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("RequestList2", "SoftwareRequest")">
+                                <i class="bi bi-circle"></i>
+                                <span>Software Request List</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("Index","SoftwareRequest")">
+                                <i class="bi bi-circle"></i>
+                                <span>Assigned Request</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#softwareManual-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-pencil-square"></i><span>Software Manual Request</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="softwareManual-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("ManualRequest", "SoftwareRequest")">
+                                <i class="bi bi-circle"></i><span>With Account</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("ManualRequest2","SoftwareRequest")">
+                                <i class="bi bi-circle"></i><span>Without Account</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#listhard-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-hdd-fill"></i><span>Hardware Request</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="listhard-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("UserRequestList", "HardwareRequest", null)">
+                                <i class="bi bi-circle"></i>
+                                <span>Hardware Request List</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("index", "HardwareRequest", null)">
+                                <i class="bi bi-circle"></i>
+                                <span>Assigned Request</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#HardwareManual-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-pencil-square"></i><span>Hardware Manual Request</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="HardwareManual-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("ManualRequest", "HardwareRequest", null)">
+                                <i class="bi bi-circle"></i><span>With Account</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("ManualRequest2","HardwareRequest")">
+                                <i class="bi bi-circle"></i><span>Without Account</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("index", "EventList")">
+                        <i class="bi bi-calendar-check"></i>
+                        <span>Calendar</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("UserProfile", "Roles")">
+                        <i class="bi bi-person"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("UserLogin", "Roles")">
+                        <i class="bi bi-person-lines-fill"></i>
+                        <span>Users</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" id="logout" href="#" data-id="@User.Identity.GetUserId()">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        <span>Log out</span>
+                    </a>
+                </li>
+            }
+            @if (User.IsInRole("Developer"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#hardware-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-pc-display"></i><span>Request</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="hardware-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("AllRequest", "HardwareRequest", null)">
+                                <i class="bi bi-circle"></i><span>Hardware Services</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("Developers","SoftwareRequest")">
+                                <i class="bi bi-circle"></i><span>Software Services</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("AcceptList", "SoftwareRequest")">
+                        <i class="bi bi-window-plus"></i>
+                        <span>New Division Approval</span>
+                    </a>
+                </li>
+                @*<li class="nav-item">
+                        <a class="nav-link collapsed" data-bs-target="#delete-n" data-bs-toggle="collapse" href="#">
+                            <i class="bi bi-trash2-fill"></i><span>Software Deletion</span><i class="bi bi-chevron-down ms-auto"></i>
+                        </a>
+                        <ul id="delete-n" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+
+                            <li>
+                                <a class="nav-link collapsed" href="@Url.Action("Deletion", "SoftwareRequest", null)">
+                                    <i class="bi bi-circle"></i>
+                                    <span> Programmer Report </span>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a class="nav-link collapsed" href="@Url.Action("ProgrammerUploads", "SoftwareRequest", null)">
+                                    <i class="bi bi-circle"></i>
+                                    <span> Programmer Upload</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link collapsed" href="@Url.Action("Verifieds", "SoftwareRequest", null)">
+                                    <i class="bi bi-circle"></i>
+                                    <span> Verified Report </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link collapsed" href="@Url.Action("Approveds", "SoftwareRequest", null)">
+                                    <i class="bi bi-circle"></i>
+                                    <span> Approved Report </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link collapsed" href="@Url.Action("TaskListDeletion", "SoftwareRequest", null)">
+                                    <i class="bi bi-circle"></i>
+                                    <span>Software TaskList</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" data-bs-target="#hardwaredel-n" data-bs-toggle="collapse" href="#">
+                            <i class="bi bi-trash2-fill"></i><span>Hardware Deletion</span><i class="bi bi-chevron-down ms-auto"></i>
+                        </a>
+                        <ul id="hardwaredel-n" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+
+                            <li>
+                            <li>
+                                <a class="nav-link collapsed" href="@Url.Action("TechnicianReports", "HardwareRequest", null)">
+                                    <i class="bi bi-circle"></i>
+                                    <span> Technician Report </span>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a class="nav-link collapsed" href="@Url.Action("TechnicianUpload", "HardwareRequest", null)">
+                                    <i class="bi bi-circle"></i>
+                                    <span> Technician Upload</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link collapsed" href="@Url.Action("VerifiedReport", "HardwareRequest", null)">
+                                    <i class="bi bi-circle"></i>
+                                    <span> Verified Report </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link collapsed" href="@Url.Action("ApprovedReport", "HardwareRequest", null)">
+                                    <i class="bi bi-circle"></i>
+                                    <span> Approved Report </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link collapsed" href="@Url.Action("HardwareTaskList", "HardwareRequest", null)">
+                                    <i class="bi bi-circle"></i>
+                                    <span>Hardware TaskList</span>
+
+                                </a>
+                            </li>
+                        </ul>
+                    </li>*@
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#hardware-n" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-eye"></i><span>Total Reports</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="hardware-n" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("List", "HardwareRequest", null)">
+                                <i class="bi bi-circle"></i>
+                                <span>Hardware Total Report</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("List", "SoftwareRequest", null)">
+                                <i class="bi bi-circle"></i>
+                                <span>Software Total Report</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#forms-tech" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-people-fill"></i><span>Manage Support </span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="forms-tech" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a href="@Url.Action("Index","HardwareTechnician")">
+                                <i class="bi bi-circle"></i><span>Technicians</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index","SoftwareTechnician")">
+                                <i class="bi bi-circle"></i><span>Programmers</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("index", "EventList")">
+                        <i class="bi bi-calendar-check"></i>
+                        <span>Calendar</span>
+                    </a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#add-tech" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-list-ul"></i><span> Tools </span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="add-tech" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("Index", "Ftp", null)">
+                                <i class="bi bi-plus"></i><span>Ftp</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("Index", "UnitTypes", null)">
+                                <i class="bi bi-plus"></i><span>Unit Type</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("Index", "Information", null)">
+                                <i class="bi bi-plus"></i><span>Existing System</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("index", "Departments", null)">
+                                <i class="bi bi-plus"></i><span>Departments</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("index", "Findings", null)">
+                                <i class="bi bi-plus"></i><span>Findings</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("index", "SuperAdmin", null)">
+                                <i class="bi bi-plus"></i><span>Super Admin</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("index", "TechnicianAdmin", null)">
+                                <i class="bi bi-plus"></i><span>Hardware Admin</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("index", "Divisions", null)">
+                                <i class="bi bi-plus"></i><span>Divisions</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("index", "Software", null)">
+                                <i class="bi bi-plus"></i><span>Software Category</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("index", "Hardware", null)">
+                                <i class="bi bi-plus"></i><span>Hardware Category</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#add-tools" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-person-lines-fill"></i><span> Profile Tools </span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="add-tools" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("ListUsers", "Roles")">
+                                <i class="bi bi-plus"></i><span>Manage Roles</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("userAccounts","Roles")">
+                                <i class="bi bi-plus"></i><span>User Activation</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("RegistrationRequest", "LoginActivity")">
+                                <i class="bi bi-plus"></i><span>Account Request</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("ForgotRequest","LoginActivity")">
+                                <i class="bi bi-plus"></i><span>Forgot Password Request</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("UserProfile", "Roles")">
+                        <i class="bi bi-person"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("Index", "Roles")">
+                        <i class="bi bi-gear"></i>
+                        <span>Role List</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" id="logout" href="#" data-id="@User.Identity.GetUserId()">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        <span>Log out</span>
+                    </a>
+                </li>
+            }
+            @if (User.IsInRole("HardwareAdmin"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#hardware-status" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-list-ul"></i><span>Hardware Request</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="hardware-status" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("AdminRequestList", "HardwareRequest", null)">
+                                <i class="bi bi-circle"></i><span>Request List</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("ProgressList","HardwareRequest")">
+                                <i class="bi bi-circle"></i><span>In Progress</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("ResolvedList","HardwareRequest")">
+                                <i class="bi bi-circle"></i><span>For Verified</span>
+                            </a>
+                        </li>
+                        @*                        <li>
+                                <a class="nav-link collapsed" href="@Url.Action("VerifiedList","HardwareRequest")">
+                                    <i class="bi bi-circle"></i><span>Verified</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="nav-link collapsed" href="@Url.Action("ApprovalList","HardwareRequest")">
+                                    <i class="bi bi-circle"></i>
+                                    <span>Approved</span>
+                                </a>
+                            </li>*@
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#hardware-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-pencil-square"></i><span>Manual Request</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="hardware-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("AdminManual", "HardwareRequest", null)">
+                                <i class="bi bi-circle"></i><span>With Account</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("AdminManual2","HardwareRequest")">
+                                <i class="bi bi-circle"></i><span>Without Account</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("AdminIndex", "HardwareRequest", null)">
+                        <i class="bi bi-pc-display"></i>
+                        <span>Assigned Request</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("Index", "HardwareTechnician", null)">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Technicians</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#tools-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-gear-fill"></i><span>Tools</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="tools-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a href="@Url.Action("Index","UnitTypes")">
+                                <i class="bi bi-circle"></i><span>Hardware Categories</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("HardwareRequest","Hardware")">
+                                <i class="bi bi-circle"></i><span>Unit Type</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index","Departments")">
+                                <i class="bi bi-circle"></i><span>Departments</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index","Divisions")">
+                                <i class="bi bi-circle"></i><span>Divisions</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("index", "EventList")">
+                        <i class="bi bi-calendar-check"></i>
+                        <span>Calendar</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("List", "HardwareRequest", null)">
+                        <i class="bi bi-eye"></i>
+                        <span>Total Report</span>
+                    </a>
+                </li>
+
+                <li class="nav-item ">
+                    <a class="nav-link collapsed" href="@Url.Action("UserProfile", "Roles")">
+                        <i class="bi bi-person"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("UserLogin", "Roles")">
+                        <i class="bi bi-person-lines-fill"></i>
+                        <span>Users</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" id="logout" href="#" data-id="@User.Identity.GetUserId()">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        <span>Log out</span>
+                    </a>
+                </li>
+            }
+            @if (User.IsInRole("SoftwareAdmin"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("AdminIndex","SoftwareRequest")">
+                        <i class="bi bi-window-plus"></i>
+                        <span>Assigned Request</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#software-status" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-list-ul"></i><span>Software Request</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="software-status" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("Admin", "SoftwareRequest", null)">
+                                <i class="bi bi-circle"></i><span>New Request</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("InProgressList","SoftwareRequest")">
+                                <i class="bi bi-circle"></i><span>In Progress</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("ResolvedList","SoftwareRequest")">
+                                <i class="bi bi-circle"></i><span>For Verify</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("VerifiedList","SoftwareRequest")">
+                                <i class="bi bi-circle"></i><span>Verified List</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("Approved","SoftwareRequest")">
+                                <i class="bi bi-circle"></i>
+                                <span>Approved List</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("NewSystemRequest2","SoftwareRequest")">
+                                <i class="bi bi-circle"></i>
+                                <span>New System Request</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#hardware-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-pencil-square"></i><span>Manual Request</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="hardware-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("AdminManual", "SoftwareRequest")">
+                                <i class="bi bi-circle"></i><span>With Account</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("AdminManual2","SoftwareRequest")">
+                                <i class="bi bi-circle"></i><span>Without Account</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("List", "SoftwareTechnician", null)">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Programmers</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("index", "EventList")">
+                        <i class="bi bi-calendar-check"></i>
+                        <span>Calendar</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("List", "SoftwareRequest", null)">
+                        <i class="bi bi-eye"></i>
+                        <span>Total List</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#dep-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-gear"></i><span>Tools</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="dep-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("SoftwareRequest", "Software", null)">
+                                <i class="bi bi-plus"></i><span>Software Category</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("Index", "Information", null)">
+                                <i class="bi bi-plus"></i><span>Existing System</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index","Departments")">
+                                <i class="bi bi-plus"></i><span>Departments</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index","Divisions")">
+                                <i class="bi bi-plus"></i><span>Divisions</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("UserProfile", "Roles")">
+                        <i class="bi bi-person"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("UserLogin", "Roles")">
+                        <i class="bi bi-person-lines-fill"></i>
+                        <span>Users</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" id="logout" href="#" data-id="@User.Identity.GetUserId()">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        <span>Log out</span>
+                    </a>
+                </li>
+            }
+            @if (User.IsInRole("DivisionApprover"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("AcceptList", "SoftwareRequest")">
+                        <i class="bi bi-window-plus"></i>
+                        <span>New Software Request</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("Accepted", "SoftwareRequest")">
+                        <i class="bi bi-list-check"></i>
+                        <span>All Software Request</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("DivisionUser", "Roles")">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Users</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("UserProfile", "Roles")">
+                        <i class="bi bi-person"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" id="logout" href="#" data-id="@User.Identity.GetUserId()">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        <span>Log out</span>
+                    </a>
+                </li>
+
+            }
+            @if (User.IsInRole("SuperAdmin"))
+            {
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("Index","SoftwareRequest")">
+                        <i class="bi bi-window-plus"></i>
+                        <span>Assigned Request</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#hardware-req" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-ui-checks"></i><span>Hardware Request</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="hardware-req" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("Approving", "HardwareRequest")">
+                                <i class="bi bi-circle"></i>
+                                <span>For Approval</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("ApprovalList","HardwareRequest")">
+                                <i class="bi bi-circle"></i>
+                                <span>Approved List</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#software-req" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-ui-checks"></i><span>Software Request</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="software-req" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("Admin", "SoftwareRequest")">
+                                <i class="bi bi-circle"></i>
+                                <span>New Request</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("VerifiedList2", "SoftwareRequest")">
+                                <i class="bi bi-circle"></i>
+                                <span>For Approval</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("Approved","SoftwareRequest")">
+                                <i class="bi bi-circle"></i>
+                                <span>Approved List</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("NewSystemRequest2","SoftwareRequest")">
+                                <i class="bi bi-circle"></i>
+                                <span>New System Request</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#hardware-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-eye"></i><span>Total Reports</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="hardware-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("List", "HardwareRequest", null)">
+                                <i class="bi bi-circle"></i>
+                                <span>Hardware Total Report</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("List", "SoftwareRequest", null)">
+                                <i class="bi bi-circle"></i>
+                                <span>Software Total Report</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#forms-tech" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-people-fill"></i><span>Manage Support </span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="forms-tech" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a href="@Url.Action("Index","HardwareTechnician")">
+                                <i class="bi bi-circle"></i><span>Technicians</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index","SoftwareTechnician")">
+                                <i class="bi bi-circle"></i><span>Programmers</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#add-tech" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-list-ul"></i><span> Tools </span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="add-tech" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("SoftwareRequest", "Software", null)">
+                                <i class="bi bi-circle"></i><span>Software Category</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("HardwareRequest", "Hardware", null)">
+                                <i class="bi bi-circle"></i><span>Hardware Category</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("Index", "UnitTypes", null)">
+                                <i class="bi bi-circle"></i><span>Unit Type</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link collapsed" href="@Url.Action("Index", "Information", null)">
+                                <i class="bi bi-circle"></i><span>Existing System</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index","Departments")">
+                                <i class="bi bi-circle"></i><span>Departments</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index","Divisions")">
+                                <i class="bi bi-circle"></i><span>Divisions</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("index", "EventList")">
+                        <i class="bi bi-calendar-check"></i>
+                        <span>Calendar</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed " href="@Url.Action("UserProfile", "Roles")">
+                        <i class="bi bi-person"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("ListUsers", "Roles")">
+                        <i class="bi bi-person-lines-fill"></i>
+                        <span>Manage Users</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("Index", "Roles")">
+                        <i class="bi bi-gear"></i>
+                        <span>Role List</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" id="logout" href="#" data-id="@User.Identity.GetUserId()">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        <span>Log out</span>
+                    </a>
+                </li>
+            }
+
+        </ul>
+
+
+
+    </aside>
+
+    <main id="main" class="main">
+        @RenderBody()
+
+    </main><!-- End #main -->
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer">
+        <div class="copyright">
+            &copy; Copyright <strong><span>Cgpp - Service Desk</span></strong>. All Rights Reserved
+        </div>
+    </footer><!-- End Footer -->
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    @*Session Expire Modal*@
+    <div class="modal fade" id="sessionExpired" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-notify modal-info" role="document">
+            <div class="modal-content">
+                <a href="/login">
+                    <div class="modal-body card-title min-vh-50 d-flex flex-column align-items-center justify-content-center">
+                        @*<img src="assets/img/not-found.svg" class="img-fluid py-5" alt="Page Not Found">*@
+                        <img src="/Content/assets/img/cgpp-2.png" style="width: 300px" class="img-fluid mt-5" alt="Session Expired" />
+                        <h1 class="text-center" style="font-size:90px;">Session Expired</h1>
+                        <p class="text-center card-title">Click To Log In</p>
+                        <div class="justify-content-center">
+                        </div>
+                        <h2 class="mt-3" style="font-size:20px;">Please Log in again</h2>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    @*Loading Modal*@
+    <!--<div class="modal fade" id="pleasewait" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered  modal-notify modal-info" role="document">
+            <div class="modal-content">
+                <div class="modal-body">-->
+    @*<div class="boxes">
+            <div class="box">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div class="box">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div class="box">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div class="box">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>*@
+
+
+    <!--<div class="justify-content-center">
+                        <div class="spinner2"></div>
+                        <h2 class="text-center ms-3 mt-3" style="font-size:20px;">Loading...</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <div class="modal fade" id="pleasewait" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered  modal-notify modal-info" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border text-primary mt-3" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="justify-content-center">
+                        <h2 class="text-center ms-3 mt-3" style="font-size:20px;">Loading...</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*Maintenance Modal*@
+    @if (User.IsInRole("Users") || User.IsInRole("Technicians") || User.IsInRole("Programmers") || User.IsInRole("HardwareAdmin") || User.IsInRole("SoftwareAdmin") || User.IsInRole("DivisionApprover") || User.IsInRole("Hardware&Software"))
+    {
+        <div class="modal fade" id="maintenanceUpdate" tabindex="-1" role="dialog" aria-labelledby="mainteananUpdateLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    @* <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div> *@
+                    <div class="modal-body">
+                        <a href="/Login.cshtml">
+                            <img src="/image/maintenance2.jpg" style="width: 100%;">
+                        </a>
+                        <p class="card-title text-center pt-0 mt-0 ms-4" style="font-size:30px;">Maintenance</p>
+                        <div class="alert alert-info">
+                            <strong>Note:</strong> <span class="devnotes"></span>
+                        </div>
+                    </div>
+                    @* <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div> *@
+                </div>
+            </div>
+        </div>
+    }
+
+    @*Maintenance Modal On/Off*@
+    <div class="modal fade" id="WarningModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-danger" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="heading">Maintenance Mode</p>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-3 text-center">
+                            @if (User.IsInRole("Developer") || User.IsInRole("SuperAdmin"))
+                            {
+
+                                if (User.Identity.GetImgFile().IsEmpty())
+                                {
+
+                                    <img src="/image/cgpp-2.png" class="sidebar-logo"
+                                         style=" width:40px !important; height: 40px !important;">
+                                }
+                                if (User.Identity.GetImgFile() == null)
+                                {
+                                    <img src="/image/cgpp-2.png" class="sidebar-logo"
+                                         style=" width: 40px !important; height: 40px !important;">
+                                }
+                                else
+                                {
+
+                                    <img id="userLoggedImg3" class="sidebar-logo"
+                                         style="border-radius: 100%; width: 80px !important; height: 80px !important;">
+
+                                }
+                            }
+                            <div style="height: 10px"></div>
+                            <p class="title mb-0" style="font-size: 10px">
+                                @User.Identity.GetFullName()
+                            </p>
+                            <p class="text-muted " style="font-size: 13px">
+                                @if (User.IsInRole("Developer") || User.IsInRole("SuperAdmin"))
+                                {
+                                    <span style="font-size: 10px">Developer / Super Admin</span>
+                                }
+                            </p>
+                        </div>
+
+                        <div class="col-9">
+                            <p>Turn On/Off Maintenance Mode for the Archive System</p>
+                            <form id="maintenanceStatus">
+                                <div class="form-group mb-2">
+                                    <select class="form-control" id="isActive" name="isActive">
+                                        <option value="0">No</option>
+                                        <option value="1">Yes</option>
+                                    </select>
+                                    <input type="hidden" id="mainId" name="mainId" value="1">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="maintenanceMessage">Maintenance Message</label>
+                                    <textarea type="text" id="maintenanceMessage" name="maintenanceMessage"
+                                              class="form-control" rows="3" style="background: #fff;"></textarea>
+                                </div>
+                                @*<div class="text-center">
+                                        <button type="submit" class="btn btn-primary btn-md" style="margin: 0 auto;"
+                                                id="saveMaintenance">
+                                            Submit
+                                        </button>
+                                    </div>*@
+
+                            </form>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-md"
+                            id="saveMaintenance">
+                        Submit
+                    </button>
+                    <button type="submit" class="btn btn-danger waves-effect" data-bs-dismiss="modal">Exit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="Approval" tabindex="-1" role="dialog" aria-labelledby="mainteananUpdateLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <a href="/Login.cshtml">
+                    <div class="modal-body justify-content-center align-center text-center m-4 py-4 ">
+
+                        <img src="/image/authentication-security-3887128-3240388.png" />
+                        <div class="d-flex justify-content-center m-3 gap-3">
+                            <div class="spinner"></div>
+                        </div>
+                        <p class="card-title alert alert-info mt-4">Your Account is Deactivate</p>
+                        <form id="usermodal">
+                            <input type="hidden" id="id" name="mainId" />
+                            <input type="hidden" id="isUserApproved" name="isUserApproved" />
+                        </form>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="/Scripts/jquery-3.3.1.js"></script>
+    <script src="/Scripts/jquery-3.4.1.js"></script>
+    <script src="/Scripts/bootbox.js"></script>
+    <script src="/Scripts/extra-libs/DataTables/DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="/Content/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/Content/assets/vendor/quill/quill.min.js"></script>
+    <script src="/Scripts/extra-libs/DataTables/datatables.min.js"></script>
+    <script src="/Scripts/extra-libs/DataTables/datatables-select.min.js"></script>
+    <script src="/Scripts/extra-libs/DataTables/datatables.js"></script>
+    <script src="/Scripts/moment.min.js"></script>
+    <script src="/Scripts/toastr.js"></script>
+    <script src="/Scripts/custom.js"></script>
+    <script src="/Scripts/fullcalendar.js"></script>
+    @if (User.IsInRole("Users") || User.IsInRole("DivisionApprover"))
+    {
+        <script src="/Scripts/maintenanceMode.js"></script>
+    }
+    @if (User.IsInRole("HardwareAdmin") || User.IsInRole("SoftwareAdmin") || User.IsInRole("Technicians") || User.IsInRole("Programmers") || User.IsInRole("SuperAdmin") || User.IsInRole("Developer"))
+    {
+        <script src="/Scripts/maintenance.js"></script>
+    }
+    @if (User.IsInRole("Developer"))
+    {
+        <script src="/Scripts/developer.js"></script>
+    }
+    @if (User.IsInRole("DivisionApprover"))
+    {
+        <script src="/Scripts/division-Approver.js"></script>
+    }
+    <script src="/Scripts/select2.js"></script>
+    <!-- Template Main JS File -->
+    <script src="/Content/assets/js/main.js"></script>
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

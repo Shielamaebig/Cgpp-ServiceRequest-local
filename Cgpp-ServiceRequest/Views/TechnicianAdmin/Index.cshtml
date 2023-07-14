@@ -1,0 +1,242 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title d-flex justify-content-between mx-2">
+                    Hardware Admin
+                    <button class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#departmentAdd">
+                        <i class="fas fa-solid fa-plus fa-sm text-white-50"></i> Add Findings
+                    </button>
+                </h4>
+                <h6 class="card-subtitle"></h6>
+                <div class="table-responsive">
+                    <table id="supderAdmin" class="table table-condensed display">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="departmentAdd" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-m modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="heading" id="exampleModalLabel"><h4 class="card-title d-flex justify-content-between">Findings</h4></p>
+            </div>
+            <div class="modal-body">
+                <form id="save">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="">Name</label>
+                            <input type="text" class="form-control mt-3 mb-3" name="name" id="name" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="">Email</label>
+                            <input type="text" class="form-control mt-3 mb-3" name="email" id="email" required />
+                        </div>
+                    </div>
+                    <input type="hidden" id="id" name="id" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" value=" submit" class="btn btn-success " id="btnSubmit">Submit</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-m modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="heading" id="exampleModalLabel"><h4 class="card-title d-flex justify-content-between">Department</h4></p>
+            </div>
+            <div class="modal-body">
+                <form id="edit">
+                    <div class="row">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="">Name</label>
+                                <input type="text" class="form-control mt-3 mb-3" name="name" id="name" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="">Email</label>
+                                <input type="text" class="form-control mt-3 mb-3" name="email" id="email" required />
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="id" name="id" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" value=" submit" class="btn btn-success " id="UpdateRecord">Save</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@* <div class="modal fade" id="pleasewait" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border text-primary mt-3" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="justify-content-center">
+                    <h2 class="text-center ms-3 mt-3" style="font-size:20px;">Loading...</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> *@
+@section scripts
+    {
+        <script>
+            $(document).ready(function () {
+                var Datatables;
+                Datatables = $("#supderAdmin").DataTable({
+                    ajax: {
+                        url: "/ServiceRequest/api/techAdmin/Get",
+                        dataSrc: "",
+                        headers: {
+                            "Authorization": "Bearer " + localStorage.getItem('access_token')
+                        }
+                    },
+                    autoWidth: false,
+                    columns: [
+
+                        {
+                            data: "name",
+                        },
+                        {
+                            data: "email",
+                        },
+                        {
+                            data: null,
+                            render: function (data) {
+                                return '<button class="btn btn-success btn-sm edit" data-id="' + data.id + '"><i class="fas fa-edit"></i> Edit</button>';
+
+                            },
+                            "orderable": false,
+                        }
+
+                    ]
+                });
+
+                $('#btnSubmit').click(function (e) {
+                    e.preventDefault();
+
+                    //find name
+                    var name = $('input[name=name]').val();
+                    var email = $('input[name=email]').val();
+                    // data
+                    var data = {
+                        name: name,
+                        email: email
+                    };
+                    $.ajax({
+                        type: 'POST',
+                        url: '/ServiceRequest/api/techAdmin/save',
+                        data: data,
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                        },
+                        success: function (data) {
+
+                            $('#departmentAdd').modal('hide');
+                            //show please wait modal
+                            $('#pleasewait').modal('show');
+                            //show toastr after 3
+                            setTimeout(function () {
+                                toastr.success("Findings Successfully Added!");
+                                // hide please wait modal
+                            }, 2000);
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 3000);
+                        },
+                        //if failed
+                        error: function (data) {
+                            toastr.error("Name Already Exist In the Database/ Invalid")
+                        }
+                    });
+                });
+
+                //Get edit
+                $("#supderAdmin").on('click', '.edit', function () {
+                    var id = $(this).attr('data-id');
+                    var url = '/ServiceRequest/api/techAdmin/byId/' + id;
+                    //alert(id);
+                    $.ajax({
+                        type: 'GET',
+                        url: url,
+                        success: function (data) {
+                            $("#editmodal").modal('show');
+                            $('#edit').find('input[name="id"]').val(data.id);
+                            $('#edit').find('input[name="name"]').val(data.name);
+                            $('#edit').find('input[name="email"]').val(data.email);
+
+                        },
+                        //if failed
+                        error: function (data) {
+                            // console.log(data, data.id, data.name);
+                            toastr.error("error")
+                        }
+                    })
+                })
+
+                $("#UpdateRecord").click(function (e) {
+                    e.preventDefault();
+                    var data = {
+                        name: $('#edit').find('input[name=name]').val(),
+                        email: $('#edit').find('input[name=email]').val(),
+
+                    };
+                    var id = $('#edit').find('input[name="id"]').val();
+                    $.ajax({
+                        type: 'PUT',
+                        url: '/ServiceRequest/api/update/techAdmin/' + id,
+                        data: data,
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                        },
+                        success: function (data) {
+                            $('#editmodal').modal('hide');
+                            //show please wait modal
+                            $('#pleasewait').modal('show');
+                            //show toastr after 3
+                            setTimeout(function () {
+                                toastr.success("Data Successfully Updated!");
+                                // hide please wait modal
+                            }, 2000);
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 3000);
+                        },
+                        //if failed
+                        error: function (data) {
+                            toastr.error("Error Saving")
+                        }
+                    });
+                });
+            })
+        </script>
+}
+

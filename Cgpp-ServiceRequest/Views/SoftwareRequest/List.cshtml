@@ -1,0 +1,147 @@
+﻿
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (User.IsInRole("SoftwareAdmin") || User.IsInRole("SuperAdmin") || User.IsInRole("Developer"))
+{
+    <h1 class="card-title">Software Total Reports</h1>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body mb-4">
+                    <h4 class="card-title d-flex justify-content-between">
+                       Programmer Assigned Request
+                    </h4>
+                    <h6 class="card-subtitle"></h6>
+                    <div class="table-responsive">
+                        <table id="proglistCount" class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Year</th>
+                                    <th>Month</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body mb-4">
+                    <h4 class=" card-title d-flex justify-content-between">
+                        Systems
+                    </h4>
+                    <h6 class="card-subtitle"></h6>
+                    <div class="table-responsive">
+                        <table id="sftsystemList" class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Services</th>
+                                    <th>Year</th>
+                                    <th>Month</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body mb-4">
+                    <h4 class="card-title d-flex justify-content-between">
+                        Software Category
+                    </h4>
+                    <h6 class="card-subtitle"></h6>
+                    <div class="table-responsive">
+                        <table id="sftListCount" class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Services</th>
+                                    <th>Year</th>
+                                    <th>Month</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+}
+
+@if (User.IsInRole("Programmers"))
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body mb-4">
+                    <h4 class=" card-title d-flex justify-content-between">
+                        Systems
+                    </h4>
+                    <h6 class="card-subtitle"></h6>
+                    <div class="table-responsive">
+                        <table id="sftsystemList" class="table table-condensed">
+                            <thead class="bg-info text-white">
+                                <tr>
+                                    <th>Services</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body mb-6">
+                    <h4 class="card-title d-flex justify-content-between">
+                        Software Category
+                    </h4>
+                    <h6 class="card-subtitle"></h6>
+                    <div class="table-responsive">
+                        <table id="sftListCount" class="table table-condensed">
+                            <thead class="bg-warning text-white">
+                                <tr>
+                                    <th>Services</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            SoftwareList();
+        });
+    </script>
+}
