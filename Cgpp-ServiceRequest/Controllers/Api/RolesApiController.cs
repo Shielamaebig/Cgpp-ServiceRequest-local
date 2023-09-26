@@ -65,9 +65,6 @@ namespace Cgpp_ServiceRequest.Controllers
                 Username = u.UserName,
                 Email = u.Email,
                 FullName = u.FullName,
-                FirstName = u.FirstName,
-                MiddleName = u.MiddleName,
-                LastName = u.LastName,
                 MobileNumber = u.MobileNumber,
                 DepartmentsId = u.DepartmentsId,
                 Departments = u.Departments
