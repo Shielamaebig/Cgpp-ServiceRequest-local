@@ -7,7 +7,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title d-flex justify-content-between mx-2">
+                <h4 class="card-title d-flex justify-content-between mx-2 fw-semibold">
                     Division
                     <button class="btn btn-sm btn-primary mb-3 " data-bs-toggle="modal" data-bs-target="#divisionAdd">
                         <i class="fas fa-solid fa-plus fa-sm text-white-50"></i> Add Division
@@ -20,6 +20,7 @@
                                 <th>Date Added</th>
                                 <th>Division</th>
                                 <th>Department</th>
+                                <th>Is Division Approver</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -34,7 +35,7 @@
     <div class="modal-dialog modal-m modal-notify modal-info" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <p class="heading" id="exampleModalLabel"><h4 class="card-title d-flex justify-content-between">Division</h4></p>
+                <p class="heading" id="exampleModalLabel"><h4 class="card-title d-flex justify-content-between fw-semibold">Division</h4></p>
             </div>
             <div class="modal-body">
                 <form id="save">
@@ -46,6 +47,13 @@
                         <div class="form-group mt-3">
                             <label>Department</label>
                             <select class="form-control mt-1 mb-3 departments" id="departmentsId" name="departmentsId" style="width:100%;"></select>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label>Has Division Approver ?</label>
+                            <select class="form-control mt-1 mb-3" id="isDivisionApprover" name="isDivisionApprover" style="width:100%;">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
                         </div>
                         <input type="hidden" name="id" id="id" />
                     </div>
@@ -60,12 +68,11 @@
 </div>
 
 
-
 <div class="modal fade" id="editmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-m modal-notify modal-info" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <p class="heading" id="exampleModalLabel"><h5>Division</h5></p>
+                <p class="heading fw-semibold" id="exampleModalLabel"><h5>Division</h5></p>
             </div>
             <div class="modal-body">
                 <form id="edit">
@@ -76,7 +83,14 @@
                         </div>
                         <div class="form-group">
                             <label>Department</label>
-                            <select class="form-control" name="departmentsId" ></select>
+                            <select class="form-control" name="departmentsId"></select>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label>Has Division Approver</label>
+                            <select class="form-control mt-1 mb-3" id="isDivisionApprover" name="isDivisionApprover" style="width:100%;">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
                         </div>
                         <input type="hidden" name="id" />
                     </div>
@@ -131,10 +145,9 @@
 @section scripts
     {
 
-                <script type="text/javascript">
-
-                    $(document).ready(function () {
-                        Divisions();
-                    });
-                </script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                Divisions();
+            });
+        </script>
 }

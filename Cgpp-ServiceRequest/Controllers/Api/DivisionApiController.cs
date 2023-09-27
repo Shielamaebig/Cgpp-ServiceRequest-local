@@ -115,6 +115,7 @@ namespace Cgpp_ServiceRequest.Controllers.Api
             Divisions div = new Divisions();
             div.DepartmentsId = divisionDto.DepartmentsId;
             divisionDto.Id = division.Id;
+            div.IsDivisionApprover = divisionDto.IsDivisionApprover;
 
             _db.Divisions.Add(division);
 
@@ -124,7 +125,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Added A Division",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Created(new Uri(Request.RequestUri + "/" + division.Id), divisionDto);
@@ -154,7 +156,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Edited A Division",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Ok();
@@ -177,7 +180,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Deleted A Division",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Ok();

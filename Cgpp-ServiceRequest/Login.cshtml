@@ -32,9 +32,9 @@
 </head>
 
 <body>
-    <section class="vh-100 login_background">
-        <div class="container py-5 h-100">
-            <div class="row d-flex justify-content-center align-items-center h-100">
+    <section class="vh-100 login_background pt-3">
+        <div class="container pt-5 pb-0">
+            <div class="row d-flex justify-content-center align-items-center ">
                 <div class="col col-xl-10">
                     <div class="card_login" style="border-radius: 1rem;">
                         <div class="row g-0 login_container">
@@ -47,7 +47,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-7 d-flex align-items-center">
-                                <div class=" p-5 text-black">
+                                <div class="py-3 text-black">
                                     <div class="d-flex justify-content-center">
 
                                         <div class="brand_logo_container">
@@ -58,9 +58,9 @@
                                     <form class="row g-3 needs-validation justify-content-center" id="logInForm" novalidate>
                                         <div class="justify-content-center">
                                             <h1 class="card-title text-center" style="font-size:30px;">Log in</h1>
-                                            <p class="mt-0 text-center small"> Enter your username & password to login </p>
+                                            <p class="mt-0 text-center small p-0"> Enter your username & password to login </p>
                                         </div>
-                                        <div class="col-10 mb-3">
+                                        <div class="col-10 mb-1">
                                             <label for="yourUsername" class="form-label">User Name</label>
                                             <div class="input-group has-validation">
                                                 <span class="input-group-text" id="inputGroupPrepend"><i class="fas fa-envelope"></i></span>
@@ -69,7 +69,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-10 mt-1 mb-3">
+                                        <div class="col-10 mt-1 mb-1">
                                             <label for="yourPassword" class="form-label">Password</label>
                                             <div class="input-group">
                                                 <span class="input-group-text fas fa-eye-slash field-icon toggle-password" id="revealPassword"></span>
@@ -83,10 +83,10 @@
                                         </div>
                                     </form>
                                     <div class="col-12 ms-5 mt-3">
-                                        <p class="small mb-0">Don't have account? <a href="~/UserRegistration.cshtml">Create an account</a></p>
+                                        <p class="small mb-0">Don't have account? <a href="~/UserRegistration.cshtml">Create new account</a></p>
                                     </div>                                    
                                     <div class="col-12 ms-5 mt-2">
-                                        <p class="small mb-0"><a href="~/UserForgotPassword.cshtml">Forgot Password or Username</a></p>
+                                        <p class="small mb-0"><a href="/ServiceRequest/UserForgotPassword.cshtml">Forgot Password or Username</a></p>
                                     </div>
                                 </div>
                             </div>
@@ -141,6 +141,9 @@
 <!-- Template Main JS File -->
 <script src="/Content/assets/js/main.js"></script>
 <script type="text/javascript">
+
+var apiLocal = '/api';
+var apiLive = '/ServiceRequest/api';
     $(document).ready(function () {
         $(function () {
             //Password Reveal
@@ -158,14 +161,14 @@
         });
         $.ajax({
             type: 'GET',
-            url: '/api/v1/roles/users',
+            url: apiLocal + '/v1/roles/users',
             success: function (data) {
                 // check data has content
                 if (data.length > 0) {
                     console.log('data has content');
                 } else {
                     // redirect to login page
-                    window.location.href = "/CreateUser";
+                    window.location.href = "/ServiceRequest/CreateUser";
                 }
             },
             //if failed
@@ -174,7 +177,7 @@
             }
         });
         if (localStorage.getItem("username") != null) {
-            window.location.href = "/home";
+            window.location.href = "/ServiceRequest/home";
         }
         $('#logInForm').submit(function (e) {
             // get role
@@ -202,12 +205,14 @@
                         localStorage.setItem('access_token', data.access_token);
                         // store email to local storage
                         localStorage.setItem('username', data.userName);
+
+                       
                         //alert(data.userName);
                         setTimeout(function () {
                             toastr.success('Welcome ' + data.userName);
                         }, 3000),
                             setTimeout(function () {
-                                window.location.href = '/';
+                                window.location.href = '/ServiceRequest';
                             }, 4000);
                     },
                     error: function (data) {

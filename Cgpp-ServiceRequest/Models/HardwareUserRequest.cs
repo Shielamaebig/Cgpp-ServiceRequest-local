@@ -40,5 +40,10 @@ namespace Cgpp_ServiceRequest.Models
         public bool IsNew { get; set; }
         public string Status { get; set; }
         public bool IsManual { get; set; }
+        public string TechRemarks { get; set; }
+        public string DateRemarksTec { get; set; }
+        public string NameTech { get; set; }
+        public string TelNumber { get; set; }
+        public string AnyDesk { get; set; }
     }
 }

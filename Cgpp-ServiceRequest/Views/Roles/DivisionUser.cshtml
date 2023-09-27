@@ -35,39 +35,8 @@
 
 @section scripts{
     <script>
-        Datatables = $("#userList").DataTable({
-            ajax: {
-                url: "/api/get/user/division",
-                dataSrc: "",
-                headers: {
-                    "Authorization": "Bearer " + localStorage.getItem('access_token')
-                }
-            },
-            autoWidth: false,
-            columns: [
-
-                {
-                    data: "dateCreated",
-                    render: function (data, row) {
-                        return moment(data.dateAdded).format('M/D/Y LT')
-                    }
-                },
-                {
-                    data: "fullName",
-                },
-                {
-                    data: "email",
-                },
-                {
-                    data: "departments.name",
-
-                },
-                {
-                    data: "divisions.name",
-
-                },
-
-            ]
-        });
+        $(document).ready (function () {
+            DivisionUsers();
+        })
     </script>
 }

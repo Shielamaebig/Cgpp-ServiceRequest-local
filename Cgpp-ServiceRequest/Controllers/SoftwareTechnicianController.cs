@@ -28,6 +28,10 @@ namespace Cgpp_ServiceRequest.Controllers
         {
             return View();
         }
+        public ActionResult MyReportList()
+        {
+            return View();
+        }
                             
     }
 }

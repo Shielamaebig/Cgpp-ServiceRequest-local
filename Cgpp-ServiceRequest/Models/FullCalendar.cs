@@ -14,5 +14,6 @@ namespace Cgpp_ServiceRequest.Models
         public string End { get; set; }
         public string ThemeColor { get; set; }
         public bool IsFullDay { get; set; }
+        public string Name { get; set; }
     }
 }

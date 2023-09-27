@@ -11,19 +11,19 @@
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="/Content/assets/img/cgpp-2.png" rel="icon">
+    <link href="/ServiceRequest/Content/assets/img/cgpp-2.png" rel="icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
-    <link href="/Content/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/ServiceRequest/Content/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <!-- Vendor CSS Files -->
-    <link href="/Content/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/Content/toastr.css" rel="stylesheet" />
-    <link href="/Content/custom.css" rel="stylesheet" />
+    <link href="/ServiceRequest/Content/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/ServiceRequest/Content/toastr.css" rel="stylesheet" />
+    <link href="/ServiceRequest/Content/custom.css" rel="stylesheet" />
     <!-- Template Main CSS File -->
-    <link href="/Content/assets/css/style.css" rel="stylesheet">
+    <link href="/ServiceRequest/Content/assets/css/style.css" rel="stylesheet">
 </head>
 
 <body class="">
@@ -33,35 +33,36 @@
             <div class="row d-flex justify-content-center align-items-center h-100">
 
                 <div class=" col-xl-6 ">
-                    <div class="card_login" style="border-radius: 1rem;">
+                    <div class="card_login mt-5 " style="border-radius: 1rem;">
                         <div class="row g-0 login_container z-2">
                             <div class=" justify-content-center" style="width: 190px; margin: -4rem auto ; text-align: left; position: relative; left: 2rem; right: 0; padding-left: 0; top:-1rem;">
                                 <div class="brand_logo_container z-3 position-absolute">
-                                    <img src="/Content/assets/img/cgpp-2.png" class="brand_logo" alt="logo" style=" width:150px;">
+                                    <img src="/ServiceRequest/Content/assets/img/cgpp-2.png" class="brand_logo" alt="logo" style=" width:150px;">
                                 </div>
                             </div>
                             <div class="mt-5 mb-0 text-center">
-                                <h2 class="card-title mt-4 text-center" style="margin-left:1.5rem;">Service Desk</h2>                                <h2 class="card-title text-center" style="margin-left:1.5rem;">Register</h2>
+                                <h2 class="card-title mt-4 text-center" style="margin-left:1.5rem;">Service Desk</h2>
+                                <h2 class="card-title text-center p-0 mb-2" style="margin-left:1.5rem;">Register</h2>
                             </div>
                             <form class="row needs-validation" id="registerForm" style=" margin-left:1px;" novalidate>
                                 <div class="col-sm-4">
                                     <label for="fullName" class="form-label">First Name</label>
                                     <div class="input-group has-validation">
-                                        <input type="text" name="firstName" class="form-control" id="firstName" required>
+                                        <input type="text" name="firstName" class="form-control " id="firstName" required>
                                         <div class="invalid-feedback mb-0">Please enter your First Name.</div>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="middleName" class="form-label">Middle Name</label>
                                     <div class="input-group has-validation">
-                                        <input type="text" name="middleName" class="form-control" id="middleName"  required>
+                                        <input type="text" name="middleName" class="form-control " id="middleName"  required>
                                         <div class="invalid-feedback mb-0">Please enter your Middle Name.</div>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="lastName" class="form-label">Last Name</label>
                                     <div class="input-group has-validation">
-                                        <input type="text" name="lastName" class="form-control" id="lastName" required>
+                                        <input type="text" name="lastName" class="form-control " id="lastName" required>
                                         <div class="invalid-feedback mb-0">Please enter your Last Name.</div>
                                     </div>
                                 </div>
@@ -75,7 +76,7 @@
                                 <div class=" col-sm-6 mb-2">
                                     <label for="phoneNumber" class="form-label">Division</label>
                                     <div class="input-group has-validation">
-                                        <input type="text" name="divisionName" class="form-control" id="divisionName" required>
+                                        <input type="text" name="divisionName" class="form-control " id="divisionName" required>
                                         <div class="invalid-feedback">Please enter your Division.</div>
                                     </div>
                                 </div>
@@ -84,7 +85,7 @@
                                     <label for="phoneNumber" class="form-label">Mobile Number</label>
                                     <div class="input-group has-validation">
                                         <span class="input-group-text" id="inputGroupPrepend"><i class="fas fa-mobile-alt"></i></span>
-                                        <input type="text" name="mobileNumber" class="form-control" id="mobileNumber" placeholder="(63) 02 xxxx-xxxx " required>
+                                        <input type="text" name="mobileNumber" class="form-control" id="mobileNumber" placeholder="09-xxx-xxx-xxxx " required>
                                         <div class="invalid-feedback">Please enter your Mobile Number.</div>
                                     </div>
                                 </div>
@@ -117,10 +118,10 @@
     <div class="modal fade" id="userLoading" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered  modal-notify modal-info modal-xl" role="document">
             <div class="modal-content">
-                <a href="/Login.cshtml">
+                <a href="/ServiceRequest/Login.cshtml">
                     <div class="modal-body " style="height:45rem;">
                         <div class="d-flex justify-content-center m-3 mb-4">
-                            <img src="/image/pngtree-fa-two-steps-authentication-password-secure-notice-login-verification-or-sms-png-image_4746695.png" class="mb-5" />
+                            <img src="/ServiceRequest/image/pngtree-fa-two-steps-authentication-password-secure-notice-login-verification-or-sms-png-image_4746695.png" class="mb-5" />
                         </div>
                         <div class="justify-content-center" style="width: 150px; margin: -4rem auto; text-align: left; position: relative; left: 2rem; right: 0; padding-left: 0; top: 0; bottom:30px;">
                             <div class="loader" style="margin-bottom:80px;">
@@ -142,17 +143,17 @@
 </body>
 </html>
 <!-- Vendor JS Files -->
-<script src="/Scripts/jquery-3.4.1.js"></script>
+<script src="/ServiceRequest/Scripts/jquery-3.4.1.js"></script>
 
-<script src="/Scripts/bootbox.js"></script>
-<script src="/Content/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="/Scripts/toastr.js"></script>
-<script src="/Scripts/moment.js"></script>
+<script src="/ServiceRequest/Scripts/bootbox.js"></script>
+<script src="/ServiceRequest/Content/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/ServiceRequest/Scripts/toastr.js"></script>
+<script src="/ServiceRequest/Scripts/moment.js"></script>
 
-<script src="/Scripts/bootstrap-datepicker.js"></script>
+<script src="/ServiceRequest/Scripts/bootstrap-datepicker.js"></script>
 
 <!-- Template Main JS File -->
-<script src="/Content/assets/js/main.js"></script>
+<script src="/ServiceRequest/Content/assets/js/main.js"></script>
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -160,7 +161,7 @@
             e.preventDefault();
             var valdata = $(this).serialize();
             $.ajax({
-                url: '/api/userRegistration/save',
+                url: '/ServiceRequest/api/userRegistration/save',
                 type: 'POST',
                 data: valdata,
                 success: function (data) {

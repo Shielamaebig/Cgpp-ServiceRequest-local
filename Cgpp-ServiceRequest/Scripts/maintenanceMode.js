@@ -1,4 +1,5 @@
-﻿
+﻿var apiLocal = '/api';
+var apiLive = '/ServiceRequest/api';
 $(document).ready(function () {
     GetMaintenance();
 });
@@ -8,7 +9,7 @@ function GetMaintenance() {
     setInterval(function () {
         $.ajax({
             type: 'GET',
-            url: '/api/maintenance/GetMaintenance',
+            url: apiLocal + '/maintenance/GetMaintenance',
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('access_token')
             },
@@ -51,7 +52,7 @@ function GetMaintenance() {
         localStorage.removeItem('access_token');
         localStorage.removeItem('username');
 
-        window.location.href = "/login";
+        window.location.href = "/ServiceRequest/login";
     });
 
 }

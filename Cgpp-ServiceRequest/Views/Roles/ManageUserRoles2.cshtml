@@ -37,7 +37,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                            <img src="/image/cgpp-2.png" class="rounded-circle mt-4" style=" width: 120px !important; height: 120px !important;" />
+                            <img src="/ServiceRequest/image/cgpp-2.png" class="rounded-circle mt-4" style=" width: 120px !important; height: 120px !important;" />
                             <h2 class="card-title m-3">Roles & Privileges</h2>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                                <img src="/image/person-icon-blue-7563.png" class="mt-4" style=" width: 120px !important; height: 120px !important;" />
+                                <img src="/ServiceRequest/image/person-icon-blue-7563.png" class="mt-4" style=" width: 120px !important; height: 120px !important;" />
                                 <h2 class="card-title m-3 fa-2xl">@Model.UserName</h2>
 
                             </div>
@@ -115,7 +115,7 @@
     $(document).ready(function () {
         $.ajax({
             type: 'GET',
-            url: '/api/v1/roles/users',
+            url: '/ServiceRequest/api/v1/roles/users',
             success: function (data) {
                 // check data has content
                 if (data.length > 0) {
@@ -135,7 +135,7 @@
             e.preventDefault();
             var valdata = $(this).serialize();
             $.ajax({
-                url: '/api/Account/RegisterDev',
+                url: '/ServiceRequest/api/Account/RegisterDev',
                 type: 'POST',
                 data: valdata,
                 success: function (data) {
@@ -145,7 +145,7 @@
                         // hide please wait modal
                     }, 2000),
                         setTimeout(function () {
-                            window.location.href = "/Roles/DefaultRole";
+                            window.location.href = "/ServiceRequest/Roles/DefaultRole";
                         }, 3000);
                 },
                 error: function (data) {

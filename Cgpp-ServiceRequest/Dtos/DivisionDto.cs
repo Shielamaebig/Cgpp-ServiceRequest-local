@@ -11,7 +11,8 @@ namespace Cgpp_ServiceRequest.Dtos
         public string Name { get; set; }
         public string DateAdded { get; set; }
         public int DepartmentsId { get; set; }
-       
- 
+        public bool IsDivisionApprover { get; set; }
+
+
     }
 }

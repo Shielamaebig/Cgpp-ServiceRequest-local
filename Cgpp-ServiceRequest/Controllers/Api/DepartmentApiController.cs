@@ -33,8 +33,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
         [Route("api/dept/get")]
         public IHttpActionResult GetDepartments()
         {
-            var departments = _db.Departments.ToList().Select(Mapper.Map<Departments, DepartmentDto>);
-            return Ok(departments);
+            var departments = _db.Departments.Include(x=>x.Ftp).ToList();
+            return Ok(departments.OrderByDescending(x=>x.DateAdded));
         }
 
         [HttpPost]
@@ -62,6 +62,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Added A Department",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
 
             });
             _db.SaveChanges();
@@ -100,13 +102,15 @@ namespace Cgpp_ServiceRequest.Controllers.Api
             deptInDb.Id = id;
             deptInDb.DateAdded = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt");
             departmentDto.DateAdded = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt");
-
+            departmentDto.IsDepartmentApprover = departmentDto.IsDepartmentApprover;
             _db.LoginActivity.Add(new LoginActivity()
             {
                 UserName = User.Identity.GetFullName(),
                 ActivityMessage = "Edited A Department",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
 
             });
             _db.SaveChanges();
@@ -129,6 +133,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Deleted A Department",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
 
             });
             _db.SaveChanges();

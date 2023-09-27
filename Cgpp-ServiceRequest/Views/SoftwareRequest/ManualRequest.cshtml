@@ -11,10 +11,11 @@
                 <div class="row">
                     <div class="ms-2 mb-3">
                         <div class="mb-4 text-center mt-4">
-                            <small class="card-title">Client Information</small>
+                            <h5 class="fw-semibold">Manual Request</h4>
+                            <small class="card-title fw-semibold">Client Information</small>
                         </div>
                     </div>
-                    <h3 class="card-title ms-3">With User Account</h3>
+                    <h3 class="card-title ms-3 fw-semibold">With User Account</h3>
 
                     <div class="form-group col-8 col-md-6 mb-2 ">
                         <label for="">Name</label>
@@ -117,50 +118,50 @@
 </div> *@
 
 @section scripts{
-    <script>
-        $(document).ready(function () {
-            ManualRequest2();
+                        <script>
+                            $(document).ready(function () {
+                                ManualRequest2();
 
-            $('#btnSubmit').click(function (e) {
-                e.preventDefault();
-
-
-                //Remove Disable When Saving
-                $('#departmentsId').attr("disabled", false);
-                $('#divisionsId').attr("disabled", false);
+                                $('#btnSubmit').click(function (e) {
+                                    e.preventDefault();
 
 
-                var formData = new FormData(manual);
-                $.ajax({
-                    type: 'POST',
-                    url: '/api/manual/saveRequest',
-                    data: formData,
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-                    },
-                    success: function (data) {
-                        if (data == 'File uploaded!') {
-                            console.log(data);
-                            $('#pleasewait').modal('show');
-                            setTimeout(function () {
-                                toastr.success(" Successfully Create Software Request!");
-                                // hide please wait modal
+                                    //Remove Disable When Saving
+                                    $('#departmentsId').attr("disabled", false);
+                                    $('#divisionsId').attr("disabled", false);
 
-                            }, 2000);
-                            setTimeout(function () {
-                                window.location.href = "/SoftwareRequest/Index";
-                            }, 3000);
-                        }
-                        else
-                            toastr.error("Fill up alll forms / Invalid");
-                    },
-                    cache: false,
-                    contentType: false,
-                    processData: false,
 
-                });
-            });
+                                    var formData = new FormData(manual);
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '/ServiceRequest/api/manual/saveRequest',
+                                        data: formData,
+                                        headers: {
+                                            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                                        },
+                                        success: function (data) {
+                                            if (data == 'File uploaded!') {
+                                                console.log(data);
+                                                $('#pleasewait').modal('show');
+                                                setTimeout(function () {
+                                                    toastr.success(" Successfully Create Software Request!");
+                                                    // hide please wait modal
 
-        });
-    </script>
+                                                }, 2000);
+                                                setTimeout(function () {
+                                                    window.location.href = "/ServiceRequest/SoftwareRequest";
+                                                }, 3000);
+                                            }
+                                            else
+                                                toastr.error("Fill up alll forms / Invalid");
+                                        },
+                                        cache: false,
+                                        contentType: false,
+                                        processData: false,
+
+                                    });
+                                });
+
+                            });
+                        </script>
 }

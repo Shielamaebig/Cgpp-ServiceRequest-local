@@ -14,6 +14,8 @@ namespace Cgpp_ServiceRequest.Models
         public int? FtpId { get; set; }
 
         public Ftp Ftp { get; set; }
-        public string DateAdded { get; set; } 
+        public string DateAdded { get; set; }
+        public bool IsDepartmentApprover { get; set; }
+
     }
 }

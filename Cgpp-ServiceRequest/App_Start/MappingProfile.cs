@@ -50,6 +50,7 @@ namespace Cgpp_ServiceRequest.App_Start
             Mapper.CreateMap<TechnicianAdmin, TechnicianAdminDto>().ReverseMap();
             Mapper.CreateMap<SoftwareVerificationCheckboxDto, SoftwareVerification>().ReverseMap();
             Mapper.CreateMap<Ftp, FtpDto>().ReverseMap();
+            Mapper.CreateMap<HardwareAcceptsRequest, HardwareAcceptsRequestDto>().ReverseMap();
 
             Mapper.CreateMap<Draft, DraftsDto>().ForMember(d => d.draftID, opt => opt.Ignore());
             Mapper.CreateMap<DivisionSpecDto, Divisions>().ForMember(d => d.Id, opt => opt.Ignore());
@@ -66,6 +67,7 @@ namespace Cgpp_ServiceRequest.App_Start
             Mapper.CreateMap<SoftwareApprovedDto, SoftwareApproved>().ForMember(s => s.Id, opt => opt.Ignore());
             Mapper.CreateMap<SoftwareTaskListDto, SoftwareTaskList>().ForMember(s => s.Id, opt => opt.Ignore());
             Mapper.CreateMap<HardwareTasksListDto, HardwareTasksList>().ForMember(s=>s.Id, opt => opt.Ignore());
+            Mapper.CreateMap<HardwareAcceptsRequestDto, HardwareAcceptsRequest>().ForMember (s=>s.Id, opt => opt.Ignore());
         }
     }
 }

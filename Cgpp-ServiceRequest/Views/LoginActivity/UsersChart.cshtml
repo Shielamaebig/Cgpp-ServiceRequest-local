@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "UsersChart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-body mb-4">
+            <h4 class="card-title d-flex fw-semibold">
+               Users in Departments
+            </h4>
+            <div class="chartSize" style="height: 60%; width: 100%; ">
+                <canvas id="deptChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+
+
+            $.ajax({
+                type: 'GET',
+                url: '/api/AccountDept/get',
+
+                success: function (res) {
+
+                    var labels = [];
+                    var data = [];
+                    var colors = [];
+                    var hoverColors = [];
+                    var total = 0;
+                    $.each(res, function (i, item) {
+                        labels.push(item.departmentName);
+                        data.push(item.count);
+                        colors.push('#' + (Math.random() * 0xFFFFFF << 0).toString(16));
+                        total += item.data;
+                    });
+                    console.log(res);
+                    // render pieChart2
+                    var ctxP2 = document.getElementById("deptChart").getContext('2d');
+                    var myPieChart2 = new Chart(ctxP2, {
+                        type: 'doughnut',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                data: data,
+                                label: "# of Uploads",
+                                backgroundColor: colors,
+
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+
+                        }
+                    });
+                },
+                //if failed
+                error: function (data) {
+
+                    // toastr.info("Success")
+                }
+            });
+
+        });
+    </script>
+}

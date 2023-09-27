@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cgpp_ServiceRequest.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,8 +11,9 @@ namespace Cgpp_ServiceRequest.Dtos
         public int Id { get; set; }
         public string Name { get; set; }
         public string DateAdded { get; set; }
-        public FtpDto ftpDto { get; set; }
+        public Ftp Ftp { get; set; }
         public int FtpId { get; set; }
+        public bool IsDepartmentApprover { get; set; }
 
     }
 }

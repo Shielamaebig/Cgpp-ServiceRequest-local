@@ -3,8 +3,8 @@
     ViewBag.Title = "AllRequest";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h4 class="card-title mb-2 ms-2">
-    All Request
+<h4 class="card-title mb-2 ms-2 fw-semibold">
+    Hardware Request
 </h4>
 <div class="row">
     <div class="col-12">
@@ -297,7 +297,7 @@
     <div class="modal-dialog modal-xl modal-notify modal-info" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <p class="heading card-title" id="exampleModalLabel"><h5 class="card-title d-flex justify-content-between">  Update Request</h5></p>
+                <p class="heading card-title" id="exampleModalLabel"><h5 class="card-title d-flex justify-content-between fw-semibold">  Update Request</h5></p>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -321,14 +321,6 @@
                         <div class="col-md-4">
                             <label for=""> Model Name</label>
                             <input type="text" class="form-control mt-2 mb-2" name="modelName" id="modelName" required />
-                        </div>
-                        <div class="col-md-6">
-                            <label for=""> Date & Time Added</label>
-                            <input type="datetime-local" class="form-control mt-2 mb-2" name="dateAdded" id="dateAdded" required />
-                        </div>
-                        <div class="col-md-6">
-                            <label for=""> Date & Time Added </label>
-                            <input type="datetime-local" class="form-control mt-2 mb-2" name="dateEnded" id="dateEnded" required />
                         </div>
                         <div class="col-md-12">
                             <label for=""> Remarks </label>

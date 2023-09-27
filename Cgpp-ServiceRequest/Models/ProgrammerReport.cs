@@ -43,6 +43,8 @@ namespace Cgpp_ServiceRequest.Models
         public SoftwareAcceptsRequest SoftwareAcceptsRequest { get; set; }
         public int? SoftwareAcceptsRequestId { get; set; }
         public string RemarksApproval { get; set; }
+        public string SmsMessage { get; set; }
+        public string DateSend { get; set; }
 
     }
 }

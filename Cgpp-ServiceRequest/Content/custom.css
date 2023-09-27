@@ -35,7 +35,7 @@ progress {
     border-color: #77AB47;
 }
 
-.Online:after {
+/* .Online:after {
     border-radius: 50%;
     border: 1px solid #77AB47;
     box-shadow: 0 0 4px rgba($color-online, .6), inset 0 0 4px rgba($color-online, .6);
@@ -48,8 +48,8 @@ progress {
     width: 2em;
     -webkit-transform: scale(0);
     /*    // Hide if webkit doesn't support animations -webkit-animation: online-ping 2.5s ease-in-out infinite; animation: online-ping 2.5s ease-in-out infinite;
-*/
-}
+
+} */
 
 .led-green {
     margin: 20px auto;
@@ -433,11 +433,15 @@ progress {
 
 
 .bg-open {
-    color: #ebeef0;
+    color: white;
     background-color: #5f3cfd;
 }
 .bg-manual {
-    color: #ebeef0;
+    color: white;
     background-color: #A0CE49;
+}
+.bg-resolved {
+    color: white;
+    background-color: #FE6347;
 }
 

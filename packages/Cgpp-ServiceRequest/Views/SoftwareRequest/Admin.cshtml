@@ -1,0 +1,540 @@
+﻿
+@{
+    ViewBag.Title = "Admin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title d-flex justify-content-between mx-2">
+                    Software Request List
+                </h4>
+                <h6 class="card-subtitle"></h6>
+                <div class="table-responsive">
+                    <table id="softwareRequestList" class="table table-condensed display">
+                        <thead>
+                            <tr>
+                                <th>Ticket</th>
+                                <th>Date Posted</th>
+                                <th>Reported By</th>
+                                <th>Issue</th>
+                                <th>Technician</th>
+                                <th>Status</th>
+                                <th>Is Verified</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*STATUS*@
+<div class="modal fade" id="StatusModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-s modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="heading card-title" id="exampleModalLabel"><h5 class="card-title d-flex justify-content-between">Update Status</h5></p>
+            </div>
+            <div class="modal-body">
+                <form id="assign">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="">Status</label>
+                            <select type="text" class="form-control mb-2 statusId" name="statusId" id="statusId">
+                            </select>
+                        </div>
+                    </div>
+                    <input type="hidden" id="id" name="id" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="updateStatus" type="button" class="btn btn-success">Save Changes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="TechnicianModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-s modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #0D6EFD;">
+                <p class="heading card-title" id="exampleModalLabel"><h5 class="card-title d-flex justify-content-between text-white">Assign Technician</h5></p>
+            </div>
+            <div class="modal-body">
+                <form id="assignTech">
+                    <div class="row">
+                        <div class="form-group">
+                            <select type="text" class="form-control mb-2" name="softwareTechnicianId" id="softwareTechnicianId">
+                            </select>
+                        </div>
+                    </div>
+                    <input type="hidden" id="id" name="id" />
+                    <input type="hidden" id="statusId" name="statusId" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="updateTechnician" type="button" class="btn btn-success assigned-tech">Save</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="softwareDetailsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center" style="background-color: #31D2F2;">
+                <p class="heading card-title" id="exampleModalLabel"><h5 class="card-title d-flex justify-content-between text-white">  Request Details</h5></p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="viewRequest">
+                    <div class="row">
+                        <div class="mb-4 mt-4 text-center">
+                            <small class="card-title">Client Information</small>
+                        </div>
+                        <div class="form-group col-8 col-sm-6">
+                            <label for="">Name</label>
+                            <input type="text" class="form-control mb-2" name="fullName" id="fullName" disabled />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="">Phone Number</label>
+                            <input type="text" class="form-control mb-2" name="mobileNumber" id="mobileNumber" disabled />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="">Department</label>
+                            <select class="form-control" id="departmentsId" name="departmentsId" disabled>Select Departments</select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="">Division</label>
+                            <select class="form-control" id="divisionsId" name="divisionsId" disabled>Select Departments</select>
+                        </div>
+
+                        <div class="mt-5 mb-3 text-center">
+                            <small class="card-title">Software Request Details</small>
+                        </div>
+
+                        <div class="form-group col-8 col-sm-6 mt-3">
+                            <label for="">Service Category</label>
+                            <select type="text" class="form-control mt-2 mb-3" name="softwareId" id="softwareId" disabled></select>
+                        </div>
+                        <div class="col-md-6"></div>
+                        <div class="form-group col-md-6">
+                            <label for="">Information System</label>
+                            <select class="form-control mt-2 mb-3" id="informationSystemId" name="informationSystemId" disabled> </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="">Request For</label>
+                            <input class="form-control mt-2 mb-3" id="requestFor" name="requestFor" disabled/>
+                        </div>
+                        <div class="row mt-2 mb-2">
+                            <label for="FileName" class="col col-form-label ">Subject : </label>
+                            <div class="col-md-11">
+                                <input type="text" class="form-control ms-4" id="documentLabel" name="FileName" disabled/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="">Description</label>
+                            <textarea class="form-control" id="description" name="description" style="height: 200px;" disabled> </textarea>
+                        </div>
+
+
+                        <div class="mt-5 mb-3 text-center">
+                            <small class="card-title">Technician Analysis Report</small>
+                        </div>
+                        <div class="form-group col-8 col-sm-6 mt-2">
+                            <label for=""> Status </label>
+                            <select type="text" class="form-control" name="statusId" id="statusId" disabled></select>
+                        </div>
+                        <div class="form-group col-md-6 mt-2">
+                            <label for=""> Assign Tecnician</label>
+                            <select class="form-control" name="softwareTechnicianId" id="softwareTechnicianId" disabled>
+                            </select>
+                        </div>
+
+
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="">Date Started</label>
+                            <div class='input-group date'>
+                                <span class="input-group-text pb-0 pt-0" id="inputGroupPrepend">
+                                    <span class="far fa-calendar-alt"></span>
+                                </span>
+                                <input class="form-control dateStarted" type="date" name="dateStarted" id="dateStarted" disabled/>
+                                <span class="input-group-text" id="inputGroupPrepend">
+                                    <span class="far fa-clock"></span>
+                                </span>
+                                <input class="form-control timeStarted" type="time" name="timeStarted" id="timeStarted" disabled/>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="">Date Ended</label>
+                            <div class='input-group date'>
+                                <span class="input-group-text pb-0 pt-0" id="inputGroupPrepend">
+                                    <span class="far fa-calendar-alt"></span>
+                                </span>
+                                <input class="form-control dateEnded" type="date" name="dateEnded" id="dateEnded" disabled/>
+                                <span class="input-group-text" id="inputGroupPrepend">
+                                    <span class="far fa-clock"></span>
+                                </span>
+                                <input class="form-control timeEnded" type="time" name="timeEnded" id="timeEnded" disabled/>
+                            </div>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="" class="mt-3 ">Remarks</label>
+                            <textarea class="form-control" id="remarks" name="remarks" style="height: 200px;" disabled> </textarea>
+                        </div>
+                        <div class="space my-4 mb-4"></div>
+
+                        <div class="row mb-4">
+                            <div class="col-6">
+                                <div class="justify-content-center text-center">
+                                    <div class="mb-4">
+                                        <div class=" text-center">
+                                            <small class="card-title">Hardware Admin</small>
+                                        </div>
+                                        <div class="form-group col-md-12 mt-3">
+                                            <label for="">Verified By</label>
+                                            <input class="form-control text-center mt-2" type="text" name="viewer" id="viewer" style="border-top:none; border-left:none; border-right:none; border-radius:initial;" disabled />
+                                        </div>
+                                        <div class="form-group col-md-12 mt-3">
+                                            <label for="">Date Verified</label>
+                                            <input class="form-control text-center mt-2" type="text" name="dateView" id="dateView" style="border-top:none; border-left:none; border-right:none; border-radius:initial;" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="justify-content-center text-center">
+                                    <div class="mb-4">
+                                        <div class=" text-center">
+                                            <small class="card-title">Super Admin</small>
+                                        </div>
+                                        <div class="form-group col-md-12 mt-3">
+                                            <label for="">Approved By</label>
+                                            <input class="form-control text-center mt-2" type="text" name="approver" id="approver" style="border-top:none; border-left:none; border-right:none; border-radius:initial;" disabled />
+                                        </div>
+                                        <div class="form-group col-md-12 mt-3">
+                                            <label for="">Date Approved</label>
+                                            <input class="form-control text-center mt-2" type="text" name="dateApproved" id="dateApproved" style="border-top:none; border-left:none; border-right:none; border-radius:initial;" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer mt-3">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="ApprovedByModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-s modal-notify modal-info" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <form id="approve">
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="row">
+                        <p>Do you want to Verify this Request?</p>
+                    </div>
+                    <input type="hidden" id="id" name="id" />
+                    <input type="hidden" id="isReported" name="isReported" />
+                    <input type="hidden" id="isReported" name="isReported" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                <button id="Approved" type="button" class="btn btn-success update-verified">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="pleasewait" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border text-primary mt-3" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="justify-content-center">
+                    <h2 class="text-center ms-3 mt-3" style="font-size:20px;">Loading...</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="softwareDisplay" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-success justify-content-center">
+                <h4 class="modal-title justify-content-center dash-title text-white text-center">File Attachment</h4>
+            </div>
+            <div class="modal-body">
+                <table id="UploadList" class="table table-striped" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                Date Added
+                            </th>
+                            <th>
+                                Image
+                            </th>
+                            <th>
+
+                            </th>
+                    </thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-bs-dismiss="modal" class="btn-second-modal-close btn btn-default">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="PrintModal" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-fullscreen" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center bg-info">
+                <p class="heading card-title" id="exampleModalLabel"><h5 class="card-title d-flex justify-content-between text-white">  Request Details</h5></p>
+            </div>
+            <div class="modal-body">
+                <form id="print">
+                    <div class=" m-2 printbody" id="printbody" style="border: 2px solid black;">
+                        <div class=" text-center d-flex justify-content-center mt-2 table-head">
+                            <img src="~/image/cgpp-2.png" class="me-3 mt-0" style="height: 100px; width:100px;" />
+                            <div style="font-size:13px;" class="mt-2">
+                                <p class="p-0 m-0">Republic of The Philippines</p>
+                                <p class="p-0 m-0">Office of The City Mayor</p>
+                                <p class="p-0 m-0"><b>CITY MANAGEMENT INFORMATION SYSTEM DIVISION </b></p>
+                                <p class="p-0 m-0"><b>INFORMATION SYSTEM SERVICE REQUEST FORMS </b></p>
+                                <p class="p-0 m-0">Puerto Princesa City</p>
+                            </div>
+                        </div>
+                        <div class=" col-md-12 mt-2 ticketDate">
+                            <div class='input-group date'>
+                                <span class="input-group-text pt-3 back" style="border-radius: 0; height: 25px;">
+                                    <span style="width: 147px;font-size:13px;height:25px;"> Date / Time </span>
+                                </span>
+                                <input class="form-control col-md-8 datenow" style="font-size: 13px; height: 25px;" name="dateTimeNow" id="dateTimeNow" value="@DateTime.Now.ToString("MMMM dd yyyy hh:mm tt")" readonly />
+                                <span class="input-group-text pt-3 back" style="border-radius: 0; height: 25px;">
+                                    <span style="width: 120px; font-size: 13px; height: 25px;">
+                                        Job Order No:
+                                    </span>
+                                </span>
+                                <input class="form-control ticketnow" name="ticket" id="ticket" style="border-radius: 0; font-size: 13px; height: 25px; " readonly />
+                            </div>
+                        </div>
+                        <div class=" col-md-12">
+                            <div class='input-group Sn'>
+                                <span class="input-group-text pt-2 back" style="border-radius: 0; height: 25px;">
+                                    <span style="width: 147px; font-size: 13px; height: 25px;"> Service Category </span>
+                                </span>
+                                <select class="form-control  pt-0 col-md-8 serialNumber" style="font-size: 13px; height: 25px;" name="softwareId" id="softwareId" readonly></select>
+                                <span class="input-group-text pt-2 back" style="height: 25px;">
+                                    <span style="width: 120px; font-size: 13px; height: 25px;">
+                                        System
+                                    </span>
+                                </span>
+                                <select class="form-control  pt-0 controlNumber" name="informationSystemId" id="informationSystemId" style="border-radius: 0; font-size: 13px; height: 25px;" readonly></select>
+                            </div>
+                        </div>
+                        <div class=" col-md-12">
+                            <div class='input-group harwareSc'>
+                                <span class="input-group-text pt-2 p-1 back" style="border-radius: 0;" id="inputGroupPrepend">
+                                    <span style="width: 163px; font-size: 13px; height: 25px; "> Accomplished By </span>
+                                </span>
+                                <input class="form-control pt-0 ps-2 pb-0 col-md-8  harwareSc2" name="requestFor" id="requestFor" style="border-radius: 0; font-size: 13px; " readonly />
+                            </div>
+                        </div>
+                        @*<div class=" col-md-12">
+                                <div class='input-group harwareSc'>
+                                    <span class="input-group-text pb-0 pt-0 back" style="border-radius: 0;" id="inputGroupPrepend">
+                                        <span style="width: 147px; font-size: 13px;">
+                                            Request For
+                                        </span>
+                                    </span>
+                                    <input style="height: 40px; border-radius: 0; font-size: 13px;" class="form-control col-md-8 harwareSc2" name="requestFor" id="requestFor" readonly />
+                                </div>
+                            </div>*@
+                        <div class=" col-md-12">
+                            <div class='input-group harwareSc'>
+                                <span class="input-group-text pb-0 pt-0 back" style="border-radius: 0;" id="inputGroupPrepend">
+                                    <span style="width: 147px; font-size: 13px;">
+                                        Reason
+                                    </span>
+                                </span>
+                                <input style="height: 40px; border-radius: 0; font-size: 13px;" class="form-control col-md-8 harwareSc2" name="description" id="description" readonly />
+                            </div>
+                        </div>
+                        <div class=" col-md-12">
+                            <div class='input-group harwareSc'>
+                                <span class="input-group-text pb-0 pt-0 back" style="border-radius: 0;" id="inputGroupPrepend">
+                                    <span style="width: 147px; font-size: 13px;">
+                                        Request By
+                                    </span>
+                                </span>
+                                <input style="height: 40px; border-radius: 0; font-size: 13px;" class="form-control col-md-8 harwareSc2" name="fullName" id="fullName" readonly />
+                            </div>
+                        </div>
+                        <div class=" col-md-12">
+                            <div class='input-group Sn'>
+                                <span class="input-group-text pt-2 back" style="border-radius: 0; height: 25px;">
+                                    <span style="width: 147px; font-size: 13px; height: 25px;"> Department </span>
+                                </span>
+                                <select class="form-control  pt-0 col-md-8 serialNumber" style="font-size: 13px; height: 25px;" name="departmentsId" id="departmentsId" readonly></select>
+                                <span class="input-group-text pt-2 back" style="height: 25px;">
+                                    <span style="width: 120px; font-size: 13px; height: 25px;">
+                                        Division
+                                    </span>
+                                </span>
+                                <select class="form-control pt-0 controlNumber" name="divisionsId" id="divisionsId" style="border-radius: 0; font-size: 13px; height: 25px;" readonly></select>
+                            </div>
+                        </div>
+                        <div class=" col-md-12">
+                            <div class='input-group harwareSc'>
+                                <span class="input-group-text pt-2 p-1 back" style="border-radius: 0; height: 25px;" id="inputGroupPrepend">
+                                    <span style="width: 163px; font-size: 13px; height: 25px; "> Accomplished By </span>
+                                </span>
+                                <select class="form-control pt-0 ps-2 pb-0 col-md-8  harwareSc2" name="softwareTechnicianId" id="softwareTechnicianId" style="border-radius: 0; font-size: 13px; height: 25px;" readonly></select>
+                            </div>
+                        </div>
+                        @*<div class=" col-md-12">
+                                <div class='input-group harwareSc'>
+                                    <span class="input-group-text pb-0 pt-0 back" style="border-radius: 0;" id="inputGroupPrepend">
+                                        <span style="width: 147px; font-size: 13px; height: 25px;">
+                                            Accomplished By
+                                        </span>
+                                    </span>
+                                    <select style=" border-radius: 0; font-size: 13px;" class="form-control col-md-8 harwareSc2" name="softwareTechnicianId" id="softwareTechnicianId" readonly></select>
+                                </div>
+                            </div>*@
+                        <div class=" col-md-12">
+                            <div class='input-group harwareSc'>
+                                <span class="input-group-text pb-0 pt-0 back" style="border-radius: 0;" id="inputGroupPrepend">
+                                    <span style="width: 147px; font-size: 13px;">
+                                        Remarks
+                                    </span>
+                                </span>
+                                <input style="height: 40px; border-radius: 0; font-size: 13px;" class="form-control col-md-8 harwareSc2" name="remarks" id="remarks" readonly />
+                            </div>
+                        </div>
+
+                        <div class=" col-md-12">
+                            <div class='input-group Sn'>
+                                <span class="input-group-text  pt-3 back" style="border-radius: 0; height: 25px;" id="inputGroupPrepend">
+                                    <span style="width: 147px; font-size: 13px; height: 25px;">
+                                        Date Start
+                                    </span>
+                                </span>
+                                <input style="border-radius: 0; font-size: 12px; height: 25px;" type="date" class="form-control pt-1 ps-3  col-md-8 harwareSc2" name="dateStarted" id="dateStarted" readonly />
+                                <input style="font-size: 12px; height: 25px;" class="form-control pt-1 ps-3  harwareSc3" type="time" name="timeStarted" id="timeStarted" />
+                                <span class="input-group-text pt-3 back" id="inputGroupPrepend" style="border-left: 1px solid; height: 25px;">
+                                    <span style="width: 120px; font-size: 13px; height: 25px;">
+                                        Date  Finish
+                                    </span>
+                                </span>
+                                <input style="border-radius: 0; font-size: 12px; height: 25px;" type="date" class="form-control pt-1 ps-3  harwareSc2" name="dateEnded" id="dateEnded" readonly />
+                                <input style="font-size: 12px; border-radius: 0; height: 25px;" class="form-control pt-1 ps-3  controlNumber" type="time" name="timeEnded" id="timeEnded" />
+                            </div>
+                        </div>
+                        <div class=" col-md-12">
+                            <div class='input-group date'>
+                                <span class="input-group-text pb-0 pt-0 back" style="border-radius: 0;" id="inputGroupPrepend">
+                                    <span style="width: 147px; font-size: 13px;">
+                                        Verified By
+                                    </span>
+                                </span>
+                                <input style="border-radius: 0; font-size: 13px; height:40px" class="form-control col-md-8 serialNumber" name="viewer" id="viewer" readonly />
+
+                                <span class="input-group-text back" id="inputGroupPrepend">
+                                    <span style="width: 120px; font-size: 13px;" class="ps-1">
+                                        Approved By
+                                    </span>
+                                </span>
+                                <input style="border-radius: 0; font-size: 13px; height: 40px " class="form-control harwareSc2" name="approver" id="approver" readonly />
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer mt-3">
+                        <div id="divButtons" name="divButtons">
+                            <button class="btn btn-primary" onclick="printthispage();">Print Me</button>
+                        </div>
+                        <button type="button" class="btn btn-secondary closebtn" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        function printthispage() {
+            document.getElementById('divButtons').style.visibility = 'hidden';
+            window.print();
+            document.getElementById('divButtons').style.visibility = 'visible';
+        }
+        $(document).ready(function () {
+            SoftwareAdmin();
+            $('#softwareDetailsModal').on('click', '.printing', function () {
+                var id = $(this).attr('data-id');
+                var url = '/ServiceRequest/api/softwareRequest/GetbyId/' + id;
+
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    success: function (data) {
+                        $('#PrintModal').modal('show');
+
+                        $('#print').find('input[name="id"]').val(data.id);
+                        $('#print').find('input[name="fullName"]').val(data.fullName);
+                        $('#print').find('input[name="ticket"]').val(data.ticket);
+                        $('#print').find('select[name="informationSystemId"]').val(data.informationSystemId);
+                        $('#print').find('input[name="requestFor"]').val(data.requestFor);
+                        $('#print').find('input[name="description"]').val(data.description);
+                        $('#print').find('select[name="departmentsId"]').val(data.departmentsId);
+                        $('#print').find('select[name="divisionsId"]').val(data.divisionsId);
+                        $('#print').find('select[name="softwareTechnicianId"]').val(data.softwareTechnicianId);
+                        $('#print').find('select[name="softwareId"]').val(data.softwareId);
+
+                        $('#print').find('input[name="remarks"]').val(data.remarks);
+                        $('#print').find('input[name="dateStarted"]').val(data.dateStarted);
+                        $('#print').find('input[name="dateEnded"]').val(data.dateEnded);
+                        $('#print').find('input[name="dateEnded"]').val(data.dateEnded);
+                        $('#print').find('input[name="approver"]').val(data.approver);
+                        $('#print').find('input[name="viewer"]').val(data.viewer);
+                        $('#print').find('input[name="timeStarted"]').val(data.timeStarted);
+                        $('#print').find('input[name="timeEnded"]').val(data.timeEnded);
+
+
+                    }
+                })
+            })
+
+        });
+    </script>
+}

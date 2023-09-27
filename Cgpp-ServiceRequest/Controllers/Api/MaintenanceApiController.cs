@@ -58,15 +58,16 @@ namespace Cgpp_ServiceRequest.Controllers.Api
         public IHttpActionResult GetSoftwareNewRequest()
         {
             var divName = User.Identity.GetDivisionName();
+            var pendingdivision = "Pending Division Approval";
             var sfDto = db.SoftwareUserRequests.ToList().Select(Mapper.Map<SoftwareUserRequest, SoftwareUserRequestDto>);
-            return Ok(sfDto.Where(x => x.IsNew == true && x.DivisionName == divName).OrderByDescending(u => u.DateAdded));
+            return Ok(sfDto.Where(x => x.Status == pendingdivision && x.DivisionName == divName).OrderByDescending(u => u.DateAdded));
         }
 
         [Route("api/hd/getnewRequesth")]
         public IHttpActionResult GetHardwareNewRequest()
         {
             var hrDto = db.HardwareUserRequests.ToList().Select(Mapper.Map<HardwareUserRequest, HardwareUserRequestDto>);
-            return Ok(hrDto.Where(x => x.IsNew == true).OrderByDescending(x => x.DateAdded));
+            return Ok(hrDto.Where(x => x.Status == "Open").OrderByDescending(x => x.DateAdded));
         }
     }
 }

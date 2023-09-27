@@ -1,0 +1,148 @@
+﻿
+@{
+    Layout = null;
+}
+@using Cgpp_ServiceRequest.Models.Extensions
+@using Microsoft.AspNet.Identity
+@model IEnumerable<Cgpp_ServiceRequest.ViewModels.UsersInRoleViewModel>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Assign Developer Role</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="/ServiceRequest/Content/assets/img/cgpp-2.png" rel="icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <link href="/ServiceRequest/Content/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <!-- Vendor CSS Files -->
+    <link href="/ServiceRequest/Content/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/ServiceRequest/Content/toastr.css" rel="stylesheet" />
+    <link href="/ServiceRequest/Content/custom.css" rel="stylesheet" />
+    <!-- Template Main CSS File -->
+    <link href="/ServiceRequest/Content/assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title d-flex justify-content-between mx-2">
+                        List of Users
+                    </div>
+                    <h6 class="card-subtitle"></h6>
+                    <div class="table-responsive">
+                        <table id="UsersList" class="table table-condensed display ">
+                            <thead>
+                                <tr>
+                                    <th>Profile Image </th>
+                                    <th>Date Created</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var users in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @if (users.ImagePath == null)
+                                            {
+                                                <div style="height: 50px; width: 50px;" class="ms-2 mt-2">
+                                                    <a>
+                                                        <img src="/ServiceRequest/image/cgpp-2.png"
+                                                             style="width: 100%; border-radius: 100%; height: 50px;">
+                                                    </a>
+                                                </div>
+
+                                            }
+                                            else
+                                            {
+                                                <div style="height: 50px; width: 50px;" class="ms-4 mt-2">
+                                                    <a>
+                                                        <img src="@users.ImagePath"
+                                                             style="width: 100%; border-radius: 100%; height: 50px;">
+                                                    </a>
+                                                </div>
+
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (users.DateCreated.HasValue)
+                                            {
+                                                <div class="mt-3">
+                                                    @users.DateCreated.Value.ToLongDateString()
+                                                </div>
+                                            }
+                                        </td>
+                                        <td>
+                                            <div class="mt-3">
+                                                @users.FullName
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="mt-3">
+                                                @users.Username
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="mt-3">
+                                                @users.Role
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <form method="post" action="@Url.Action("ManageUserRoles2", "Roles")">
+                                                <input type="hidden" value="@users.Username" id="UserName" name="UserName" />
+                                                <button type="submit" class="btn btn-primary btn-sm">Update Role</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="/ServiceRequest/Scripts/jquery-3.4.1.js"></script>
+<script src="/ServiceRequest/Scripts/bootbox.js"></script>
+<script src="/ServiceRequest/Content/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/ServiceRequest/Scripts/toastr.js"></script>
+<!-- Template Main JS File -->
+<script src="/ServiceRequest/Content/assets/js/main.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $.ajax({
+            type: 'GET',
+            url: '/ServiceRequest/api/v1/roles/users',
+            success: function (data) {
+                // check data has content
+                if (data.length > 0) {
+                    console.log('data has content');
+                } else {
+                    // redirect to login page
+                    /* window.location.href = "/CreateUser";*/
+                }
+            },
+            //if failed
+            error: function (data) {
+                toastr.info("Success")
+            }
+        });
+    });
+</script>

@@ -1,0 +1,119 @@
+﻿.bg-image-vertical {
+    position: relative;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: auto 100%;
+}
+.user_card {
+    height: 90%;
+    width: 400px;
+    margin-top: 180px;
+    margin-bottom: 50px;
+    background: white;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 25px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
+}
+
+.user_card_register {
+    height: 100%;
+    width: 600px;
+    margin-top: 80px;
+    background: white;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
+}
+
+.brand_logo_container {
+
+    margin: auto;
+    height: 170px;
+    width: 170px;
+    top: -75px;
+    border-radius: 2%;
+    padding: 10px;
+    text-align: center;
+}
+.brand_logo_container img {
+    width: 200px;
+    height: 200px;
+}
+
+.brand_logo {
+    height: 150px;
+    width: 150px;
+    border-radius: 10%;
+}
+
+.form_container {
+    margin-top: 100px;
+}
+
+.login_btn {
+    width: 100%;
+    background: #e9ecef !important;
+    color: white !important;
+}
+
+    .login_btn:focus {
+        box-shadow: none !important;
+        outline: 0px !important;
+    }
+
+.login_container {
+    padding: 0 2rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 88%;
+}
+
+.input-group-text {
+    background: #e9ecef !important;
+    color: black !important;
+    border: rgba(0, 0, 0, 0.19);
+    border-radius: 0.25rem 0 0 0.25rem !important;
+}
+
+.input_user,
+.input_pass:focus {
+    box-shadow: none !important;
+    outline: 0px !important;
+}
+
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: black !important;
+}
+
+.user_card a {
+    text-decoration: none;
+    color: gray;
+}
+
+    .user_card a:hover {
+        text-decoration: underline;
+        color: gray;
+    }
+
+.user_card_register a {
+    text-decoration: none;
+    color: gray;
+}
+
+    .user_card_register a:hover {
+        text-decoration: underline;
+        color: gray;
+    }

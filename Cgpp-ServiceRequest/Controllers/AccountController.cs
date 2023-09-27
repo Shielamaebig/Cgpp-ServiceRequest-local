@@ -204,7 +204,8 @@ namespace Cgpp_ServiceRequest.Controllers
                 ActivityMessage = "Updated a Password",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             };
             db.LoginActivity.Add(loginActivity);
 
@@ -266,14 +267,15 @@ namespace Cgpp_ServiceRequest.Controllers
                 ActivityMessage = "Updated a Password",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             };
             db.LoginActivity.Add(loginActivity);
 
             Db.Drafts.Add(new Draft
             {
                 Sendto = model.MobileNumber,
-                msg = "Cgpp Service Desk" + " " + " User Name:"+ " " + model.UserName + " " + " New Password: " + " " + model.NewPassword,
+                msg = "Cgpp Service Desk" + " " + " User Name:"+ " " + model.UserName + " " + " New Password: " + " " + model.NewPassword + " " + "This message is system-generated. No need to reply. Thank you. From: Office of the City Management Information System",
                 tag = 0
             });
 
@@ -509,13 +511,14 @@ namespace Cgpp_ServiceRequest.Controllers
                 ActivityMessage = "Added a User",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             };
             db.LoginActivity.Add(loginActivity);
             Db.Drafts.Add(new Draft
             {
                 Sendto = model.MobileNumber,
-                msg ="Cgpp Service Desk Account" + " " + " User Name: " + " " + model.UserName + " " + " Password:" + " " + model.Password,
+                msg ="Cgpp Service Desk Account" + " " + " User Name: " + " " + model.UserName + " " + " Password:" + " " + model.Password + " " + "This message is system-generated. No need to reply. Thank you. From: Office of the City Management Information System",
                 tag = 0
             });
             Db.SaveChanges();
@@ -543,13 +546,15 @@ namespace Cgpp_ServiceRequest.Controllers
             var user = new ApplicationUser()
             {
                 UserName = model.UserName,
+                LogEmail = model.Email,
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 MiddleName = model.MiddleName,
                 MobileNumber = model.MobileNumber,
                 DateCreated = DateTime.Now,
-                ImagePath = "/image/cgpp-2.png"
+                ImagePath = "/image/cgpp-2.png",
+                FullName = model.FirstName + " "+ model.MiddleName+ " " + model.LastName,
             };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
@@ -629,7 +634,8 @@ namespace Cgpp_ServiceRequest.Controllers
                 ActivityMessage = "Updated a User Account",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             };
             db.LoginActivity.Add(loginActivity);
             db.SaveChanges();
@@ -663,7 +669,8 @@ namespace Cgpp_ServiceRequest.Controllers
                 ActivityMessage = "Approved User Account",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             };
             db.LoginActivity.Add(loginActivity);
             db.SaveChanges();
@@ -697,7 +704,8 @@ namespace Cgpp_ServiceRequest.Controllers
                 ActivityMessage = "Approved User Account",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             };
             db.LoginActivity.Add(loginActivity);
             db.SaveChanges();
@@ -727,6 +735,7 @@ namespace Cgpp_ServiceRequest.Controllers
                 return NotFound();
             }
 
+            user.FullName = user.FirstName+ " " + user.MiddleName+ " " + user.LastName;
             user.FirstName = model.FirstName;
             user.MiddleName = model.MiddleName;
             user.LastName = model.LastName;
@@ -741,7 +750,8 @@ namespace Cgpp_ServiceRequest.Controllers
                 ActivityMessage = "Updated a User Account",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             };
             db.LoginActivity.Add(loginActivity);
             db.SaveChanges();
@@ -803,7 +813,8 @@ namespace Cgpp_ServiceRequest.Controllers
                                 ActivityMessage = "Updated a Profile Image",
                                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                                 Email = User.Identity.GetUserName(),
-
+                                DepartmentName = User.Identity.GetDepartmentName(),
+                                DivisionName = User.Identity.GetDivisionName(),
                             };
                             db.LoginActivity.Add(loginActivity);
                             db.SaveChanges();
@@ -840,7 +851,8 @@ namespace Cgpp_ServiceRequest.Controllers
                 ActivityMessage = "Deleted a User",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             db.SaveChanges();
 

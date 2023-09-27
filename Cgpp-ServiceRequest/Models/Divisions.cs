@@ -16,5 +16,6 @@ namespace Cgpp_ServiceRequest.Models
 
         public int DepartmentsId { get; set; }
         public Departments Departments { get; set; }
+        public bool IsDivisionApprover { get; set; }
     }
 }

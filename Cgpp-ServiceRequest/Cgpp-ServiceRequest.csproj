@@ -47,8 +47,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoFixture, Version=4.18.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoFixture.4.18.0\lib\net452\AutoFixture.dll</HintPath>
+    </Reference>
     <Reference Include="AutoMapper, Version=4.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.4.1.0\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Fare, Version=2.1.0.0, Culture=neutral, PublicKeyToken=ea68d375bf33a7c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fare.2.1.1\lib\net35\Fare.dll</HintPath>
     </Reference>
     <Reference Include="FluentFTP, Version=44.0.1.0, Culture=neutral, PublicKeyToken=f4af092b1d8df44f, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentFTP.44.0.1\lib\net462\FluentFTP.dll</HintPath>
@@ -279,6 +285,7 @@
     <Compile Include="Dtos\DivisionSpecDto.cs" />
     <Compile Include="Dtos\FindingDto.cs" />
     <Compile Include="Dtos\FtpDto.cs" />
+    <Compile Include="Dtos\HardwareAcceptsRequestDto.cs" />
     <Compile Include="Dtos\HardwareApprovalDto.cs" />
     <Compile Include="Dtos\HardwareDto.cs" />
     <Compile Include="Dtos\HardwareRequestDto.cs" />
@@ -324,169 +331,33 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations.Identity\202306221233572_InitialMigrations.cs" />
-    <Compile Include="Migrations.Identity\202306221233572_InitialMigrations.designer.cs">
-      <DependentUpon>202306221233572_InitialMigrations.cs</DependentUpon>
+    <Compile Include="Migrations.Identity\202309070706179_NewInit.cs" />
+    <Compile Include="Migrations.Identity\202309070706179_NewInit.designer.cs">
+      <DependentUpon>202309070706179_NewInit.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations.Identity\202306250303283_AddHardwareRequestHistory.cs" />
-    <Compile Include="Migrations.Identity\202306250303283_AddHardwareRequestHistory.designer.cs">
-      <DependentUpon>202306250303283_AddHardwareRequestHistory.cs</DependentUpon>
+    <Compile Include="Migrations.Identity\202309070708053_ADdNewIsDepartmentApprover.cs" />
+    <Compile Include="Migrations.Identity\202309070708053_ADdNewIsDepartmentApprover.designer.cs">
+      <DependentUpon>202309070708053_ADdNewIsDepartmentApprover.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations.Identity\202306250535051_RemoveTechAdminId.cs" />
-    <Compile Include="Migrations.Identity\202306250535051_RemoveTechAdminId.designer.cs">
-      <DependentUpon>202306250535051_RemoveTechAdminId.cs</DependentUpon>
+    <Compile Include="Migrations.Identity\202309070718578_AddHardwareAcceptRequest.cs" />
+    <Compile Include="Migrations.Identity\202309070718578_AddHardwareAcceptRequest.designer.cs">
+      <DependentUpon>202309070718578_AddHardwareAcceptRequest.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations.Identity\202306250537116_RemoveTechAdminIdInTechReport.cs" />
-    <Compile Include="Migrations.Identity\202306250537116_RemoveTechAdminIdInTechReport.designer.cs">
-      <DependentUpon>202306250537116_RemoveTechAdminIdInTechReport.cs</DependentUpon>
+    <Compile Include="Migrations.Identity\202309070723496_AddNewDatas.cs" />
+    <Compile Include="Migrations.Identity\202309070723496_AddNewDatas.designer.cs">
+      <DependentUpon>202309070723496_AddNewDatas.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations.Identity\202306280847273_AddHardwareRequestHistory1.cs" />
-    <Compile Include="Migrations.Identity\202306280847273_AddHardwareRequestHistory1.designer.cs">
-      <DependentUpon>202306280847273_AddHardwareRequestHistory1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202306280927016_Removehardwarehistory.cs" />
-    <Compile Include="Migrations.Identity\202306280927016_Removehardwarehistory.designer.cs">
-      <DependentUpon>202306280927016_Removehardwarehistory.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202306280937535_AddRequestHistory.cs" />
-    <Compile Include="Migrations.Identity\202306280937535_AddRequestHistory.designer.cs">
-      <DependentUpon>202306280937535_AddRequestHistory.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307041448057_NullableVerificationSruId.cs" />
-    <Compile Include="Migrations.Identity\202307041448057_NullableVerificationSruId.designer.cs">
-      <DependentUpon>202307041448057_NullableVerificationSruId.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307050123520_AddHardwareRequestHistory2.cs" />
-    <Compile Include="Migrations.Identity\202307050123520_AddHardwareRequestHistory2.designer.cs">
-      <DependentUpon>202307050123520_AddHardwareRequestHistory2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307050155486_AddFtpModels.cs" />
-    <Compile Include="Migrations.Identity\202307050155486_AddFtpModels.designer.cs">
-      <DependentUpon>202307050155486_AddFtpModels.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307050256083_AddHardwareRequestHistory3.cs" />
-    <Compile Include="Migrations.Identity\202307050256083_AddHardwareRequestHistory3.designer.cs">
-      <DependentUpon>202307050256083_AddHardwareRequestHistory3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307050704241_AddFileExtension.cs" />
-    <Compile Include="Migrations.Identity\202307050704241_AddFileExtension.designer.cs">
-      <DependentUpon>202307050704241_AddFileExtension.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307050804418_HardwareUserUpsFtpModels.cs" />
-    <Compile Include="Migrations.Identity\202307050804418_HardwareUserUpsFtpModels.designer.cs">
-      <DependentUpon>202307050804418_HardwareUserUpsFtpModels.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307050808374_HardwareUserUpsFtpModels1.cs" />
-    <Compile Include="Migrations.Identity\202307050808374_HardwareUserUpsFtpModels1.designer.cs">
-      <DependentUpon>202307050808374_HardwareUserUpsFtpModels1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307060200416_RenameFtpModels.cs" />
-    <Compile Include="Migrations.Identity\202307060200416_RenameFtpModels.designer.cs">
-      <DependentUpon>202307060200416_RenameFtpModels.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307060208419_FtpSoftwareModels.cs" />
-    <Compile Include="Migrations.Identity\202307060208419_FtpSoftwareModels.designer.cs">
-      <DependentUpon>202307060208419_FtpSoftwareModels.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307060209575_FtpAddSoftwareModels.cs" />
-    <Compile Include="Migrations.Identity\202307060209575_FtpAddSoftwareModels.designer.cs">
-      <DependentUpon>202307060209575_FtpAddSoftwareModels.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307060213502_FtpAddSoftwareModelsRemove.cs" />
-    <Compile Include="Migrations.Identity\202307060213502_FtpAddSoftwareModelsRemove.designer.cs">
-      <DependentUpon>202307060213502_FtpAddSoftwareModelsRemove.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307060232021_FtpCredentoa%3bs.cs" />
-    <Compile Include="Migrations.Identity\202307060232021_FtpCredentoa%3bs.designer.cs">
-      <DependentUpon>202307060232021_FtpCredentoa%3bs.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307060634474_FtpModels%3bs.cs" />
-    <Compile Include="Migrations.Identity\202307060634474_FtpModels%3bs.designer.cs">
-      <DependentUpon>202307060634474_FtpModels%3bs.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307070054571_AddDateAddedFtp.cs" />
-    <Compile Include="Migrations.Identity\202307070054571_AddDateAddedFtp.designer.cs">
-      <DependentUpon>202307070054571_AddDateAddedFtp.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307070154069_AddActiveFtp.cs" />
-    <Compile Include="Migrations.Identity\202307070154069_AddActiveFtp.designer.cs">
-      <DependentUpon>202307070154069_AddActiveFtp.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307070213105_AddHrId.cs" />
-    <Compile Include="Migrations.Identity\202307070213105_AddHrId.designer.cs">
-      <DependentUpon>202307070213105_AddHrId.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307070217587_FtpIDHardware.cs" />
-    <Compile Include="Migrations.Identity\202307070217587_FtpIDHardware.designer.cs">
-      <DependentUpon>202307070217587_FtpIDHardware.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307070224368_RemoveFtpCredsInFptHardware.cs" />
-    <Compile Include="Migrations.Identity\202307070224368_RemoveFtpCredsInFptHardware.designer.cs">
-      <DependentUpon>202307070224368_RemoveFtpCredsInFptHardware.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307100241282_UpdateFtp.cs" />
-    <Compile Include="Migrations.Identity\202307100241282_UpdateFtp.designer.cs">
-      <DependentUpon>202307100241282_UpdateFtp.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307100301153_DepartmentAddFtp.cs" />
-    <Compile Include="Migrations.Identity\202307100301153_DepartmentAddFtp.designer.cs">
-      <DependentUpon>202307100301153_DepartmentAddFtp.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307100330564_FtpId.cs" />
-    <Compile Include="Migrations.Identity\202307100330564_FtpId.designer.cs">
-      <DependentUpon>202307100330564_FtpId.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307100654066_HardwareUserRequestRequired.cs" />
-    <Compile Include="Migrations.Identity\202307100654066_HardwareUserRequestRequired.designer.cs">
-      <DependentUpon>202307100654066_HardwareUserRequestRequired.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307100746074_AddFolderName.cs" />
-    <Compile Include="Migrations.Identity\202307100746074_AddFolderName.designer.cs">
-      <DependentUpon>202307100746074_AddFolderName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307100913151_AddFileINtechUpload.cs" />
-    <Compile Include="Migrations.Identity\202307100913151_AddFileINtechUpload.designer.cs">
-      <DependentUpon>202307100913151_AddFileINtechUpload.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307110150026_EditUserRequestAccount.cs" />
-    <Compile Include="Migrations.Identity\202307110150026_EditUserRequestAccount.designer.cs">
-      <DependentUpon>202307110150026_EditUserRequestAccount.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307110224520_addFirstNameLastMiddleName.cs" />
-    <Compile Include="Migrations.Identity\202307110224520_addFirstNameLastMiddleName.designer.cs">
-      <DependentUpon>202307110224520_addFirstNameLastMiddleName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307110411157_RemoveEmailInUserFOrgotPass.cs" />
-    <Compile Include="Migrations.Identity\202307110411157_RemoveEmailInUserFOrgotPass.designer.cs">
-      <DependentUpon>202307110411157_RemoveEmailInUserFOrgotPass.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307110436417_RemoveEmailInUserFOrgotPass2.cs" />
-    <Compile Include="Migrations.Identity\202307110436417_RemoveEmailInUserFOrgotPass2.designer.cs">
-      <DependentUpon>202307110436417_RemoveEmailInUserFOrgotPass2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307110648363_SoftwareRequestNUploads.cs" />
-    <Compile Include="Migrations.Identity\202307110648363_SoftwareRequestNUploads.designer.cs">
-      <DependentUpon>202307110648363_SoftwareRequestNUploads.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307130557488_RequiredResulotion.cs" />
-    <Compile Include="Migrations.Identity\202307130557488_RequiredResulotion.designer.cs">
-      <DependentUpon>202307130557488_RequiredResulotion.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307130609139_notRequires.cs" />
-    <Compile Include="Migrations.Identity\202307130609139_notRequires.designer.cs">
-      <DependentUpon>202307130609139_notRequires.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations.Identity\202307140803008_addsoftwareAccepts.cs" />
-    <Compile Include="Migrations.Identity\202307140803008_addsoftwareAccepts.designer.cs">
-      <DependentUpon>202307140803008_addsoftwareAccepts.cs</DependentUpon>
+    <Compile Include="Migrations.Identity\202309130550098_AddTelANydesk.cs" />
+    <Compile Include="Migrations.Identity\202309130550098_AddTelANydesk.designer.cs">
+      <DependentUpon>202309130550098_AddTelANydesk.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations.Identity\Configuration.cs" />
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Draft.cs" />
     <Compile Include="Models\DraftsDto.cs" />
     <Compile Include="Models\Ftp.cs" />
+    <Compile Include="Models\HardwareAcceptsRequest.cs" />
     <Compile Include="Models\HardwareApproval.cs" />
     <Compile Include="Models\Departments.cs" />
     <Compile Include="Models\Divisions.cs" />
@@ -2697,6 +2568,7 @@
     <Content Include="Content\summernote-lite.css.map" />
     <Content Include="Content\toastr.less" />
     <Content Include="Content\toastr.scss" />
+    <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\dist\datatable\data.json" />
     <Content Include="Scripts\dist\datatable\German.json" />
@@ -3178,6 +3050,12 @@
     <Content Include="Views\HardwareRequest\ApprovedReport.cshtml" />
     <Content Include="Views\HardwareRequest\HardwareTaskList.cshtml" />
     <Content Include="Views\Ftp\Index.cshtml" />
+    <Content Include="Views\HardwareRequest\PendingRequest.cshtml" />
+    <Content Include="Views\HardwareRequest\AllRequestDivision.cshtml" />
+    <Content Include="Views\HardwareTechnician\MyreportList.cshtml" />
+    <Content Include="Views\HardwareTechnician\MichChart.cshtml" />
+    <Content Include="Views\LoginActivity\UsersChart.cshtml" />
+    <Content Include="Views\SoftwareTechnician\MyReportList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3221,122 +3099,20 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations.Identity\202306221233572_InitialMigrations.resx">
-      <DependentUpon>202306221233572_InitialMigrations.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations.Identity\202309070706179_NewInit.resx">
+      <DependentUpon>202309070706179_NewInit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202306250303283_AddHardwareRequestHistory.resx">
-      <DependentUpon>202306250303283_AddHardwareRequestHistory.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations.Identity\202309070708053_ADdNewIsDepartmentApprover.resx">
+      <DependentUpon>202309070708053_ADdNewIsDepartmentApprover.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202306250535051_RemoveTechAdminId.resx">
-      <DependentUpon>202306250535051_RemoveTechAdminId.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations.Identity\202309070718578_AddHardwareAcceptRequest.resx">
+      <DependentUpon>202309070718578_AddHardwareAcceptRequest.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202306250537116_RemoveTechAdminIdInTechReport.resx">
-      <DependentUpon>202306250537116_RemoveTechAdminIdInTechReport.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations.Identity\202309070723496_AddNewDatas.resx">
+      <DependentUpon>202309070723496_AddNewDatas.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202306280847273_AddHardwareRequestHistory1.resx">
-      <DependentUpon>202306280847273_AddHardwareRequestHistory1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202306280927016_Removehardwarehistory.resx">
-      <DependentUpon>202306280927016_Removehardwarehistory.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202306280937535_AddRequestHistory.resx">
-      <DependentUpon>202306280937535_AddRequestHistory.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307041448057_NullableVerificationSruId.resx">
-      <DependentUpon>202307041448057_NullableVerificationSruId.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307050123520_AddHardwareRequestHistory2.resx">
-      <DependentUpon>202307050123520_AddHardwareRequestHistory2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307050155486_AddFtpModels.resx">
-      <DependentUpon>202307050155486_AddFtpModels.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307050256083_AddHardwareRequestHistory3.resx">
-      <DependentUpon>202307050256083_AddHardwareRequestHistory3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307050704241_AddFileExtension.resx">
-      <DependentUpon>202307050704241_AddFileExtension.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307050804418_HardwareUserUpsFtpModels.resx">
-      <DependentUpon>202307050804418_HardwareUserUpsFtpModels.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307050808374_HardwareUserUpsFtpModels1.resx">
-      <DependentUpon>202307050808374_HardwareUserUpsFtpModels1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307060200416_RenameFtpModels.resx">
-      <DependentUpon>202307060200416_RenameFtpModels.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307060208419_FtpSoftwareModels.resx">
-      <DependentUpon>202307060208419_FtpSoftwareModels.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307060209575_FtpAddSoftwareModels.resx">
-      <DependentUpon>202307060209575_FtpAddSoftwareModels.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307060213502_FtpAddSoftwareModelsRemove.resx">
-      <DependentUpon>202307060213502_FtpAddSoftwareModelsRemove.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307060232021_FtpCredentoa%3bs.resx">
-      <DependentUpon>202307060232021_FtpCredentoa%3bs.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307060634474_FtpModels%3bs.resx">
-      <DependentUpon>202307060634474_FtpModels%3bs.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307070054571_AddDateAddedFtp.resx">
-      <DependentUpon>202307070054571_AddDateAddedFtp.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307070154069_AddActiveFtp.resx">
-      <DependentUpon>202307070154069_AddActiveFtp.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307070213105_AddHrId.resx">
-      <DependentUpon>202307070213105_AddHrId.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307070217587_FtpIDHardware.resx">
-      <DependentUpon>202307070217587_FtpIDHardware.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307070224368_RemoveFtpCredsInFptHardware.resx">
-      <DependentUpon>202307070224368_RemoveFtpCredsInFptHardware.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307100241282_UpdateFtp.resx">
-      <DependentUpon>202307100241282_UpdateFtp.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307100301153_DepartmentAddFtp.resx">
-      <DependentUpon>202307100301153_DepartmentAddFtp.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307100330564_FtpId.resx">
-      <DependentUpon>202307100330564_FtpId.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307100654066_HardwareUserRequestRequired.resx">
-      <DependentUpon>202307100654066_HardwareUserRequestRequired.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307100746074_AddFolderName.resx">
-      <DependentUpon>202307100746074_AddFolderName.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307100913151_AddFileINtechUpload.resx">
-      <DependentUpon>202307100913151_AddFileINtechUpload.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307110150026_EditUserRequestAccount.resx">
-      <DependentUpon>202307110150026_EditUserRequestAccount.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307110224520_addFirstNameLastMiddleName.resx">
-      <DependentUpon>202307110224520_addFirstNameLastMiddleName.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307110411157_RemoveEmailInUserFOrgotPass.resx">
-      <DependentUpon>202307110411157_RemoveEmailInUserFOrgotPass.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307110436417_RemoveEmailInUserFOrgotPass2.resx">
-      <DependentUpon>202307110436417_RemoveEmailInUserFOrgotPass2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307110648363_SoftwareRequestNUploads.resx">
-      <DependentUpon>202307110648363_SoftwareRequestNUploads.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307130557488_RequiredResulotion.resx">
-      <DependentUpon>202307130557488_RequiredResulotion.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307130609139_notRequires.resx">
-      <DependentUpon>202307130609139_notRequires.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations.Identity\202307140803008_addsoftwareAccepts.resx">
-      <DependentUpon>202307140803008_addsoftwareAccepts.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations.Identity\202309130550098_AddTelANydesk.resx">
+      <DependentUpon>202309130550098_AddTelANydesk.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -12,6 +12,7 @@ namespace Cgpp_ServiceRequest.Dtos
         public string TechEmail { get; set; }
         public string DateAdded { get; set; }
         public string PhoneNumber { get; set; }
+        public bool IsActive { get; set; }
 
     }
 }

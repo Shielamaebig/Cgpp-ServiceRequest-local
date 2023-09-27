@@ -1,0 +1,58 @@
+﻿@using Microsoft.AspNet.Identity.EntityFramework
+@model Microsoft.AspNet.Identity.EntityFramework.IdentityRole
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                    <img src="~/image/cgpp-2.png" class="rounded-circle mt-4" style=" width: 120px !important; height: 120px !important;" />
+                    <h2 class="card-title m-3">Roles & Privileges</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                    <img src="~/image/icon-admin-2.png" class="ms-3" style=" width: 160px !important; height: 160px !important;" />
+                    <h2 class="card-title">Create Role</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-3">
+                    <h4 class="card-title d-flex justify-content-center pt-3 pb-3 ms-0 mt-5 mb-4">
+                        Roles
+                    </h4>
+                    <div style="width: 300px; margin: 0 auto;  text-align: left; position: relative;  left: 0;  right: 0; padding-left: 3.5%;">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary()
+                            <div class="form-group col-12 text-center align-center mb-4">
+                                <input type="text" name="RoleName" class="form-control " />
+                            </div>
+                            <div class="form-group ms-5">
+                                <button type="submit" class="btn btn-primary mt-4 ms-5"> Save </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

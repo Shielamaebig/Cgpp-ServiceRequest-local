@@ -64,6 +64,9 @@ namespace Cgpp_ServiceRequest.Controllers
                 UserId = u.Id,
                 Username = u.UserName,
                 Email = u.Email,
+                FirstName = u.FirstName,
+                MiddleName = u.MiddleName,
+                LastName = u.LastName,
                 FullName = u.FullName,
                 MobileNumber = u.MobileNumber,
                 DepartmentsId = u.DepartmentsId,
@@ -153,11 +156,9 @@ namespace Cgpp_ServiceRequest.Controllers
         [Route("api/get/user/division")]
         public IHttpActionResult GetuserByDivision()
         {
-            int divId = Convert.ToInt32(User.Identity.GetUserDivision());
+            var divName = User.Identity.GetDivisionName();
             var userList = db.Users.Include(x=>x.Divisions).Include(x=>x.Departments).ToList();
-            return Ok(userList.Where(x => x.DivisionsId == divId));
-            //var hrDto = _db.SoftwareAcceptsRequest.Include(x => x.SoftwareUserRequest).ToList().Select(Mapper.Map<SoftwareAcceptsRequest, SoftwareAcceptsRequestDto>);
-            //return Ok(hrDto.Where(x => x.IsAccept == accepts).OrderByDescending(x => x.DateAdded));
+            return Ok(userList.Where(x => x.DivisionName == divName));
         }
 
     }

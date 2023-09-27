@@ -94,6 +94,7 @@ namespace Cgpp_ServiceRequest.Models
         public DbSet<SoftwareApproved> SoftwareApproveds { get; set; }
         public DbSet<HardwareTasksList> HardwareTasksLists { get; set; }
         public DbSet<Ftp> Ftp { get; set; }
+        public DbSet<HardwareAcceptsRequest> HardwareAcceptsRequests { get; set; }
         public ApplicationDbContext()
             : base("CGPPServiceRequest", throwIfV1Schema: false)
         {

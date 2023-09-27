@@ -1,0 +1,498 @@
+﻿@model IEnumerable<Cgpp_ServiceRequest.ViewModels.UsersInRoleViewModel>
+@using Cgpp_ServiceRequest.Models.Extensions
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "UserProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="pagetitle">
+    <h1>Profile</h1>
+</div><!-- End Page Title -->
+<section class="section profile">
+    <div class="row">
+        <div class="col-xl-4">
+
+            <div class="card">
+                <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                    @if (User.IsInRole("Users"))
+                    {
+                        if (User.Identity.GetImgFile().IsEmpty())
+                        {
+                            <img src="/ServiceRequest/image/cgpp-2.png" alt="Profile" class="rounded-circle" style=" width: 120px !important; height: 120px !important;">
+
+                        }
+                        if (User.Identity.GetImgFile() == null)
+                        {
+                            <img src="/ServiceRequest/image/cgpp-2.png" alt="Profile" class="rounded-circle" style=" width: 120px !important; height: 120px !important;">
+
+                        }
+                        else
+                        {
+                            <img id="userProfileImg" alt="Profile" class="rounded-circle" style=" width: 120px !important; height: 120px !important;">
+                        }
+
+                    }
+
+                    @if (User.IsInRole("Technicians"))
+                    {
+                        if (User.Identity.GetImgFile().IsEmpty())
+                        {
+                            <img src="/ServiceRequest/image/cgpp-2.png" alt="Profile" class="rounded-circle" style=" width: 120px !important; height: 120px !important;">
+                        }
+                        if (User.Identity.GetImgFile() == null)
+                        {
+                            <img src="/ServiceRequest/image/cgpp-2.png" alt="Profile" class="rounded-circle" style=" width: 120px !important; height: 120px !important;">
+                        }
+                        else
+                        {
+                            <img id="userProfileImg" alt="Profile" class="rounded-circle" style=" width: 120px !important; height: 120px !important;">
+                        }
+
+                    }
+                    @if (User.IsInRole("Programmers"))
+                    {
+                        if (User.Identity.GetImgFile().IsEmpty())
+                        {
+                            <img src="/ServiceRequest/image/cgpp-2.png" alt="Profile" class="rounded-circle" style=" width: 120px !important; height: 120px !important;">
+                        }
+                        if (User.Identity.GetImgFile() == null)
+                        {
+                            <img src="/ServiceRequest/image/cgpp-2.png" alt="Profile" class="rounded-circle" style=" width: 120px !important; height: 120px !important;">
+                        }
+                        else
+                        {
+                            <img id="userProfileImg" alt="Profile" class="rounded-circle" style=" width: 120px !important; height: 120px !important;">
+                        }
+
+                    }
+
+                    @if (User.IsInRole("SuperAdmin"))
+                    {
+                        if (User.Identity.GetImgFile().IsEmpty())
+                        {
+                            <img src="/ServiceRequest/image/cgpp-2.png" alt="Profile" class="rounded-circle" style=" width: 120px !important; height: 120px !important;">
+                        }
+                        if (User.Identity.GetImgFile() == null)
+                        {
+                            <img src="/ServiceRequest/image/cgpp-2.png" alt="Profile" class="rounded-circle" style=" width: 120px !important; height: 120px !important;">
+                        }
+                        else
+                        {
+                            <img id="userProfileImg" alt="Profile" class="rounded-circle" style=" width: 120px !important; height: 120px !important;">
+                        }
+
+                    }
+                    @if (User.IsInRole("HardwareAdmin"))
+                    {
+                        if (User.Identity.GetImgFile().IsEmpty())
+                        {
+                            <img src="/ServiceRequest/image/cgpp-2.png" alt="Profile" class="rounded-circle" style=" width: 120px !important; height: 120px !important;">
+                        }
+                        if (User.Identity.GetImgFile() == null)
+                        {
+                            <img src="/ServiceRequest/image/cgpp-2.png" alt="Profile" class="rounded-circle" style=" width: 120px !important; height: 120px !important;">
+
+                        }
+                        else
+                        {
+                            <img id="userProfileImg" alt="Profile" class="rounded-circle" style=" width: 120px !important; height: 120px !important;">
+                        }
+
+                    }
+                    @if (User.IsInRole("SoftwareAdmin"))
+                    {
+                        if (User.Identity.GetImgFile().IsEmpty())
+                        {
+                            <img src="/ServiceRequest/image/cgpp-2.png" alt="Profile" class="rounded-circle" style=" width: 120px !important; height: 120px !important;">
+                        }
+                        if (User.Identity.GetImgFile() == null)
+                        {
+                            <img src="/ServiceRequest/image/cgpp-2.png" alt="Profile" class="rounded-circle" style=" width: 120px !important; height: 120px !important;">
+
+                        }
+                        else
+                        {
+                            <img id="userProfileImg" alt="Profile" class="rounded-circle" style=" width: 120px !important; height: 120px !important;">
+                        }
+
+                    }
+                    @if (User.IsInRole("Developer"))
+                    {
+                        if (User.Identity.GetImgFile().IsEmpty())
+                        {
+                            <img src="/ServiceRequest/image/cgpp-2.png" alt="Profile" class="rounded-circle" style=" width: 120px !important; height: 120px !important;">
+                        }
+                        if (User.Identity.GetImgFile() == null)
+                        {
+                            <img src="/ServiceRequest/image/cgpp-2.png" alt="Profile" class="rounded-circle" style=" width: 120px !important; height: 120px !important;">
+
+                        }
+                        else
+                        {
+                            <img id="userProfileImg" alt="Profile" class="rounded-circle" style=" width: 120px !important; height: 120px !important;">
+                        }
+
+                    }
+                    <h2 id="user-name">@User.Identity.GetFullName()</h2>
+                    <h3>
+                        @if (User.IsInRole("Developer"))
+                        {
+                            var roleName = "Developer";
+                            @roleName
+                        }
+                        else if (User.IsInRole("HardwareAdmin"))
+                        {
+                            var roleName = "Chief - Hardware Section";
+                            @roleName
+                        }
+                        else if (User.IsInRole("SoftwareAdmin"))
+                        {
+                            var roleName = "Software Head";
+                            @roleName
+                        }
+                        else if (User.IsInRole("SuperAdmin"))
+                        {
+                            var roleName = "Super Admin";
+                            @roleName
+                        }
+                        else if (User.IsInRole("Technicians"))
+                        {
+                            var roleName = "Technician";
+                            @roleName
+                        }
+                        else if (User.IsInRole("Programmers"))
+                        {
+                            var roleName = "Programmer";
+                            @roleName
+                        }
+                        else if (User.IsInRole("Technician"))
+                        {
+                            var roleName = "Technician";
+                            @roleName
+                        }
+                        else if (User.IsInRole("Users"))
+                        {
+                            var roleName = "Division Personnel";
+                            @roleName
+                        }
+                    </h3>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-xl-8">
+            @foreach (var user in Model)
+            {
+
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <!-- Bordered Tabs -->
+                        <ul class="nav nav-tabs nav-tabs-bordered" id="userProfile">
+
+                            <li class="nav-item">
+                                <button class="nav-link active view" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                            </li>
+                            @if (User.IsInRole("Users"))
+                            {
+                                <li class="nav-item">
+                                    <button class="nav-link update-details" data-bs-toggle="tab" id="@user.UserId" data-bs-target="#profile-edit">Edit Profile</button>
+                                </li>
+                            }
+
+                            <li class="nav-item">
+                                <button class="nav-link update-image" data-bs-toggle="tab" id="@user.UserId" data-bs-target="#profile-image">Edit Profile Image</button>
+                            </li>
+
+                            <li class="nav-item">
+                                <button class="nav-link change-pass" data-bs-toggle="tab" id="@user.UserId" data-bs-target="#profile-change-password">Change Password</button>
+                            </li>
+
+                        </ul>
+                        <div class="tab-content pt-2">
+
+                            <div class="tab-pane fade show active profile-overview" id="profile-overview">
+
+                                <h5 class="card-title">Profile Details</h5>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label ">Full Name</div>
+                                    <div class="col-lg-9 col-md-8">@user.FullName</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label ">Role Name</div>
+                                    <div class="col-lg-9 col-md-8">
+                                        @if (User.IsInRole("Developer"))
+                                        {
+                                            var roleName = "Developer";
+                                            @roleName
+                                        }
+                                        else if (User.IsInRole("HardwareAdmin"))
+                                        {
+                                            var roleName = "Chief - Hardware Section";
+                                            @roleName
+                                        }
+                                        else if (User.IsInRole("SoftwareAdmin"))
+                                        {
+                                            var roleName = "Software Head";
+                                            @roleName
+                                        }
+                                        else if (User.IsInRole("SuperAdmin"))
+                                        {
+                                            var roleName = "Super Admin";
+                                            @roleName
+                                        }
+                                        else if (User.IsInRole("Technicians"))
+                                        {
+                                            var roleName = "Technician";
+                                            @roleName
+                                        }
+                                        else if (User.IsInRole("Programmers"))
+                                        {
+                                            var roleName = "Programmer";
+                                            @roleName
+                                        }
+                                        else if (User.IsInRole("Technician"))
+                                        {
+                                            var roleName = "Technician";
+                                            @roleName
+                                        }
+                                        else if (User.IsInRole("Users"))
+                                        {
+                                            var roleName = "Division Personnel";
+                                            @roleName
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">Department</div>
+                                    <div class="col-lg-9 col-md-8">
+                                        @if (user.DepartmentsId == null)
+                                        {
+
+                                            <span>Not Applicable</span>
+                                        }
+                                        else
+                                        {
+
+
+                                            <span>
+                                                @user.Departments.Name
+                                            </span>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">Division</div>
+                                    <div class="col-lg-9 col-md-8">
+                                        @if (user.DivisionsId == null)
+                                        {
+
+                                            <span>Not Applicable</span>
+                                        }
+                                        else
+                                        {
+
+
+                                            <span>
+                                                @user.Divisions.Name
+                                            </span>
+                                        }
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">Phone</div>
+                                    <div class="col-lg-9 col-md-8">@user.MobileNumber</div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">Email</div>
+                                    <div class="col-lg-9 col-md-8">@user.Email</div>
+                                </div>
+
+                            </div>
+                            @if (User.IsInRole("Users"))
+                                {
+                                <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+                                        <form id="chageDetails">
+                                            <div class="row mb-3">
+                                                <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
+                                                <div class="col-md-8 col-lg-9">
+                                                    <input name="fullName" type="text" class="form-control" id="fullName">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
+                                                <div class="col-md-8 col-lg-9">
+                                                    <input name="mobileNumber" type="text" class="form-control" id="mobileNumber" value="(436) 486-3538 x29071">
+                                                </div>
+                                            </div>
+                                            <input type="hidden" id="id" name="id" />
+
+                                            <div class="text-center">
+                                                <button type="submit" id="updateDetails" class="btn btn-primary">Save Changes</button>
+                                            </div>
+                                        </form>
+                                </div>
+                              }
+
+                            <div class="tab-pane fade pt-3" id="profile-image">
+                                <form id="changeImageForm" enctype="multipart/form-data">
+                                    <div class="row mb-3">
+                                        <label for="Image" class="col-md-4 col-lg-3 col-form-label">Change Image</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="ImagePath" type="file" class="form-control" id="ImagePath" required>
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" id="id" name="id" />
+
+                                    <div class="text-center">
+                                        <button type="submit" id="imageSubmit" class="btn btn-primary">Change Image</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="tab-pane fade pt-3" id="profile-change-password" style="width: 500px; margin: 0 auto;  text-align: left; position: relative;  left: 0;  right: 0; padding-left: 3.5%;">
+                                <!-- Change Password Form -->
+                                <form id="changePasswordForm">
+                                    <div class="row mb-3 col-lg-12">
+                                        <label for="newPassword" class="form-label">New Password</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text fas fa-eye-slash field-icon toggle-password" id="revealPassword"></span>
+                                            <input name="newpassword" type="password" class="form-control" id="newpassword">
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3 col-lg-12">
+                                        <label for="renewPassword" class="form-label">Re-enter New Password</label>
+                                        <div class=" input-group">
+                                            <span class="input-group-text fas fa-eye-slash field-icon toggle-password" id="revealPasswordconfirm"></span>
+                                            <input name="confirmpassword" type="password" class="form-control" id="confirmpassword">
+                                        </div>
+                                    </div>
+                                    <span class="col-12 text-center align-center m-0 p-0" id="confirm_password_msg"></span>
+
+                                    <div class="alert alert-info mt-3 mb-3" style="font-size:13px;">
+                                        Password must have at least one non letter or digit character.
+                                        <br />
+                                        Password must have at least one digit ('0'-'9').
+                                        <br />
+                                        Password must have at least one uppercase ('A'-'Z').
+                                        <br />
+                                        Example:  Cmisd@2023
+                                    </div>
+                                    <input type="hidden" id="name" name="id" />
+                                    <div class="text-center align-center">
+                                        <button type="submit" class="btn btn-primary" id="changePass">Change Password</button>
+                                    </div>
+                                </form><!-- End Change Password Form -->
+
+                            </div>
+
+                        </div><!-- End Bordered Tabs -->
+
+                    </div>
+                </div>
+
+            }
+
+
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="loadingModal"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border text-primary mt-3" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="justify-content-center">
+                    <h2 class="text-center ms-3 mt-3" style="font-size:20px;">Loading...</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            UserProfile();
+
+            $(function () {
+                //Password Reveal
+                $('#revealPassword').click(function () {
+                    if ($(this).hasClass('fa-eye-slash')) {
+                        $(this).removeClass('fa-eye-slash');
+                        $(this).addClass('fa-eye');
+                        $('#newpassword').attr('type', 'text');
+                    } else {
+                        $(this).removeClass('fa-eye');
+                        $(this).addClass('fa-eye-slash');
+                        $('#newpassword').attr('type', 'password');
+                    }
+                });
+            });
+
+            $(function () {
+                //Password Reveal
+                $('#revealPasswordconfirm').click(function () {
+                    if ($(this).hasClass('fa-eye-slash')) {
+                        $(this).removeClass('fa-eye-slash');
+                        $(this).addClass('fa-eye');
+                        $('#confirmpassword').attr('type', 'text');
+                    } else {
+                        $(this).removeClass('fa-eye');
+                        $(this).addClass('fa-eye-slash');
+                        $('#confirmpassword').attr('type', 'password');
+                    }
+                });
+            });
+
+            $("#confirmpassword").bind('keyup change', function () {
+                check_Password($("#newpassword").val(), $("#confirmpassword").val())
+            })
+
+            $("#changePass").click(function () {
+                check_Password($("#newpassword").val(), $("#confirmpassword").val())
+            })
+
+
+            function check_Password(Pass, Con_Pass) {
+
+                if (Pass === "") {
+
+                } else if (Pass === Con_Pass) {
+
+                    $("#changePass").removeAttr("onclick")
+                    $('#confirm_password_msg').show()
+                    $("#confirm_password_msg").html('<div class=" alert alert-success">Password matched</div>')
+
+                    setTimeout(function () {
+                        $('#confirm_password_msg').fadeOut('slow');
+                    }, 4000);
+
+                } else {
+                    $("#confirm_password").focus()
+                    $('#confirm_password_msg').show()
+                    $("#confirm_password_msg").html('<div class=" alert alert-danger">Password did not matched</div>')
+
+                    setTimeout(function () {
+                        $('#confirm_password_msg').fadeOut('slow');
+                    }, 4000);
+                }
+            }
+
+        });
+    </script>
+}

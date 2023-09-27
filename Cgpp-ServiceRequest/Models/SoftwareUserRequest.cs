@@ -35,6 +35,10 @@ namespace Cgpp_ServiceRequest.Models
         public InformationSystem InformationSystem { get; set; }
         public int InformationSystemId { get; set; }
         public string InformationName { get; set; }
+        public string ProRemarks { get; set; }
+        public string DateRemarksProg { get; set; }
+        public string NameProg { get; set; }
+        public string TelNumber { get; set; }
 
     }
 }
