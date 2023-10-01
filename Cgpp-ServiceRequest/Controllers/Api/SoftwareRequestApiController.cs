@@ -21,6 +21,7 @@ using System.Threading;
 using System.Collections;
 using System.Linq.Dynamic;
 using Microsoft.Owin;
+using System.Security.Cryptography;
 
 namespace Cgpp_ServiceRequest.Controllers.Api
 {
@@ -613,8 +614,6 @@ namespace Cgpp_ServiceRequest.Controllers.Api
         [Route("api/sftSystem/count")]
         public IHttpActionResult SystemCountList()
         {
-
-
             var result = _db.SoftwareUserRequests.GroupBy(r => new { r.DateCreated.Year, r.DateCreated.Month, r.InformationSystem.Name })
                 .Where(grp => grp.Count() > 0)
                 .Select(g => new { g.Key.Year, g.Key.Month, g.Key.Name, Count = g.Count() })
@@ -868,6 +867,123 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 DepartmentName = User.Identity.GetDepartmentName(),
                 DivisionName = User.Identity.GetDivisionName(),
             });
+            _db.SaveChanges();
+            return Ok();
+        }
+
+
+        [HttpPut]
+        [Route("api/software/editRequesttech/{id}")]
+        public IHttpActionResult SOftwareUserUpdatetech(int id, SoftwareUserRequestDto softwareUserRequestDto)
+        {
+
+            var softwareRequest = _db.SoftwareUserRequests.SingleOrDefault(h => h.Id == id);
+
+
+            softwareUserRequestDto.Id = softwareRequest.Id;
+            softwareRequest.SoftwareId = softwareUserRequestDto.SoftwareId;
+            softwareRequest.SoftwareName = _db.Software.SingleOrDefault(x => x.Id == softwareUserRequestDto.SoftwareId).Name;
+            softwareRequest.InformationSystemId = softwareUserRequestDto.InformationSystemId;
+            softwareRequest.InformationName = _db.InformationSystem.SingleOrDefault(x => x.Id == softwareUserRequestDto.InformationSystemId).Name;
+            softwareRequest.RequestFor = softwareUserRequestDto.RequestFor;
+            softwareRequest.DocumentLabel = softwareUserRequestDto.DocumentLabel;
+            softwareRequest.Description = softwareUserRequestDto.Description;
+            _db.LoginActivity.Add(new LoginActivity()
+            {
+                UserName = User.Identity.GetFullName(),
+                ActivityMessage = "Edit a Software Request",
+                ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
+                Email = User.Identity.GetLogEmail(),
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
+            });
+            var devNumber = "09165778160";
+            var SAdminNumber = "09178450776";
+            var AdminNumber = "09158814555";
+            int depId = Convert.ToInt32(User.Identity.GetUserDepartment());
+            int divId = Convert.ToInt32(User.Identity.GetUserDivision());
+            var isApprover = _db.Divisions.SingleOrDefault(x => x.Id == divId).IsDivisionApprover;
+            var deptApprover = _db.Departments.SingleOrDefault(x => x.Id == depId).IsDepartmentApprover;
+
+            if (deptApprover == true)
+            {
+                softwareRequest.Status = "Pending Department Approval";
+
+                var roles = _db.Roles.Where(r => r.Name == "DepartmentApprover");
+
+                var approvers = new List<ApplicationUser>();
+
+                if (roles.Any())
+                {
+                    var roleId = roles.First().Id;
+                    approvers = _db.Users.Include(u => u.Roles).Where(u => u.Roles.Any(r => r.RoleId == roleId) && u.DepartmentsId == softwareRequest.DepartmentsId).ToList();
+
+
+                }
+
+                foreach (var approver in approvers)
+                {
+
+                    Db.Drafts.Add(new Draft
+                    {
+                        Sendto = approver.MobileNumber,
+                        msg = " Updated Software Request" + "  " + "Reported By :" + softwareRequest.FullName + " " + "Issue :" + softwareRequest.SoftwareName + " " + "Department : " + " " + softwareRequest.DepartmentName,
+                        tag = 0
+                    });
+                }
+
+
+
+                Db.SaveChanges();
+            }
+            else if (isApprover == true)
+            {
+                softwareRequest.Status = "Pending Division Approval";
+
+                var roles = _db.Roles.Where(r => r.Name == "DivisionApprover");
+                var approvers = new List<ApplicationUser>();
+                if (roles.Any())
+                {
+                    var rolesId = roles.First().Id;
+                    approvers = _db.Users.Include(x => x.Roles).Where(u => u.Roles.Any(r => r.RoleId == rolesId) && u.DivisionsId == softwareRequest.DivisionsId).ToList();
+                }
+
+                foreach (var divA in approvers)
+                {
+                    Db.Drafts.Add(new Draft
+                    {
+                        Sendto = divA.MobileNumber,
+                        msg = " Updated Software Request" + "  " + "Reported By :" + softwareRequest.FullName + " " + "Issue :" + softwareRequest.SoftwareName + " " + "Department : " + " " + softwareRequest.DepartmentName,
+                        tag = 0
+                    });
+                }
+                Db.SaveChanges();
+            }
+
+            else
+            {
+                softwareRequest.Status = "Open";
+
+                Db.Drafts.Add(new Draft
+                {
+                    Sendto = SAdminNumber,
+                    msg = " Updated Software Request" + "  " + "Reported By :" + softwareRequest.FullName + " " + "Issue :" + softwareRequest.SoftwareName + " " + "Ticket No. : " + " " + softwareRequest.Ticket,
+                    tag = 0
+                });
+                Db.Drafts.Add(new Draft
+                {
+                    Sendto = devNumber,
+                    msg = " Updated Software Request" + "  " + "Reported By :" + softwareRequest.FullName + " " + "Issue :" + softwareRequest.SoftwareName + " " + "Ticket No. : " + " " + softwareRequest.Ticket,
+                    tag = 0
+                });
+                Db.Drafts.Add(new Draft
+                {
+                    Sendto = AdminNumber,
+                    msg = " Updated Software Request" + "  " + "Reported By :" + softwareRequest.FullName + " " + "Issue :" + softwareRequest.SoftwareName + " " + "Ticket No. : " + " " + softwareRequest.Ticket,
+                    tag = 0
+                });
+                Db.SaveChanges();
+            }
             _db.SaveChanges();
             return Ok();
         }
@@ -1707,6 +1823,7 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 DepartmentName = User.Identity.GetDepartmentName(),
                 DivisionName = User.Identity.GetDivisionName(),
             });
+           
             _db.SaveChanges();
             return Ok();
         }
@@ -2185,7 +2302,7 @@ namespace Cgpp_ServiceRequest.Controllers.Api
             _db.LoginActivity.Add(new LoginActivity()
             {
                 UserName = User.Identity.GetFullName(),
-                ActivityMessage = "Added a new Hardware Request",
+                ActivityMessage = "Verified a Software Request",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetLogEmail(),
                 DepartmentName = User.Identity.GetDepartmentName(),
@@ -2450,13 +2567,13 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                         DepartmentsId = depId,
                         Category = false,
                         UploadDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
-                        UploadMessage = "Added a new Hardware Request",
+                        UploadMessage = "Added a new Software Request",
                         SoftwareUserRequestId = softwareRequest.Id,
                     });
                     _db.LoginActivity.Add(new LoginActivity()
                     {
                         UserName = User.Identity.GetFullName(),
-                        ActivityMessage = "Added a new Hardware Request",
+                        ActivityMessage = "Added a new Software Request",
                         ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                         Email = User.Identity.GetLogEmail(),
                         DepartmentName = User.Identity.GetDepartmentName(),
@@ -2618,7 +2735,7 @@ namespace Cgpp_ServiceRequest.Controllers.Api
             Db.Drafts.Add(new Draft
             {
                 Sendto = softwarinDb.MobileNumber,
-                msg = "Your Request Returned" + "This message is system-generated. No need to reply. Thank you. From: Office of the City Management Information System",
+                msg = "Your Request Return"+ " " + "This message is system-generated. No need to reply. Thank you. From: Office of the City Management Information System",
                 tag = 0
             });
             Db.SaveChanges();
@@ -2760,6 +2877,19 @@ namespace Cgpp_ServiceRequest.Controllers.Api
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("api/sf/mytech/countyear")]
+        public IHttpActionResult MonthlytechListYear()
+        {
+            var techName = User.Identity.GetFullName();
+            var result = _db.ProgrammerReport.GroupBy(r => new { r.DateCreated.Year, r.SoftwareTechnician.Name })
+                            .Select(g => new { g.Key.Year, g.Key.Name, Count = g.Count() })
+                            .Where(x => x.Name == techName)
+                            .OrderBy(x => x.Year)
+                            .ToList();
+
+            return Ok(result);
+        }
 
 
         [HttpGet]
@@ -2810,6 +2940,65 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                             .Select(g => new { g.Key.Year, g.Key.Month, g.Key.SoftwareName, g.Key.FullName, Count = g.Count() })
                             .ToList();
             return Ok(reports);
+        }
+
+
+        [HttpPut]
+        [Route("api/v2/sms/sfApprover/{id}")]
+        public IHttpActionResult SendSmsAdminsf(int id, SoftwareUserRequestDto softwareUserRequestDto)
+        {
+
+            var SoftwareSms = _db.SoftwareUserRequests.SingleOrDefault(h => h.Id == id);
+
+
+            softwareUserRequestDto.Id = SoftwareSms.Id;
+
+            _db.LoginActivity.Add(new LoginActivity()
+            {
+                UserName = User.Identity.GetFullName(),
+                ActivityMessage = "Send a Message",
+                ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
+                Email = User.Identity.GetLogEmail(),
+            });
+
+            Db.Drafts.Add(new Draft
+            {
+                Sendto = softwareUserRequestDto.MobileNumber,
+                msg = softwareUserRequestDto.SmsMessage+ " " + "This message is system-generated. No need to reply. Thank you. From: Office of the City Management Information System",
+                tag = 0
+            });
+            Db.SaveChanges();
+            _db.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("api/software4/CancelRequest/{id}")]
+        public IHttpActionResult CancelRequestnew(int id, SoftwareUserRequestDto softwareUserRequestDto)
+        {
+
+            var softwareInDb = _db.SoftwareUserRequests.SingleOrDefault(h => h.Id == id);
+
+            softwareInDb.Id = id;
+            softwareUserRequestDto.Id = id;
+            softwareInDb.Status = "Cancel";
+            softwareInDb.IsNew = false;
+
+
+            int depId = Convert.ToInt32(User.Identity.GetUserDepartment());
+            int divId = Convert.ToInt32(User.Identity.GetUserDivision());
+
+            _db.LoginActivity.Add(new LoginActivity()
+            {
+                UserName = User.Identity.GetFullName(),
+                ActivityMessage = "Cancelled A Hardware Request",
+                ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
+                Email = User.Identity.GetLogEmail(),
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
+            });
+            _db.SaveChanges();
+            return Ok();
         }
     }
 

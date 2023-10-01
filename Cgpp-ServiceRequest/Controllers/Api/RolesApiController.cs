@@ -160,6 +160,13 @@ namespace Cgpp_ServiceRequest.Controllers
             var userList = db.Users.Include(x=>x.Divisions).Include(x=>x.Departments).ToList();
             return Ok(userList.Where(x => x.DivisionName == divName));
         }
-
+        [HttpGet]
+        [Route("api/get/user/department")]
+        public IHttpActionResult GetuserByDepartment()
+        {
+            var deptName = User.Identity.GetDepartmentName();
+            var userList = db.Users.Include(x => x.Divisions).Include(x => x.Departments).ToList();
+            return Ok(userList.Where(x => x.DepartmentName == deptName));
+        }
     }
 }

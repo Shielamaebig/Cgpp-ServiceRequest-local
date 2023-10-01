@@ -248,6 +248,14 @@ namespace Cgpp_ServiceRequest.Controllers.Api
             var allReq = _db.SoftwareUserRequests.Include(x => x.Divisions).Include(x => x.Departments).ToList();
             return Ok(allReq.Where(x => x.DivisionName == userDivision).Count());
         }
+
+        [Route("api/hardware/allReq/count")]
+        public IHttpActionResult GetHardwareAllReq()
+        {
+            var userDivision = User.Identity.GetDivisionName();
+            var allReq = _db.HardwareUserRequests.Include(x => x.Divisions).Include(x => x.Departments).ToList();
+            return Ok(allReq.Where(x => x.DivisionName == userDivision).Count());
+        }
         [Route("api/software/NewReq/count")]
         public IHttpActionResult GetDivApprover()
         {
@@ -272,7 +280,7 @@ namespace Cgpp_ServiceRequest.Controllers.Api
         public IHttpActionResult GetUserActivity2()
         {
             var loginDto = _db.LoginActivity.ToList();
-            if (User.IsInRole("Users") || User.IsInRole("Programmers") || User.IsInRole("Technicians") || User.IsInRole("SoftwareAdmin") || User.IsInRole("HardwareAdmin") || User.IsInRole("SuperAdmin") || User.IsInRole("Developer") || User.IsInRole("DivisionApprover") || User.IsInRole("Technicians/Programmer") || User.IsInRole("Programmer/Admin"))
+            if (User.IsInRole("Users") || User.IsInRole("Programmers") || User.IsInRole("Technicians") || User.IsInRole("SoftwareAdmin") || User.IsInRole("HardwareAdmin") || User.IsInRole("SuperAdmin") || User.IsInRole("Developer") || User.IsInRole("DivisionApprover") || User.IsInRole("Technicians/Programmer") || User.IsInRole("Programmer/Admin") || User.IsInRole("DepartmentApprover"))
             {
                 var userEmail = User.Identity.GetUserEmail();
                 var logEmail = User.Identity.GetLogEmail();
@@ -610,6 +618,66 @@ namespace Cgpp_ServiceRequest.Controllers.Api
             _db.SaveChanges();
 
             return Created(new Uri(Request.RequestUri + "/" + hardwareTech.Id), hardwareTechnicianDto);
+        }
+
+
+        [Route("api/software/DepartmentUser/count")]
+        public IHttpActionResult GetDepartmentUsers()
+        {
+            var deptName = User.Identity.GetDepartmentName();
+            var userList = _db.Users.Include(x => x.Divisions).Include(x => x.Departments).ToList();
+            return Ok(userList.Where(x => x.DepartmentName == deptName).Count());
+        }
+
+        [Route("api/department/allReq/count")]
+        public IHttpActionResult GetAllDeptRequest ()
+        {
+            var deptName = User.Identity.GetDepartmentName();
+            var allReq = _db.SoftwareUserRequests.Include(x => x.Divisions).Include(x => x.Departments).ToList();
+            return Ok(allReq.Where(x => x.DepartmentName == deptName).Count());
+        }
+        [Route("api/departmenthr/allReq/count")]
+        public IHttpActionResult GetAllDeptRequestHardware()
+        {
+            var deptName = User.Identity.GetDepartmentName();
+            var allReq = _db.HardwareUserRequests.Include(x => x.Divisions).Include(x => x.Departments).ToList();
+            return Ok(allReq.Where(x => x.DepartmentName == deptName).Count());
+        }
+
+        [Route("api/softwareReques/list/division")]
+        public IHttpActionResult GetAllListDivisionSoftware()
+        {
+            var divName = User.Identity.GetDivisionName();
+            var result = _db.SoftwareUserRequests.Include(x=>x.Divisions).ToList();
+
+            return Ok(result.Where(x=>x.DivisionName == divName).OrderByDescending(x => x.Id).Take(8));
+        }
+        [Route("api/HardwareRequest/list/division")]
+        public IHttpActionResult GetAllListDivisionHardware()
+        {
+            var divName = User.Identity.GetDivisionName();
+            var result = _db.HardwareUserRequests.Include(x => x.Divisions).ToList();
+
+            return Ok(result.Where(x => x.DivisionName == divName).OrderByDescending(x => x.Id).Take(8));
+        }
+
+
+        [Route("api/HardwareRequest/list/department")]
+        public IHttpActionResult GetAllListDeprtmentHardware()
+        {
+            var deptName = User.Identity.GetDepartmentName();
+            var result = _db.HardwareUserRequests.Include(x => x.Divisions).ToList();
+
+            return Ok(result.Where(x => x.DepartmentName == deptName).OrderByDescending(x => x.Id).Take(8));
+        }
+
+        [Route("api/Software/list/department")]
+        public IHttpActionResult GetAllListDeprtmentSoftware()
+        {
+            var deptName = User.Identity.GetDepartmentName();
+            var result = _db.SoftwareUserRequests.Include(x => x.Divisions).ToList();
+
+            return Ok(result.Where(x => x.DepartmentName == deptName).OrderByDescending(x => x.Id).Take(8));
         }
     }
 }

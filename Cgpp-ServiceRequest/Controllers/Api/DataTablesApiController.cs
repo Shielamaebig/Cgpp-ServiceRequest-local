@@ -692,9 +692,9 @@ namespace Cgpp_ServiceRequest.Controllers.Api
 
 
             var update = "Pending Division Approval";
-             
-            int divId = Convert.ToInt32(User.Identity.GetUserDivision());
-            var pagedFiles = requestdb.Where(u => u.Status == update && u.DivisionsId == divId );
+            var deptPend = "Pending Department Approval";
+            var divName = User.Identity.GetDivisionName();
+            var pagedFiles = requestdb.Where(u => u.Status == update || u.Status == deptPend).Where(u => u.DivisionName == divName);
 
 
             if (request.Order.Any())
@@ -709,8 +709,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
             return new DataTableResponse
             {
                 draw = request.Draw,
-                recordsTotal = _db.SoftwareUserRequests.Where(u => u.Status == update && u.DivisionsId == divId ).Count(),
-                recordsFiltered = requestdb.Where(u => u.Status == update && u.DivisionsId == divId).Count(),
+                recordsTotal = _db.SoftwareUserRequests.Where(u => u.Status == update || u.Status == deptPend).Where(u => u.DivisionName == divName).Count(),
+                recordsFiltered = requestdb.Where(u => u.Status == update || u.Status == deptPend).Where(u => u.DivisionName == divName).Count(),
                 data = pagedFiles.Select(Mapper.Map<SoftwareUserRequest, SoftwareUserRequestDto>).ToArray(),
                 error = ""
             };
@@ -915,78 +915,78 @@ namespace Cgpp_ServiceRequest.Controllers.Api
         }
 
 
-        //[Route("api/SoftwareRequest/v2/Get")]
-        //[HttpGet]
-        //public DataTableResponse GetAccepted(DataTableRequest request)
-        //{
-        //    IQueryable<SoftwareUserRequest> requestdb = _db.SoftwareUserRequests.Include(x => x.Software).OrderByDescending(x => x.Id);
+        [Route("api/SoftwareRequest/v2/Get")]
+        [HttpGet]
+        public DataTableResponse GetAccepted(DataTableRequest request)
+        {
+            IQueryable<SoftwareUserRequest> requestdb = _db.SoftwareUserRequests.Include(x => x.Software).OrderByDescending(x => x.Id);
 
-        //    var newFilter = _db.SoftwareUserRequests.Count();
+            var newFilter = _db.SoftwareUserRequests.Count();
 
-        //    //if (request.Search.Value != "")
-        //    //{
-        //    //    var searchTect = request.Search.Value.Trim();
-        //    //    requestdb = requestdb.Where(x => x.Id.ToString().Contains(searchTect.ToLower()) || x.Id.ToString().Contains(searchTect.ToLower()) || x.Ticket.ToLower().Contains(searchTect.ToLower()) || x.SoftwareName.ToLower().Contains(searchTect.ToLower()) || x.DateAdded.ToLower().Contains(searchTect.ToLower()) || x.FullName.ToLower().Contains(searchTect.ToLower()));
-        //    //}
+            if (request.Search.Value != "")
+            {
+                var searchTect = request.Search.Value.Trim();
+                requestdb = requestdb.Where(x => x.Id.ToString().Contains(searchTect.ToLower()) || x.Id.ToString().Contains(searchTect.ToLower()) || x.Ticket.ToLower().Contains(searchTect.ToLower()) || x.SoftwareName.ToLower().Contains(searchTect.ToLower()) || x.DateAdded.ToLower().Contains(searchTect.ToLower()) || x.FullName.ToLower().Contains(searchTect.ToLower()));
+            }
 
-        //    var open = "Open";
-        //    var pagedFiles = requestdb.Where(u => u.Status == open);
-
-
-        //    if (request.Order.Any())
-        //    {
-        //        foreach (var order in request.Order)
-        //        {
-        //            pagedFiles = pagedFiles.OrderBy(string.Format("{0} {1}", request.Columns[order.Column].Data, order.Dir));
-        //        }
-        //    }
-        //    pagedFiles = pagedFiles.Skip(request.Start).Take(request.Length).OrderByDescending(x => x.Id);
-
-        //    return new DataTableResponse
-        //    {
-        //        draw = request.Draw,
-        //        recordsTotal = _db.SoftwareUserRequests.Where(u => u.Status == open).Count(),
-        //        recordsFiltered = requestdb.Where(u => u.Status == open).Count(),
-        //        data = pagedFiles.Select(Mapper.Map<SoftwareUserRequest, SoftwareUserRequestDto>).ToArray(),
-        //        error = ""
-        //    };
-        //}
-
-        //[Route("api/SoftwareAccepts/v2/Get")]
-        //[HttpGet]
-        //public DataTableResponse GetallAccepted(DataTableRequest request)
-        //{
-        //    IQueryable<SoftwareAcceptsRequest> requestdb = _db.SoftwareAcceptsRequests.Include(x => x.SoftwareUserRequest).OrderByDescending(x => x.Id);
-
-        //    var newFilter = _db.SoftwareAcceptsRequests.Count();
-
-        //    if (request.Search.Value != "")
-        //    {
-        //        var searchTect = request.Search.Value.Trim();
-        //        requestdb = requestdb.Where(x => x.Id.ToString().Contains(searchTect.ToLower()) || x.SoftwareUserRequest.Id.ToString().Contains(searchTect.ToLower()) || x.SoftwareUserRequest.Ticket.ToLower().Contains(searchTect.ToLower()) || x.SoftwareUserRequest.SoftwareName.ToLower().Contains(searchTect.ToLower()) || x.SoftwareUserRequest.DateAdded.ToLower().Contains(searchTect.ToLower()) || x.SoftwareUserRequest.FullName.ToLower().Contains(searchTect.ToLower()));
-        //    }
-
-        //    var pagedFiles = requestdb.Where(u => u.DepartmentName != null || u.DepartmentName == null);
+            var open = "Open";
+            var pagedFiles = requestdb.Where(u => u.Status == open);
 
 
-        //    if (request.Order.Any())
-        //    {
-        //        foreach (var order in request.Order)
-        //        {
-        //            pagedFiles = pagedFiles.OrderBy(string.Format("{0} {1}", request.Columns[order.Column].Data, order.Dir));
-        //        }
-        //    }
-        //    pagedFiles = pagedFiles.Skip(request.Start).Take(request.Length).OrderByDescending(x => x.Id);
+            if (request.Order.Any())
+            {
+                foreach (var order in request.Order)
+                {
+                    pagedFiles = pagedFiles.OrderBy(string.Format("{0} {1}", request.Columns[order.Column].Data, order.Dir));
+                }
+            }
+            pagedFiles = pagedFiles.Skip(request.Start).Take(request.Length).OrderByDescending(x => x.Id);
 
-        //    return new DataTableResponse
-        //    {
-        //        draw = request.Draw,
-        //        recordsTotal = _db.SoftwareAcceptsRequests.Where(u => u.DepartmentName != null || u.DepartmentName == null).Count(),
-        //        recordsFiltered = requestdb.Where(u => u.DepartmentName != null || u.DepartmentName == null).Count(),
-        //        data = pagedFiles.Select(Mapper.Map<SoftwareAcceptsRequest, SoftwareAcceptsRequestDto>).ToArray(),
-        //        error = ""
-        //    };
-        //}
+            return new DataTableResponse
+            {
+                draw = request.Draw,
+                recordsTotal = _db.SoftwareUserRequests.Where(u => u.Status == open).Count(),
+                recordsFiltered = requestdb.Where(u => u.Status == open).Count(),
+                data = pagedFiles.Select(Mapper.Map<SoftwareUserRequest, SoftwareUserRequestDto>).ToArray(),
+                error = ""
+            };
+        }
+
+        [Route("api/SoftwareAccepts/v2/Get")]
+        [HttpGet]
+        public DataTableResponse GetallAccepted(DataTableRequest request)
+        {
+            IQueryable<SoftwareAcceptsRequest> requestdb = _db.SoftwareAcceptsRequests.Include(x => x.SoftwareUserRequest).OrderByDescending(x => x.Id);
+
+            var newFilter = _db.SoftwareAcceptsRequests.Count();
+
+            if (request.Search.Value != "")
+            {
+                var searchTect = request.Search.Value.Trim();
+                requestdb = requestdb.Where(x => x.Id.ToString().Contains(searchTect.ToLower()) || x.SoftwareUserRequest.Id.ToString().Contains(searchTect.ToLower()) || x.SoftwareUserRequest.Ticket.ToLower().Contains(searchTect.ToLower()) || x.SoftwareUserRequest.SoftwareName.ToLower().Contains(searchTect.ToLower()) || x.SoftwareUserRequest.DateAdded.ToLower().Contains(searchTect.ToLower()) || x.SoftwareUserRequest.FullName.ToLower().Contains(searchTect.ToLower()));
+            }
+
+            var pagedFiles = requestdb.Where(u => u.DepartmentName != null || u.DepartmentName == null);
+
+
+            if (request.Order.Any())
+            {
+                foreach (var order in request.Order)
+                {
+                    pagedFiles = pagedFiles.OrderBy(string.Format("{0} {1}", request.Columns[order.Column].Data, order.Dir));
+                }
+            }
+            pagedFiles = pagedFiles.Skip(request.Start).Take(request.Length).OrderByDescending(x => x.Id);
+
+            return new DataTableResponse
+            {
+                draw = request.Draw,
+                recordsTotal = _db.SoftwareAcceptsRequests.Where(u => u.DepartmentName != null || u.DepartmentName == null).Count(),
+                recordsFiltered = requestdb.Where(u => u.DepartmentName != null || u.DepartmentName == null).Count(),
+                data = pagedFiles.Select(Mapper.Map<SoftwareAcceptsRequest, SoftwareAcceptsRequestDto>).ToArray(),
+                error = ""
+            };
+        }
 
         [Route("api/SoftwareRequest/v4/Get")]
         [HttpGet]
@@ -1788,10 +1788,10 @@ namespace Cgpp_ServiceRequest.Controllers.Api
 
 
 
-            var div = "Pending Division Approval";
-            var dept = "Pending Department Approval";
             var deptName = User.Identity.GetDepartmentName();
-            var pagedFiles = requestdb.Where(u => u.Status == div || u.Status == dept).Where(x => x.DepartmentName == deptName);
+            var dept = "Pending Department Approval";
+            var divName = "Pending Division Approval";
+            var pagedFiles = requestdb.Where(x=>x.Status == dept || x.Status == divName).Where(x => x.DepartmentName == deptName);
             /*(u => u.Status == div || u.Status == dept && u.DepartmentName == deptName);*/
 
 
@@ -1807,8 +1807,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
             return new DataTableResponse
             {
                 draw = request.Draw,
-                recordsTotal = _db.SoftwareUserRequests.Where(u => u.Status == div || u.Status == dept).Where(x => x.DepartmentName == deptName).Count(),
-                recordsFiltered = requestdb.Where(u => u.Status == div || u.Status == dept).Where(x => x.DepartmentName == deptName).Count(),
+                recordsTotal = _db.SoftwareUserRequests.Where(x => x.Status == dept || x.Status == divName).Where(x => x.DepartmentName == deptName).Count(),
+                recordsFiltered = requestdb.Where(x => x.Status == dept || x.Status == divName).Where(x => x.DepartmentName == deptName).Count(),
                 data = pagedFiles.Select(Mapper.Map<SoftwareUserRequest, SoftwareUserRequestDto>).ToArray(),
                 error = ""
             };
@@ -1871,10 +1871,10 @@ namespace Cgpp_ServiceRequest.Controllers.Api
 
 
 
-            var div = "Pending Division Approval";
-            var dept = "Pending Department Approval";
+            //var div = "Pending Division Approval";
+            //var dept = "Pending Department Approval";
             var divName = User.Identity.GetDivisionName();
-            var pagedFiles = requestdb.Where(u => u.Status == div || u.Status == dept).Where(x => x.DepartmentName == divName);
+            var pagedFiles = requestdb.Where(x => x.DivisionName == divName);
             /*(u => u.Status == div || u.Status == dept && u.DepartmentName == deptName);*/
 
 
@@ -1890,8 +1890,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
             return new DataTableResponse
             {
                 draw = request.Draw,
-                recordsTotal = _db.SoftwareUserRequests.Where(u => u.Status == div || u.Status == dept).Where(x => x.DepartmentName == divName).Count(),
-                recordsFiltered = requestdb.Where(u => u.Status == div || u.Status == dept).Where(x => x.DepartmentName == divName).Count(),
+                recordsTotal = _db.SoftwareUserRequests.Where(x => x.DivisionName == divName).Count(),
+                recordsFiltered = requestdb.Where(x => x.DivisionName == divName).Count(),
                 data = pagedFiles.Select(Mapper.Map<SoftwareUserRequest, SoftwareUserRequestDto>).ToArray(),
                 error = ""
             };

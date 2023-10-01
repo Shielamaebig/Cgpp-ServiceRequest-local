@@ -2905,7 +2905,246 @@ function DashBoard() {
 
     error: function (data) {},
   });
+    $.ajax({
+        type: "GET",
+        url: apiLocal + '/HardwareRequest/list/department',
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+        },
+        success: function (data) {
+            $("#UserhardwareRequestDepartment tbody").html("");
+            $.each(data, function (index, value) {
+                $("#UserhardwareRequestDepartment tbody").append(
+                    "<tr>" +
+                    "<td>" +
+                    '<span class="badge bg-primary">' +
+                    value.ticket +
+                    "</span>" +
+                    "</td>" +
+                    "<td>" +
+                    value.dateAdded +
+                    "</td>" +
+                    "<td>" +
+                    value.fullName +
+                    "</td>" +
+                    "<td>" +
+                    value.hardwareName +
+                    "</td>" +
+                    "<td>" +
+                    value.divisionName +
+                    "</td>" +
+                    "<td>" +
+                    (value.status == "Open"
+                        ? '<span class="badge bg-open" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Open</span>'
+                        : value.status == "Return Request"
+                            ? '<span class="badge bg-warning" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Open</span>'
+                            : value.status == "Resolved"
+                                ? '<span class="badge bg-resolved" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Resolved</span>'
+                                : value.status == "Accept"
+                                    ? '<span class="badge bg-warning" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">For Checking</span>'
+                                    : value.status == "Update Request"
+                                        ? '<span class="badge bg-secondary" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Open</span>'
+                                        : value.status == "In Progress"
+                                            ? '<span class="badge bg-info" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">In Progress</span>'
+                                            : value.status == "Verified"
+                                                ? '<span class="badge bg-primary" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Verified</span>'
+                                                : value.status == "Approved"
+                                                    ? '<span class="badge bg-success" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Approved</span>'
+                                                    : value.status == "Cancel"
+                                                        ? '<span class="badge bg-danger" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Cancel</span>'
+                                                        : value.status == "Pending Division Approval"
+                                                            ? '<span class="badge bg-open" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Open</span>'
+                                                            : value.status == "Pending Department Approval"
+                                                                ? '<span class="badge bg-open" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Open</span>'
+                                                                : '<span class="badge bg-open" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Open</span>') +
+                    "</td>" +
+                    "</tr>"
+                );
+            });
+        },
 
+        error: function (data) { },
+    });
+    $.ajax({
+        type: "GET",
+        url: apiLocal + '/Software/list/department',
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+        },
+        success: function (data) {
+            $("#UsersoftwareRequestDepartment tbody").html("");
+            $.each(data, function (index, value) {
+                $("#UsersoftwareRequestDepartment tbody").append(
+                    "<tr>" +
+                    "<td>" +
+                    '<span class="badge bg-primary">' +
+                    value.ticket +
+                    "</span>" +
+                    "</td>" +
+                    "<td>" +
+                    value.dateAdded +
+                    "</td>" +
+                    "<td>" +
+                    value.fullName +
+                    "</td>" +
+                    "<td>" +
+                    value.softwareName +
+                    "</td>" +
+                    "<td>" +
+                    value.divisionName +
+                    "</td>" +
+                    "<td>" +
+                    (value.status == "Open"
+                        ? '<span class="badge bg-open" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Open</span>'
+                        : value.status == "Return Request"
+                            ? '<span class="badge bg-warning" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Open</span>'
+                            : value.status == "Resolved"
+                                ? '<span class="badge bg-resolved" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Resolved</span>'
+                                : value.status == "Accept"
+                                    ? '<span class="badge bg-warning" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">For Checking</span>'
+                                    : value.status == "Update Request"
+                                        ? '<span class="badge bg-secondary" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Open</span>'
+                                        : value.status == "In Progress"
+                                            ? '<span class="badge bg-info" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">In Progress</span>'
+                                            : value.status == "Verified"
+                                                ? '<span class="badge bg-primary" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Verified</span>'
+                                                : value.status == "Approved"
+                                                    ? '<span class="badge bg-success" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Approved</span>'
+                                                    : value.status == "Cancel"
+                                                        ? '<span class="badge bg-danger" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Cancel</span>'
+                                                        : value.status == "Pending Division Approval"
+                                                            ? '<span class="badge bg-open" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Open</span>'
+                                                            : value.status == "Pending Department Approval"
+                                                                ? '<span class="badge bg-open" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Open</span>'
+                                                                : '<span class="badge bg-open" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Open</span>') +
+                    "</td>" +
+                    "</tr>"
+                );
+            });
+        },
+
+        error: function (data) { },
+    });
+    $.ajax({
+        type: "GET",
+        url: apiLocal + '/softwareReques/list/division',
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+        },
+        success: function (data) {
+            $("#userDivisionReqSoftware tbody").html("");
+            $.each(data, function (index, value) {
+                $("#userDivisionReqSoftware tbody").append(
+                    "<tr>" +
+                    "<td>" +
+                    '<span class="badge bg-primary">' +
+                    value.ticket +
+                    "</span>" +
+                    "</td>" +
+                    "<td>" +
+                    value.dateAdded +
+                    "</td>" +
+                    "<td>" +
+                    value.fullName +
+                    "</td>" +
+                    "<td>" +
+                    value.softwareName +
+                    "</td>" +
+                    "<td>" +
+                    value.divisionName +
+                    "</td>" +
+                    "<td>" +
+                    (value.status == "Open"
+                        ? '<span class="badge bg-open" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Open</span>'
+                        : value.status == "Return Request"
+                            ? '<span class="badge bg-warning" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Open</span>'
+                            : value.status == "Resolved"
+                                ? '<span class="badge bg-resolved" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Resolved</span>'
+                                : value.status == "Accept"
+                                    ? '<span class="badge bg-warning" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">For Checking</span>'
+                                    : value.status == "Update Request"
+                                        ? '<span class="badge bg-secondary" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Open</span>'
+                                        : value.status == "In Progress"
+                                            ? '<span class="badge bg-info" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">In Progress</span>'
+                                            : value.status == "Verified"
+                                                ? '<span class="badge bg-primary" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Verified</span>'
+                                                : value.status == "Approved"
+                                                    ? '<span class="badge bg-success" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Approved</span>'
+                                                    : value.status == "Cancel"
+                                                        ? '<span class="badge bg-danger" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Cancel</span>'
+                                                        : value.status == "Pending Division Approval"
+                                                            ? '<span class="badge bg-open" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Open</span>'
+                                                            : value.status == "Pending Department Approval"
+                                                                ? '<span class="badge bg-open" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Open</span>'
+                                                        : '<span class="badge bg-open" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Open</span>') +
+                    "</td>" +
+                    "</tr>"
+                );
+            });
+        },
+
+        error: function (data) { },
+    });
+    $.ajax({
+        type: "GET",
+        url: apiLocal + '/HardwareRequest/list/division',
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+        },
+        success: function (data) {
+            $("#userDivisionReqHardware tbody").html("");
+            $.each(data, function (index, value) {
+                $("#userDivisionReqHardware tbody").append(
+                    "<tr>" +
+                    "<td>" +
+                    '<span class="badge bg-primary">' +
+                    value.ticket +
+                    "</span>" +
+                    "</td>" +
+                    "<td>" +
+                    value.dateAdded +
+                    "</td>" +
+                    "<td>" +
+                    value.fullName +
+                    "</td>" +
+                    "<td>" +
+                    value.hardwareName +
+                    "</td>" +
+                    "<td>" +
+                    value.divisionName +
+                    "</td>" +
+                    "<td>" +
+                    (value.status == "Open"
+                        ? '<span class="badge bg-open" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Open</span>'
+                        : value.status == "Return Request"
+                            ? '<span class="badge bg-warning" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Open</span>'
+                            : value.status == "Resolved"
+                                ? '<span class="badge bg-resolved" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Resolved</span>'
+                                : value.status == "Accept"
+                                    ? '<span class="badge bg-warning" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">For Checking</span>'
+                                    : value.status == "Update Request"
+                                        ? '<span class="badge bg-secondary" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Open</span>'
+                                        : value.status == "In Progress"
+                                            ? '<span class="badge bg-info" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">In Progress</span>'
+                                            : value.status == "Verified"
+                                                ? '<span class="badge bg-primary" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Verified</span>'
+                                                : value.status == "Approved"
+                                                    ? '<span class="badge bg-success" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Approved</span>'
+                                                    : value.status == "Cancel"
+                                                        ? '<span class="badge bg-danger" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Cancel</span>'
+                                                        : value.status == "Pending Division Approval"
+                                                            ? '<span class="badge bg-open" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Open</span>'
+                                                            : value.status == "Pending Department Approval"
+                                                                ? '<span class="badge bg-open" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Open</span>'
+                                                                : '<span class="badge bg-open" style="border-radius: 35px; padding: 4px 6px; font-size: 10px;">Open</span>') +
+                    "</td>" +
+                    "</tr>"
+                );
+            });
+        },
+
+        error: function (data) { },
+    });
   $.ajax({
     type: "GET",
     url: apiLocal + '/softwareReques/list',
@@ -10840,6 +11079,21 @@ function Count() {
       // toastr.info("Success")
     },
   });
+    $.ajax({
+        type: "GET",
+        url: apiLocal + '/software/DepartmentUser/count',
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+        },
+        success: function (data) {
+            //alert(data);
+            $("#deptUsers").text(data);
+        },
+        //if failed
+        error: function (data) {
+            // toastr.info("Success")
+        },
+    });
   $.ajax({
     type: "GET",
     url: apiLocal + '/software/NewReq/count',
@@ -10869,7 +11123,57 @@ function Count() {
     error: function (data) {
       // toastr.info("Success")
     },
+
+
   });
+    $.ajax({
+        type: "GET",
+        url: apiLocal + '/hardware/allReq/count',
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+        },
+        success: function (data) {
+            //alert(data);
+            $("#hardwareReqsdiv").text(data);
+        },
+        //if failed
+        error: function (data) {
+            // toastr.info("Success")
+        },
+    });
+
+
+    $.ajax({
+        type: "GET",
+        url: apiLocal + '/department/allReq/count',
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+        },
+        success: function (data) {
+            //alert(data);
+            $("#allDepartmentReq").text(data);
+        },
+        //if failed
+        error: function (data) {
+            // toastr.info("Success")
+        },
+    });
+
+    $.ajax({
+        type: "GET",
+        url: apiLocal + '/departmenthr/allReq/count',
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+        },
+        success: function (data) {
+            //alert(data);
+            $("#hardwareReqsdept").text(data);
+        },
+        //if failed
+        error: function (data) {
+            // toastr.info("Success")
+        },
+    });
 }
 
 var urls = [];
@@ -14696,7 +15000,7 @@ function SoftwareRequestList() {
         // alert(id);
         $.ajax({
             type: "PUT",
-            url: apiLocal + '/software/editRequest/' + id,
+            url: apiLocal + '/software/editRequesttech/' + id,
             data: data,
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("access_token"),
@@ -17366,7 +17670,9 @@ function AcceptedSoftware() {
           if (data == "Open") {
             return '<span class="badge  bg-open">Open</span>';
           } else if (data == "Pending Division Approval") {
-            return '<span class="badge  bg-secondary">Returned Request</span>';
+            return '<span class="badge  bg-warning">Returned Request</span>';
+          } else if (data == "Pending Department Approval") {
+              return '<span class="badge  bg-warning">Returned Request</span>';
           } else if (data == "Manual") {
             return '<span class="badge  bg-info">In Progress</span>';
           } else if (data == "In Progress") {
@@ -17654,6 +17960,7 @@ function AcceptedSoftware() {
       success: function (data, value) {
         $("#backModal").modal("show");
         $("#accepts2").find('input[name="id"]').val(data.id);
+          $("#accepts2").find('input[name="ticket"]').val(data.ticket);
       },
       error: function (data) {
         toastr.error("Failed");
@@ -17677,7 +17984,7 @@ function AcceptedSoftware() {
       success: function (data) {
         console.log(data.id);
         $("#pleasewait").modal("show");
-        toastr.success("File Successfully Added!");
+        toastr.success("File Successfully Return To User!");
         $("#backModal").modal("hide");
         setTimeout(function () {
           // hide please wait modal
@@ -17974,8 +18281,6 @@ function AcceptedSoftware() {
                 render: function (data, type, row) {
                     if (data == "Open") {
                         return '<span class="badge  bg-open">Open</span>';
-                    } else if (data == "Pending Division Approval") {
-                        return '<span class="badge  bg-secondary">Returned Request</span>';
                     } else if (data == "Manual") {
                         return '<span class="badge  bg-info">In Progress</span>';
                     } else if (data == "In Progress") {
@@ -17990,10 +18295,17 @@ function AcceptedSoftware() {
                         return '<span class="badge  bg-primary">' + data + "</span>";
                     } else if (data == "Approved") {
                         return '<span class="badge  bg-success">' + data + "</span>";
+                    } else if (data == "Pending Division Approval") {
+                        return '<span class="badge  bg-secondary">Pending Aprroval</span>';
+                    } else if (data == "Pending Department Approval") {
+                        return '<span class="badge  bg-secondary">Pending Aprroval</span>';
+                    } else if (data == "Return Request") {
+                        return '<span class="badge  bg-warning">Pending Aprroval</span>';
                     } else return '<span class="badge bg-secondary">Open</span>';
                 },
             },
             {
+
                 data: null,
             },
         ],
@@ -18270,40 +18582,40 @@ function AcceptedSoftware() {
         });
         // alert(data);
     });
-    $("#BtnReturn").click(function (e) {
-        e.preventDefault();
+    //$("#BtnReturn").click(function (e) {
+    //    e.preventDefault();
 
-        var id = $("#accepts2").find('input[name="id"]').val();
-        var data = $("#accepts2").serialize();
-        //alert(id);
-        $.ajax({
-            type: "PUT",
-            url: apiLocal + '/software/acceptsReturn/' + id,
-            data: data,
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem("access_token"),
-            },
-            success: function (data) {
-                console.log(data.id);
-                $("#pleasewait").modal("show");
-                toastr.success("File Successfully Added!");
-                $("#backModal").modal("hide");
-                setTimeout(function () {
-                    // hide please wait modal
-                }, 2000);
-                setTimeout(function () {
-                    $("#pleasewait").modal("hide");
-                    window.location.reload();
-                }, 3000);
-            },
-            //if faile
-            error: function (data) {
-                console.log(data.id);
+    //    var id = $("#accepts2").find('input[name="id"]').val();
+    //    var data = $("#accepts2").serialize();
+    //    //alert(id);
+    //    $.ajax({
+    //        type: "PUT",
+    //        url: apiLocal + '/software/acceptsReturn/' + id,
+    //        data: data,
+    //        headers: {
+    //            Authorization: "Bearer " + localStorage.getItem("access_token"),
+    //        },
+    //        success: function (data) {
+    //            console.log(data.id);
+    //            $("#pleasewait").modal("show");
+    //            toastr.success("File Successfully Added!");
+    //            $("#backModal").modal("hide");
+    //            setTimeout(function () {
+    //                // hide please wait modal
+    //            }, 2000);
+    //            setTimeout(function () {
+    //                $("#pleasewait").modal("hide");
+    //                window.location.reload();
+    //            }, 3000);
+    //        },
+    //        //if faile
+    //        error: function (data) {
+    //            console.log(data.id);
 
-                toastr.error("Fill up alll forms / Invalid");
-            },
-        });
-    });
+    //            toastr.error("Fill up alll forms / Invalid");
+    //        },
+    //    });
+    //});
 
     $("#softwareRequestList2").on("click", ".transac", function () {
         var id = $(this).attr("data-id");
@@ -18624,8 +18936,21 @@ function AcceptlistSoftware() {
               '"><i class="bi bi-list-ul"></i> Info </button>' +
               '<button class="btn btn-outline-success btn-sm report me-2" data-id="' +
               data.id +
-              '"><i class="bi bi-check2"></i> Approve </button>'
+              '"><i class="bi bi-check2"></i> Approve </button>' +
+                '<button class="btn btn-outline-danger btn-sm cancel me-2" data-id="' + data.id + '"><i class="bi bi-x"></i> Cancel </button>' +
+                '<button class="btn btn-outline-primary btn-sm sms mt-1 me-2" data-id="' + data.id + '"><i class="bi bi-phone"></i> Sms </button>'
             );
+          } else if (data.status == "Pending Department Approval") {
+              return (
+                  '<button class="btn btn-outline-info btn-sm info me-2" data-id="' +
+                  data.id +
+                  '"><i class="bi bi-list-ul"></i> Info </button>' +
+                  '<button class="btn btn-outline-success btn-sm report me-2" data-id="' +
+                  data.id +
+                  '"><i class="bi bi-check2"></i> Approve </button>' +
+                  '<button class="btn btn-outline-danger btn-sm cancel me-2" data-id="' + data.id + '"><i class="bi bi-x"></i> Cancel </button>' +
+                  '<button class="btn btn-outline-primary btn-sm sms mt-1 me-2" data-id="' + data.id + '"><i class="bi bi-phone"></i> Sms </button>'
+              );
           } else if (data.status == "In Progress") {
             return (
               '<button class="btn btn-outline-info btn-sm info me-2" data-id="' +
@@ -18874,6 +19199,111 @@ function AcceptlistSoftware() {
       console.log(data);
     },
   });
+    $('#softwareRequestList').on('click', '.sms', function () {
+        var id = $(this).attr('data-id');
+        var url = apiLocal + '/v2/Approver/getbyId/' + id;
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function (data, value) {
+                $('#Sendmodal').modal('show');
+                $('#smsForm').find('input[name="id"]').val(data.id);
+                $('#smsForm').find('input[name="fullName"]').val(data.fullName);
+                $('#smsForm').find('input[name="ticket"]').val(data.ticket);
+                $('#smsForm').find('input[name="mobileNumber"]').val(data.mobileNumber);
+                $('#smsForm').find('input[name="departmentName"]').val(data.departmentName);
+                $('#smsForm').find('input[name="divisionName"]').val(data.divisionName);
+                $('#smsForm').find('input[name="id"]').val(data.id);
+            }
+
+        })
+        // alert(data);
+    });
+
+    $('#softwareRequestList').on('click', '.cancel', function () {
+        var id = $(this).attr('data-id');
+        var url = apiLocal + '/v2/Approver/getbyId/' + id;
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function (data, value) {
+                $('#cancelModal').modal('show');
+                $('#cancelReq').find('input[name="id"]').val(data.id);
+            }
+
+        })
+        // alert(data);
+    });
+    $("#btnCancel").click(function (e) {
+        e.preventDefault();
+        var id = $("#cancelReq").find('input[name="id"]').val();
+        var data = $("#cancelReq").serialize();
+        $.ajax({
+            type: "PUT",
+            url: apiLocal + '/software4/CancelRequest/' + id,
+            data: data,
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("access_token"),
+            },
+            success: function (data) {
+                console.log(data.id);
+                $("#cancelModal").modal("hide");
+
+                //show please wait modal
+                $("#pleasewait").modal("show");
+                //show toastr after 3
+                setTimeout(function () {
+                    toastr.success("Successfully Cancel a Request!");
+                    // hide please wait modal
+                }, 2000);
+                setTimeout(function () {
+                    $("#pleasewait").modal("hide");
+                   window.location.reload();
+                }, 3000);
+            },
+            //if failed
+            error: function (data) {
+                toastr.error("Fill up alll forms / Invalid");
+            },
+        });
+    });
+    $('#sendSms').click(function (e) {
+        e.preventDefault();
+
+        var id = $('#smsForm').find('input[name="id"]').val();
+        var data = $('#smsForm').serialize();
+        //alert(id);
+        $.ajax({
+            type: 'PUT',
+            url: apiLocal + '/v2/sms/sfApprover/' + id,
+            data: data,
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+            },
+            success: function (data) {
+                console.log(data.id);
+
+
+                $('#Sendmodal').modal('hide');
+                $('#pleasewait').modal('show');
+                setTimeout(function () {
+                    toastr.success("Message Successfully Send!");
+                    // hide please wait modal
+                }, 2000);
+                setTimeout(function () {
+                    $('#pleasewait').modal('hide');
+                    table2.ajax.reload();
+                }, 3000);
+                console.log('ok');
+            },
+            //if faile
+            error: function (data) {
+                console.log(data.id);
+
+                toastr.error("Fill up alll forms / Invalid")
+            }
+        })
+    });
   $("#softwareRequestList").on("click", ".report", function () {
     var id = $(this).attr("data-id");
     var url = apiLocal + '/v2/Approver/getbyId/' + id;
@@ -18928,7 +19358,7 @@ function AcceptlistSoftware() {
       success: function (data) {
         console.log(data.id);
         $("#pleasewait").modal("show");
-        toastr.success("File Successfully Added!");
+        toastr.success("File Successfully Approve!");
         $("#AcceptModal").modal("hide");
         setTimeout(function () {
           // hide please wait modal
@@ -19125,7 +19555,9 @@ function AcceptlistSoftware() {
               '"><i class="bi bi-list-ul"></i> Info </button>' +
               '<button class="btn btn-outline-success btn-sm report2 me-2" data-id="' +
               data.id +
-              '"><i class="bi bi-check2"></i> Approve </button>'
+              '"><i class="bi bi-check2"></i> Approve </button>' +
+                '<button class="btn btn-outline-danger btn-sm cancel me-2" data-id="' + data.id + '"><i class="bi bi-x"></i> Cancel </button>' +
+                '<button class="btn btn-outline-primary btn-sm sms mt-1 me-2" data-id="' + data.id + '"><i class="bi bi-phone"></i> Sms </button>'
             );
             } else if (data.status == "Pending Department Approval") {
                 return (
@@ -19134,7 +19566,9 @@ function AcceptlistSoftware() {
                     '"><i class="bi bi-list-ul"></i> Info </button>' +
                     '<button class="btn btn-outline-success btn-sm report2 me-2" data-id="' +
                     data.id +
-                    '"><i class="bi bi-check2"></i> Approve </button>'
+                    '"><i class="bi bi-check2"></i> Approve </button>' +
+                    '<button class="btn btn-outline-danger btn-sm cancel me-2" data-id="' + data.id + '"><i class="bi bi-x"></i> Cancel </button>' +
+                    '<button class="btn btn-outline-primary btn-sm sms mt-1 me-2" data-id="' + data.id + '"><i class="bi bi-phone"></i> Sms </button>'
                 );
             } else if (data.status == "In Progress") {
             return (
@@ -19212,6 +19646,41 @@ function AcceptlistSoftware() {
       },
     ],
   });
+    $('#softwareRequestList2').on('click', '.sms', function () {
+        var id = $(this).attr('data-id');
+        var url = apiLocal + '/v2/Approver/getbyId/' + id;
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function (data, value) {
+                $('#Sendmodal').modal('show');
+                $('#smsForm').find('input[name="id"]').val(data.id);
+                $('#smsForm').find('input[name="fullName"]').val(data.fullName);
+                $('#smsForm').find('input[name="ticket"]').val(data.ticket);
+                $('#smsForm').find('input[name="mobileNumber"]').val(data.mobileNumber);
+                $('#smsForm').find('input[name="departmentName"]').val(data.departmentName);
+                $('#smsForm').find('input[name="divisionName"]').val(data.divisionName);
+                $('#smsForm').find('input[name="id"]').val(data.id);
+            }
+
+        })
+        // alert(data);
+    });
+
+    $('#softwareRequestList2').on('click', '.cancel', function () {
+        var id = $(this).attr('data-id');
+        var url = apiLocal + '/v2/Approver/getbyId/' + id;
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function (data, value) {
+                $('#cancelModal').modal('show');
+                $('#cancelReq').find('input[name="id"]').val(data.id);
+            }
+
+        })
+        // alert(data);
+    });
   $("#softwareRequestList2").on("click", ".report2", function () {
     var id = $(this).attr("data-id");
     var url = apiLocal + '/v2/Approver/getbyId/' + id;
@@ -19274,7 +19743,7 @@ function AcceptlistSoftware() {
           .find('input[name="informationName"]')
           .val(data.informationName);
         $("#viewRequest").find('input[name="requestFor"]').val(data.requestFor);
-        $("#viewRequest").find('input[name="FileName"]').val(data.requestFor);
+        $("#viewRequest").find('input[name="FileName"]').val(data.documentLabel);
         $("#viewRequest")
           .find('textarea[name="description"]')
           .val(data.description);
@@ -19450,41 +19919,29 @@ function AcceptlistSoftware() {
             {
                 data: "status",
                 render: function (data, type, row) {
-                    if (row.status == 'Open') {
-                        return '<span class="badge  bg-open">' + data + '</span>'
-                    }
-                    else if (row.status == 'Pending Division Approval') {
-                        return '<span class="badge  bg-secondary">Pending Approval</span>'
-                    }
-                    else if (row.status == 'Pending Department Approval') {
-                        return '<span class="badge  bg-secondary">Pending Approval</span>'
-                    }
-                    else if (row.status == 'Accept') {
-                        return '<span class="badge bg-warning">' + data + '</span>'
-                    }
-                    else if (row.status == 'Resolved') {
-                        return '<span class="badge bg-resolved">' + data + '</span>'
-                    }
-                    else if (row.status == 'In Progress') {
-                        return '<span class="badge bg-warning">' + data + '</span>'
-                    }
-                    else if (row.status == 'Manual') {
-                        return '<span class="badge bg-warning">' + data + '</span>'
-                    }
-                    else if (row.status == 'Update Request') {
-                        return '<span class="badge bg-warning">' + data + '</span>'
-                    }
-                    else if (row.status == 'Verified') {
-                        return '<span class="badge bg-primary">' + data + '</span>'
-                    }
-                    else if (row.status == 'Approved') {
-                        return '<span class="badge bg-success">' + data + '</span>'
-                    }
-                    else if (row.status == 'Cancel') {
-                        return '<span class="badge bg-warning">' + data + '</span>'
-                    }
-                    else
-                        return '<span class="badge bg-danger">Open</span>'
+                    if (row.status == "Open") {
+                        return '<span class="badge  bg-open">' + data + "</span>";
+                    } else if (row.status == "Pending Division Approval") {
+                        return '<span class="badge  bg-secondary"> Pending Approval</span>';
+                    } else if (row.status == "Pending Department Approval") {
+                        return '<span class="badge  bg-secondary"> Pending Approval</span>';
+                    } else if (row.status == "Accept") {
+                        return '<span class="badge bg-warning">' + data + "</span>";
+                    } else if (row.status == "Resolved") {
+                        return '<span class="badge bg-resolved">' + data + "</span>";
+                    } else if (row.status == "In Progress") {
+                        return '<span class="badge bg-info">' + data + "</span>";
+                    } else if (row.status == "Manual") {
+                        return '<span class="badge bg-warning">' + data + "</span>";
+                    } else if (row.status == "Update Request") {
+                        return '<span class="badge bg-warning">' + data + "</span>"; 
+                    } else if (row.status == "Verified") {
+                        return '<span class="badge bg-primary">' + data + "</span>";
+                    } else if (row.status == "Approved") {
+                        return '<span class="badge bg-success">' + data + "</span>";
+                    } else if (row.status == "Cancel") {
+                        return '<span class="badge bg-danger">' + data + "</span>";
+                    } else return '<span class="badge bg-danger">Open</span>';
                 }
             },
             {
@@ -19493,51 +19950,136 @@ function AcceptlistSoftware() {
         ],
         columnDefs:
             [{
-                targets: [-1], render: function (a, b, data, d) {
+                targets: [-1],
+                render: function (a, b, data, d) {
                     if (data.status == "Pending Division Approval") {
-                        return '<button class="btn btn-outline-info btn-sm info me-2" data-id="' + data.id + '"><i class="bi bi-list-ul"></i> Info </button>' +
-                            '<button class="btn btn-outline-success btn-sm report me-2" data-id="' + data.id + '"><i class="bi bi-check2"></i> Approve </button>';
+                        return (
+                            '<button class="btn btn-outline-info btn-sm info me-2" data-id="' +
+                            data.id +
+                            '"><i class="bi bi-list-ul"></i> Info </button>' +
+                            '<button class="btn btn-outline-success btn-sm report me-2" data-id="' +
+                            data.id +
+                            '"><i class="bi bi-check2"></i> Approve </button>' +
+                            '<button class="btn btn-outline-danger btn-sm cancel me-2" data-id="' + data.id + '"><i class="bi bi-x"></i> Cancel </button>' +
+                            '<button class="btn btn-outline-primary btn-sm sms mt-1 me-2" data-id="' + data.id + '"><i class="bi bi-phone"></i> Sms </button>'
+                        );
+                    } else if (data.status == "Pending Department Approval") {
+                        return (
+                            '<button class="btn btn-outline-info btn-sm info me-2" data-id="' +
+                            data.id +
+                            '"><i class="bi bi-list-ul"></i> Info </button>' +
+                            '<button class="btn btn-outline-success btn-sm report me-2" data-id="' +
+                            data.id +
+                            '"><i class="bi bi-check2"></i> Approve </button>' +
+                            '<button class="btn btn-outline-danger btn-sm cancel me-2" data-id="' + data.id + '"><i class="bi bi-x"></i> Cancel </button>' +
+                            '<button class="btn btn-outline-primary btn-sm sms mt-1 me-2" data-id="' + data.id + '"><i class="bi bi-phone"></i> Sms </button>'
+                        );
+                    } else if (data.status == "In Progress") {
+                        return (
+                            '<button class="btn btn-outline-info btn-sm info me-2" data-id="' +
+                            data.id +
+                            '"><i class="bi bi-list-ul"></i> Info </button>'
+                        );
+                    } else if (data.status == "Manual") {
+                        return (
+                            '<button class="btn btn-outline-info btn-sm info me-2" data-id="' +
+                            data.id +
+                            '"><i class="bi bi-list-ul"></i> Info </button>' +
+                            '<button class="btn btn-outline-secondary btn-sm edit mt-2 me-2" data-id="' +
+                            data.id +
+                            '"><i class="bi bi-pencil-square"></i> Edit </button>'
+                        );
+                    } else if (data.status == "") {
+                        return (
+                            '<button class="btn btn-outline-info btn-sm info me-2" data-id="' +
+                            data.id +
+                            '"><i class="bi bi-list-ul"></i> Info </button>' +
+                            '<button class="btn btn-outline-danger btn-sm accept me-2" data-id="' +
+                            data.id +
+                            '"><i class="bi bi-check"></i> Accept </button>'
+                        );
+                    } else if (data.status == "Update Request") {
+                        return (
+                            '<button class="btn btn-outline-info btn-sm info me-2" data-id="' +
+                            data.id +
+                            '"><i class="bi bi-list-ul"></i> Info </button>' +
+                            '<button class="btn btn-outline-success btn-sm return-approved me-2" data-id="' +
+                            data.id +
+                            '"><i class="bi bi-check2"></i> Approve </button>'
+                        );
+                    } else if (data.status == "Resolved") {
+                        return (
+                            '<button class="btn btn-outline-info btn-sm info me-2" data-id="' +
+                            data.id +
+                            '"><i class="bi bi-list-ul"></i> Info </button>' +
+                            '<button class="btn btn-outline-primary btn-sm transaction me-2" data-id="' +
+                            data.id +
+                            '"><i class="bi bi-list-nested"></i> Transaction </button>'
+                        );
+                    } else if (data.status == "Verified") {
+                        return (
+                            '<button class="btn btn-outline-info btn-sm info me-2" data-id="' +
+                            data.id +
+                            '"><i class="bi bi-list-ul"></i> Info </button>' +
+                            '<button class="btn btn-outline-dark  btn-sm print me-2" data-id="' +
+                            data.id +
+                            '"><i class="bi bi-gear"></i> Print </button>'
+                        );
+                    } else if (data.status == "Approved") {
+                        return (
+                            '<button class="btn btn-outline-info btn-sm info me-2" data-id="' +
+                            data.id +
+                            '"><i class="bi bi-list-ul"></i> Info </button>' +
+                            '<button class="btn btn-outline-dark btn-sm print me-2" data-id="' +
+                            data.id +
+                            '"><i class="bi bi-gear"></i> Print </button>'
+                        );
+                    } else if (data.status == "Cancel") {
+                        return (
+                            '<button class="btn btn-outline-info btn-sm info me-2" data-id="' +
+                            data.id +
+                            '"><i class="bi bi-list-ul"></i> Info </button>'
+                        );
                     }
-                    else if (data.status == "Pending Department Approval") {
-                        return '<button class="btn btn-outline-info btn-sm info me-2" data-id="' + data.id + '"><i class="bi bi-list-ul"></i> Info </button>' +
-                            '<button class="btn btn-outline-success btn-sm report me-2" data-id="' + data.id + '"><i class="bi bi-check2"></i> Approve </button>';
-                    }
-                    else if (data.status == "In Progress") {
-                        return '<button class="btn btn-outline-info btn-sm info me-2" data-id="' + data.id + '"><i class="bi bi-list-ul"></i> Info </button>' +
-                            '<button class="btn btn-outline-success btn-sm report me-2" data-id="' + data.id + '"><i class="bi bi-card-checklist"></i> Report </button>';
-                    }
-                    else if (data.status == "Manual") {
-                        return '<button class="btn btn-outline-info btn-sm info me-2" data-id="' + data.id + '"><i class="bi bi-list-ul"></i> Info </button>' +
-                            '<button class="btn btn-outline-secondary btn-sm edit mt-2 me-2" data-id="' + data.id + '"><i class="bi bi-pencil-square"></i> Edit </button>';
-                    }
-                    else if (data.status == "") {
-                        return '<button class="btn btn-outline-info btn-sm info me-2" data-id="' + data.id + '"><i class="bi bi-list-ul"></i> Info </button>' +
-                            '<button class="btn btn-outline-danger btn-sm accept me-2" data-id="' + data.id + '"><i class="bi bi-check"></i> Accept </button>';
-                    }
-                    else if (data.status == "Update Request") {
-                        return '<button class="btn btn-outline-info btn-sm info me-2" data-id="' + data.id + '"><i class="bi bi-list-ul"></i> Info </button>' +
-                            '<button class="btn btn-outline-success btn-sm return-approved me-2" data-id="' + data.id + '"><i class="bi bi-check2"></i> Approve </button>';
-                    }
-                    else if (data.status == "Resolved") {
-                        return '<button class="btn btn-outline-info btn-sm info me-2" data-id="' + data.id + '"><i class="bi bi-list-ul"></i> Info </button>' +
-                            '<button class="btn btn-outline-primary btn-sm transaction me-2" data-id="' + data.id + '"><i class="bi bi-list-nested"></i> Transaction </button>';
-                    }
-                    else if (data.status == "Verified") {
-                        return '<button class="btn btn-outline-info btn-sm info me-2" data-id="' + data.id + '"><i class="bi bi-list-ul"></i> Info </button>' +
-                            '<button class="btn btn-outline-dark  btn-sm print me-2" data-id="' + data.id + '"><i class="bi bi-gear"></i> Print </button>';
-                    }
-                    else if (data.status == "Approved") {
-                        return '<button class="btn btn-outline-info btn-sm info me-2" data-id="' + data.id + '"><i class="bi bi-list-ul"></i> Info </button>' +
-                            '<button class="btn btn-outline-dark btn-sm print me-2" data-id="' + data.id + '"><i class="bi bi-gear"></i> Print </button>';
-                    }
-                    else if (data.status == "Cancel") {
-                        return '<button class="btn btn-outline-info btn-sm info me-2" data-id="' + data.id + '"><i class="bi bi-list-ul"></i> Info </button>';
-                    }
-
                 },
                 orderable: false,
                 width: "180px"
             }]
+    });
+    $('#softwareRequestListdept').on('click', '.sms', function () {
+        var id = $(this).attr('data-id');
+        var url = apiLocal + '/v2/Approver/getbyId/' + id;
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function (data, value) {
+                $('#Sendmodal').modal('show');
+                $('#smsForm').find('input[name="id"]').val(data.id);
+                $('#smsForm').find('input[name="fullName"]').val(data.fullName);
+                $('#smsForm').find('input[name="ticket"]').val(data.ticket);
+                $('#smsForm').find('input[name="mobileNumber"]').val(data.mobileNumber);
+                $('#smsForm').find('input[name="departmentName"]').val(data.departmentName);
+                $('#smsForm').find('input[name="divisionName"]').val(data.divisionName);
+                $('#smsForm').find('input[name="id"]').val(data.id);
+            }
+
+        })
+        // alert(data);
+    });
+
+    $('#softwareRequestListdept').on('click', '.cancel', function () {
+        var id = $(this).attr('data-id');
+        var url = apiLocal + '/v2/Approver/getbyId/' + id;
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function (data, value) {
+                $('#cancelModal').modal('show');
+                $('#cancelReq').find('input[name="id"]').val(data.id);
+            }
+
+        })
+        // alert(data);
     });
     $('#softwareRequestListdept').on('click', '.info', function () {
         var id = $(this).attr('data-id');
@@ -19557,7 +20099,7 @@ function AcceptlistSoftware() {
                 $('#viewRequest').find('input[name="softwareName"]').val(data.softwareName);
                 $('#viewRequest').find('input[name="informationName"]').val(data.informationName);
                 $('#viewRequest').find('input[name="requestFor"]').val(data.requestFor);
-                $('#viewRequest').find('input[name="FileName"]').val(data.requestFor);
+                $('#viewRequest').find('input[name="FileName"]').val(data.documentLabel);
                 $('#viewRequest').find('textarea[name="description"]').val(data.description);
                 $.ajax({
                     type: 'GET',
@@ -20554,7 +21096,7 @@ function HardwareAllRequest() {
         $("#pleasewait").modal("show");
         //show toastr after 3
         setTimeout(function () {
-          toastr.success(" Successfully Update Request!");
+          toastr.success(" Successfully Cancel a Request");
           // hide please wait modal
         }, 2000);
         setTimeout(function () {
@@ -28327,7 +28869,7 @@ function SoftwareAdminv2() {
   var tables;
   tables2 = $("#softwareRequestList2").DataTable({
     ajax: {
-      url: apiLocal + '/SoftwareRequest/v2/Get',
+          url: apiLocal + '/SoftwareRequest/v2/Get',
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },
@@ -28345,20 +28887,20 @@ function SoftwareAdminv2() {
     autoWidth: false,
     columns: [
       {
-        data: "softwareUserRequest.ticket",
+        data: "ticket",
         render: function (data, row) {
           return '<span class="badge shadow bg-primary" >' + data + "</span>";
         },
       },
-      { data: "softwareUserRequest.dateAdded" },
-      { data: "softwareUserRequest.fullName" },
+      { data: "dateAdded" },
+      { data: "fullName" },
       {
-        data: "softwareUserRequest.softwareName",
+        data: "softwareName",
       },
       {
-        data: "softwareUserRequestId",
+          data: "status",
         render: function (data, type, row) {
-          if (row.softwareUserRequest.status == "Open") {
+          if (data == "Open") {
             return '<span class="badge shadow  bg-open" > Open</span>';
           } else return '<span class="badge shadow  bg-secondary">Open</span>';
         },
@@ -28371,7 +28913,7 @@ function SoftwareAdminv2() {
       {
         targets: [-1],
         render: function (a, b, data, d) {
-          if (data.softwareUserRequest.status == "Open") {
+          if (data.status == "Open") {
             return (
               '<button class="btn btn-outline-info  btn-sm info me-2" data-id="' +
               data.id +
@@ -28380,31 +28922,31 @@ function SoftwareAdminv2() {
               data.id +
               '"><i class="bi bi-person-check"></i> Assign To me</button>'
             );
-          } else if (data.softwareUserRequest.status == "In Progress") {
+          } else if (data.status == "In Progress") {
             return (
               '<button class="btn btn-outline-primary  btn-sm info me-2" data-id="' +
               data.id +
               '"><i class="bi bi-list-ul"></i> Info </button>'
             );
-          } else if (data.softwareUserRequest.status == "Resolved") {
+          } else if (data.status == "Resolved") {
             return (
               '<button class="btn btn-outline-primary  btn-sm info me-2" data-id="' +
               data.id +
               '"><i class="bi bi-list-ul"></i> Info </button>'
             );
-          } else if (data.softwareUserRequest.status == "Verified") {
+          } else if (data.status == "Verified") {
             return (
               '<button class="btn btn-outline-primary  btn-sm info me-2" data-id="' +
               data.id +
               '"><i class="bi bi-list-ul"></i> Info </button>'
             );
-          } else if (data.softwareUserRequest.status == "Approved") {
+          } else if (data.status == "Approved") {
             return (
               '<button class="btn btn-outline-primary  btn-sm info me-2" data-id="' +
               data.id +
               '"><i class="bi bi-list-ul"></i> Info </button>'
             );
-          } else if (data.softwareUserRequest.status == "Cancel") {
+          } else if (data.status == "Cancel") {
             return (
               '<button class="btn btn-outline-primary  btn-sm info me-2" data-id="' +
               data.id +
@@ -28419,7 +28961,7 @@ function SoftwareAdminv2() {
   });
   $("#softwareRequestList2").on("click", ".assign", function () {
     var id = $(this).attr("data-id");
-    var url = apiLocal + '/v2/Prog/getbyId/' + id;
+      var url = apiLocal + '/v2/user/getbyId/' + id;
     $.ajax({
       type: "GET",
       url: url,
@@ -28502,7 +29044,7 @@ function SoftwareAdminv2() {
   });
   $("#softwareRequestList2").on("click", ".info", function () {
     var id = $(this).attr("data-id");
-    var url = apiLocal + '/v2/Prog/getbyId/' + id;
+      var url = apiLocal + '/v2/user/getbyId/' + id;
     $.ajax({
       type: "GET",
       url: url,
@@ -28512,40 +29054,40 @@ function SoftwareAdminv2() {
         $("#viewRequest2").find("input[name=checkedBy]").val(data.fullName);
         $("#viewRequest2")
           .find("input[name=ticket]")
-          .val(data.softwareUserRequest.ticket);
+          .val(data.ticket);
         $("#viewRequest2")
           .find("input[name=dateAdded]")
-          .val(data.softwareUserRequest.dateAdded);
+          .val(data.dateAdded);
         $("#viewRequest2")
           .find("input[name=fullName]")
-          .val(data.softwareUserRequest.fullName);
+          .val(data.fullName);
         $("#viewRequest2")
           .find("input[name=mobileNumber]")
-          .val(data.softwareUserRequest.mobileNumber);
+          .val(data.mobileNumber);
         $("#viewRequest2")
           .find("input[name=departmentName]")
-          .val(data.softwareUserRequest.departmentName);
+          .val(data.departmentName);
         $("#viewRequest2")
           .find("input[name=divisionName]")
-          .val(data.softwareUserRequest.divisionName);
+          .val(data.divisionName);
         $("#viewRequest2")
           .find("input[name=softwareName]")
-          .val(data.softwareUserRequest.softwareName);
+          .val(data.softwareName);
         $("#viewRequest2")
           .find("input[name=requestFor]")
-          .val(data.softwareUserRequest.requestFor);
+          .val(data.requestFor);
         $("#viewRequest2")
           .find("input[name=informationName]")
-          .val(data.softwareUserRequest.informationName);
+          .val(data.informationName);
         $("#viewRequest2")
           .find("input[name=documentLabel]")
-          .val(data.softwareUserRequest.documentLabel);
+          .val(data.documentLabel);
         $("#viewRequest2")
           .find("textarea[name=description]")
-          .val(data.softwareUserRequest.description);
+          .val(data.description);
         $("#viewRequest2")
           .find("input[name=softwareUserRequestId]")
-          .val(data.softwareUserRequest.id);
+          .val(data.id);
 
         var reqId = $("#viewRequest2")
           .find("input[name=softwareUserRequestId]")
@@ -28642,7 +29184,7 @@ function SoftwareAdminv2() {
   });
   $("#softwareRequestList2").on("click", ".assignme", function () {
     var id = $(this).attr("data-id");
-    var url = apiLocal + '/v2/Prog/getbyId/' + id;
+      var url = apiLocal + '/v2/user/getbyId/' + id;
     $.ajax({
       type: "GET",
       url: url,
@@ -28650,10 +29192,8 @@ function SoftwareAdminv2() {
         $("#assignToMe2").modal("show");
         $("#assignTomesuper")
           .find("input[name=softwareUserRequestId]")
-          .val(data.softwareUserRequestId);
-        $("#assignTomesuper")
-          .find("input[name=softwareAcceptsRequestId]")
           .val(data.id);
+      
       },
     });
     // alert(data);
@@ -30201,7 +30741,7 @@ function SoftwareAdminIndex() {
     },
   });
 }
-function SoftwareApproved() {
+function SoftwareApprovedAdmin() {
   var tables;
   tables = $("#softwareRequestList").DataTable({
     ajax: {
@@ -32008,7 +32548,7 @@ function SoftwareIndex() {
         data: "softwareUserRequest.status",
         render: function (data) {
           if (data == "Open") {
-            return '<span class="badge shadow bg-open">' + data + "</span>";
+            return '<span class="badge shadow bg-info">In Progress</span>';
           } else if (data == "In Progress") {
             return '<span class="badge shadow bg-info">' + data + "</span>";
           } else if (data == "Resolved") {
@@ -32051,6 +32591,17 @@ function SoftwareIndex() {
               data.id +
               '"><i class="bi bi-check2"></i> Approve </button>'
             );
+          } else if (data.softwareUserRequest.status == "Open") {
+              return (
+                  '<button class="btn btn-outline-info btn-sm  info me-2" data-id="' +
+                  data.id +
+                  '"><i class="bi bi-list-ul"></i> Info </button>' +
+                  '<button class="btn btn-outline-success btn-sm  report me-2" data-id="' +
+                  data.id +
+                  '"><i class="bi bi-card-checklist"></i> Report </button>' +
+                  '<button class="btn btn-outline-primary btn-sm sms me-2" data-id="' + data.id + '"><i class="bi bi-phone"></i> Sms </button>' +
+                  '<button class="btn btn-outline-danger btn-sm return mt-1 me-2" data-id="' + data.id + '"><i class="bi bi-phone"></i> Return to User </button>'
+              );
           } else if (data.softwareUserRequest.status == "In Progress") {
             return (
               '<button class="btn btn-outline-info btn-sm  info me-2" data-id="' +
@@ -32143,7 +32694,7 @@ function SoftwareIndex() {
                   data.id +
                   '"><i class="bi bi-list-ul"></i> Info </button>'
               );
-          } else if (data.softwareUserRequest.status == "Pendoing Department Approval") {
+          } else if (data.softwareUserRequest.status == "Pending Department Approval") {
               return (
                   '<button class="btn btn-outline-info  btn-sm info me-2" data-id="' +
                   data.id +
@@ -32824,18 +33375,18 @@ function SoftwareIndex() {
             },
             success: function (data) {
                 console.log(data.id);
-                //$('#pleasewait').modal('show');
+                $('#pleasewait').modal('show');
 
-                //$('#returnModal').modal('hide');
-                //setTimeout(function () {
-                //    toastr.success("Request Successfully Return!");
-                //    // hide please wait modal
-                //}, 2000);
-                //setTimeout(function () {
-                //    $('#pleasewait').modal('hide');
-                //    window.location.reload();
-                //}, 3000);
-                //console.log('updated');
+                $('#returnModal').modal('hide');
+                setTimeout(function () {
+                    toastr.success("Request Successfully Return!");
+                    // hide please wait modal
+                }, 2000);
+                setTimeout(function () {
+                    $('#pleasewait').modal('hide');
+                    window.location.reload();
+                }, 3000);
+                console.log('updated');
             },
             //if faile
             error: function (data) {
@@ -36392,7 +36943,7 @@ function SoftwareResolvedList() {
   var tables;
   tables = $("#softwareRequestList").DataTable({
     ajax: {
-      url: apiLocal + '/Resolved/v2/Get',
+          url: apiLocal + '/SoftwareRequest/Resolved/v2/Get',
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },
@@ -38045,7 +38596,7 @@ function SoftwareVerifiedList2() {
   var tables;
   tables = $("#softwareRequestList").DataTable({
     ajax: {
-      url: apiLocal + '/Verified/v2/Get',
+          url: apiLocal + '/SoftwareRequest/Verified/v2/Get',
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },
@@ -40968,6 +41519,42 @@ function activityUsers()
         ],
     });
 }
+function DepartmentUsers() {
+    Datatables = $("#userList").DataTable({
+        ajax: {
+            url: apiLocal + '/get/user/department',
+            dataSrc: "",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem('access_token')
+            }
+        },
+        autoWidth: false,
+        columns: [
+
+            {
+                data: "dateCreated",
+                render: function (data, row) {
+                    return moment(data.dateAdded).format('M/D/Y LT')
+                }
+            },
+            {
+                data: "fullName",
+            },
+            {
+                data: "email",
+            },
+            {
+                data: "departments.name",
+
+            },
+            {
+                data: "divisions.name",
+
+            },
+
+        ]
+    });
+}
 
 function DivisionUsers()
 {
@@ -41139,9 +41726,9 @@ function SoftwareRequesting()
 function SoftwareApproved()
 {
     var tables;
-    tables = $("#softwareRequestList2").DataTable({
+    tables = $("#softwareRequestList").DataTable({
         "ajax": {
-            "url": '/SoftwareRequest/allapproved/Get',
+            "url": apiLocal +  '/SoftwareRequest/allapproved/Get',
             "headers": {
                 "Authorization": "Bearer " + localStorage.getItem('access_token')
             },
@@ -41190,7 +41777,7 @@ function SoftwareApproved()
 
     });
 
-    $('#softwareRequestList2').on('click', '.delete', function () {
+    $('#softwareRequestList').on('click', '.delete', function () {
         var id = $(this).attr('data-id');
         var url = apiLocal + '/approve/Delete/' + id;
         $.ajax({

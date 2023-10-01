@@ -59,8 +59,9 @@ namespace Cgpp_ServiceRequest.Controllers.Api
         {
             var divName = User.Identity.GetDivisionName();
             var pendingdivision = "Pending Division Approval";
+            var pendingDepartment = "Pending Department Approval";
             var sfDto = db.SoftwareUserRequests.ToList().Select(Mapper.Map<SoftwareUserRequest, SoftwareUserRequestDto>);
-            return Ok(sfDto.Where(x => x.Status == pendingdivision && x.DivisionName == divName).OrderByDescending(u => u.DateAdded));
+            return Ok(sfDto.Where(x => x.Status == pendingdivision ||x.Status == pendingDepartment && x.DivisionName == divName).OrderByDescending(u => u.DateAdded));
         }
 
         [Route("api/hd/getnewRequesth")]

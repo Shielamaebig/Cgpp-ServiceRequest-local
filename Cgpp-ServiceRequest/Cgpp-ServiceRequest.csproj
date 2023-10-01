@@ -3056,6 +3056,7 @@
     <Content Include="Views\HardwareTechnician\MichChart.cshtml" />
     <Content Include="Views\LoginActivity\UsersChart.cshtml" />
     <Content Include="Views\SoftwareTechnician\MyReportList.cshtml" />
+    <Content Include="Views\Roles\DepartmentUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

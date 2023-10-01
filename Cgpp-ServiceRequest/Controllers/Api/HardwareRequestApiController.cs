@@ -1248,7 +1248,7 @@ namespace Cgpp_ServiceRequest.Controllers.Api
             Db.Drafts.Add(new Draft
             {
                 Sendto = technicianReportDto.MobileNumber,
-                msg = techReports.SmsMessage + "This message is system-generated. No need to reply. Thank you. From: Office of the City Management Information System",
+                msg = techReports.SmsMessage + " " + "This message is system-generated. No need to reply. Thank you. From: Office of the City Management Information System",
                 tag = 0
             });
             Db.SaveChanges();

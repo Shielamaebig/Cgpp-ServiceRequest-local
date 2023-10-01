@@ -37,5 +37,6 @@ namespace Cgpp_ServiceRequest.Dtos
         public string DateRemarksProg { get; set; }
         public string NameProg { get; set; }
         public string TelNumber { get; set; }
+        public string SmsMessage { get; set; }
     }
 }

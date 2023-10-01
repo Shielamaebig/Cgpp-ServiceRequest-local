@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "DepartmentUsers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="card-title d-flex mx-2 fw-semibold">
+    User List
+</h4>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title d-flex justify-content-between mx-2">
+                </h4>
+                <h6 class="card-subtitle"></h6>
+                <div class="table-responsive">
+                    <table id="userList" class="table table-condensed display">
+                        <thead>
+                            <tr>
+                                <th>Date Created</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Department</th>
+                                <th>Division</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready (function () {
+            DepartmentUsers();
+        })
+    </script>
+}

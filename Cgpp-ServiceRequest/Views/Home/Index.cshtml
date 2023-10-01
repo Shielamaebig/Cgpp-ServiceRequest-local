@@ -138,7 +138,6 @@
     </div>
 
 }
-
 @if (User.IsInRole("HardwareAdmin"))
 {
     <div class="row dashboard">
@@ -282,7 +281,6 @@
         </div>
     </div>
 }
-
 @if (User.IsInRole("Programmers"))
 {
     <div class="row dashboard">
@@ -424,7 +422,6 @@
     </div>
 
 }
-
 @if (User.IsInRole("Technicians/Programmer"))
 {
     <div class="row dashboard">
@@ -599,8 +596,6 @@
     </div>
 
 }
-
-
 @if (User.IsInRole("SoftwareAdmin") || User.IsInRole("Programmer/Admin"))
 {
     <div class="row dashboard">
@@ -738,8 +733,6 @@
     </div>
 
 }
-
-
 @if (User.IsInRole("Developer") || User.IsInRole("SuperAdmin"))
 {
     <div class="row dashboard">
@@ -901,7 +894,6 @@
         </div>
     </div>
 }
-
 @if (User.IsInRole("Users"))
 {
     <div class="row dashboard">
@@ -1024,7 +1016,7 @@
 @if (User.IsInRole("DivisionApprover"))
 {
     <div class="row dashboard">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="card info-card sales-card">
                 <div class="card-body">
                     <h5 class="dash-title text-center"></h5>
@@ -1042,7 +1034,25 @@
 
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
+            <div class="card info-card customers-card">
+                <div class="card-body">
+                    <h5 class="dash-title text-center"></h5>
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-motherboard"></i>
+                        </div>
+                        <div class="ps-3 text-end justify-content-end">
+                            <h6 id="hardwareReqsdiv" class="text-center"></h6>
+                            <small style="font-size:12px; color:gray;">Hardware Request</small>
+                            <span class="text-success small pt-1 fw-bold">  </span> <span class="text-muted small pt-2 ps-1"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-4">
             <div class="card info-card revenue-card">
                 <div class="card-body">
                     <h5 class="dash-title text-center"></h5>
@@ -1052,15 +1062,15 @@
                         </div>
                         <div class="ps-3">
                             <h6 id="allDivisionReq" class="text-center"></h6>
-                            <small style="font-size:12px; color:gray;">All Division Request</small>
-                            <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
+                            <small style="font-size:12px; color:gray;">Software Request</small>
+                            <span class="text-danger small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
 
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
+
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -1068,13 +1078,14 @@
                 <div class="card-body pb-0">
                     <h5 class="card-title fw-semibold">Software</h5>
                     <div class="table-responsive">
-                        <table class="table table-condensed" id="UsersoftwareRequestDivision">
+                        <table class="table table-condensed" id="userDivisionReqSoftware">
                             <thead>
                                 <tr>
                                     <th>Ticket #</th>
                                     <th>Date Posted</th>
                                     <th>Reported By</th>
                                     <th>Software Service</th>
+                                    <th>Division</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
@@ -1084,6 +1095,33 @@
                     </div>
                     <div class="text-end m-3">
                         <button type="button" class="btn btn-primary text-white" style="border-radius:20px;" onclick="location.href ='@Url.Action("Accepted","SoftwareRequest")'">See all Activity</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="card table-responsive">
+                <div class="card-body pb-0">
+                    <h5 class="card-title fw-semibold">Hardware</h5>
+                    <div class="table-responsive">
+                        <table class="table table-condensed" id="userDivisionReqHardware">
+                            <thead>
+                                <tr>
+                                    <th>Ticket #</th>
+                                    <th>Date Posted</th>
+                                    <th>Reported By</th>
+                                    <th>Software Service</th>
+                                    <th>Division</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-end m-3">
+                        <button type="button" class="btn btn-primary text-white" style="border-radius:20px;" onclick="location.href ='@Url.Action("AllRequestDivision","HardwareRequest")'">See all Activity</button>
                     </div>
                 </div>
             </div>
@@ -1114,11 +1152,10 @@
         </div>
     </div>
 }
-
 @if (User.IsInRole("DepartmentApprover"))
 {
     <div class="row dashboard">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="card info-card sales-card">
                 <div class="card-body">
                     <h5 class="dash-title text-center"></h5>
@@ -1136,8 +1173,25 @@
 
             </div>
         </div>
+        <div class="col-md-4">
+            <div class="card info-card customers-card">
+                <div class="card-body">
+                    <h5 class="dash-title text-center"></h5>
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-motherboard"></i>
+                        </div>
+                        <div class="ps-3 text-end justify-content-end">
+                            <h6 id="hardwareReqsdept" class="text-center"></h6>
+                            <small style="font-size:12px; color:gray;">Hardware Request</small>
+                            <span class="text-success small pt-1 fw-bold">  </span> <span class="text-muted small pt-2 ps-1"></span>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="col-md-6">
+            </div>
+        </div>
+        <div class="col-md-4">
             <div class="card info-card revenue-card">
                 <div class="card-body">
                     <h5 class="dash-title text-center"></h5>
@@ -1147,7 +1201,7 @@
                         </div>
                         <div class="ps-3">
                             <h6 id="allDepartmentReq" class="text-center"></h6>
-                            <small style="font-size:12px; color:gray;">All Department Request</small>
+                            <small style="font-size:12px; color:gray;">Software Request</small>
                             <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
 
                         </div>
@@ -1163,13 +1217,14 @@
                 <div class="card-body pb-0">
                     <h5 class="card-title fw-semibold">Software</h5>
                     <div class="table-responsive">
-                        <table class="table table-condensed" id="UsersoftwareRequestDivision">
+                        <table class="table table-condensed" id="UsersoftwareRequestDepartment">
                             <thead>
                                 <tr>
                                     <th>Ticket #</th>
                                     <th>Date Posted</th>
                                     <th>Reported by</th>
                                     <th>Software Service</th>
+                                    <th>Division</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
@@ -1182,6 +1237,36 @@
                     </div>
                 </div>
             </div>
+
+
+        </div>
+        <div class="col-md-12">
+            <div class="card table-responsive">
+                <div class="card-body pb-0">
+                    <h5 class="card-title fw-semibold">Hardware</h5>
+                    <div class="table-responsive">
+                        <table class="table table-condensed" id="UserhardwareRequestDepartment">
+                            <thead>
+                                <tr>
+                                    <th>Ticket #</th>
+                                    <th>Date Posted</th>
+                                    <th>Reported by</th>
+                                    <th>Software Service</th>
+                                    <th>Division</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-end m-3">
+                        <button type="button" class="btn btn-primary text-white" style="border-radius:20px;" onclick="location.href ='@Url.Action("Accepted","SoftwareRequest")'">See all Activity</button>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
         <div class="col-md-12">
             <div class="card">

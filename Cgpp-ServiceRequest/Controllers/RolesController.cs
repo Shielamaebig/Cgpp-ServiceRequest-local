@@ -574,6 +574,10 @@ namespace Cgpp_ServiceRequest.Controllers
         {
             return View();
         }
+        public ActionResult DepartmentUsers()
+        {
+            return View();
+        }
     }
 
 }
