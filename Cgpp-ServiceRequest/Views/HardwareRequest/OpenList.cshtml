@@ -3,7 +3,7 @@
     ViewBag.Title = "OpenList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h4 class="card-title mb-2 ms-2">
+<h4 class="card-title mb-2 ms-2 fw-semibold">
     Open List
 </h4>
 <div class="row">
@@ -11,7 +11,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title d-flex justify-content-between mx-2">
-                   
+
                 </h4>
                 <h6 class="card-subtitle"></h6>
                 <div class="table-responsive">
@@ -215,9 +215,9 @@
 </div>
 
 @section scripts {
-    <script>
-        $(document).ready(function () {
-            HardwareOpenList();
-        })
-    </script>
+                    <script>
+                        $(document).ready(function () {
+                            HardwareOpenList();
+                        })
+                    </script>
 }

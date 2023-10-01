@@ -39,5 +39,7 @@ namespace Cgpp_ServiceRequest.Models
         public SuperAdmin SuperAdmin { get; set; }
         public int? SuperAdminId { get; set; }
         public string SuperName { get; set; }
+        public string SmsMessage { get; set; }
+        public string DateSend { get; set; }
     }
 }

@@ -3,7 +3,7 @@
     ViewBag.Title = "Approved";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h4 class="card-title d-flex justify-content-between mx-2">
+<h4 class="card-title d-flex justify-content-between mx-2 fw-semibold">
     Approved List
 </h4>
 <div class="row">
@@ -11,7 +11,6 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title d-flex justify-content-between mx-2">
-                   
                 </h4>
                 <h6 class="card-subtitle"></h6>
                 <div class="table-responsive">
@@ -276,19 +275,19 @@
                             </ul>
                             <form id="newSystem2">
                                 <input type="hidden" name="softwareUserRequestId" id="softwareUserRequestId" />
-                                <div class="tab-content pt-2">
+                                <div class="tab-content pt-2 table-responsive">
                                     <table id="progReport2" class="table" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
                                                 <th>
                                                     Date Added
                                                 </th>
+                                                <th>Ticket No.</th>
+                                                <th>Reported By</th>
                                                 <th>
                                                     Task
                                                 </th>
-                                                <th>
-                                                    Action
-                                                </th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -366,7 +365,7 @@
                                             </div>
                                             <div class="form-group col-8 col-sm-6 mt-3">
                                                 <label for="">date Assigned</label>
-                                                <input type="text" class="form-control mb-2" name="dateAdded" id="dateAdded" />
+                                                <input type="text" class="form-control mb-2" name="dateAssigned" id="dateAssigned" />
                                             </div>
                                             <div class="form-group col-8 col-sm-6 mt-3">
                                                 <label for="">Programmer </label>
@@ -382,7 +381,7 @@
                                             </div>
                                             <div class="form-group col-8 col-sm-6 mt-3">
                                                 <label for="">Date Started</label>
-                                                <input type="text" class="form-control mb-2" name="dateAssigned" id="dateAssigned" />
+                                                <input type="text" class="form-control mb-2" name="dateAdded" id="dateAdded" />
                                             </div>
                                             <div class="form-group col-8 col-sm-6 mt-3">
                                                 <label for="">Date Finished</label>
@@ -492,6 +491,197 @@
     </div>
 </div>
 
+
+
+<div class="modal fade " id="transactionReportModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <p class="heading card-title" id="exampleModalLabel">
+                    <h5 class="heading card-title d-flex justify-content-center text-center "> Request Tracking</h5>
+                </p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="report3">
+                            <div class="row">
+                                <div class=" text-center mt-3">
+                                    <small class="card-title mt-5">Software Request Verified</small>
+                                </div>
+                                <div class="form-group col-8 col-sm-6 mt-3">
+                                    <label for="">Date Verified</label>
+                                    <input type="text" class="form-control mb-2" name="dateVerified" id="dateVerified" />
+                                </div>
+                                <div class="form-group col-8 col-sm-6 mt-3">
+                                    <label for="">Verified By</label>
+                                    <input type="text" class="form-control mb-2" name="adminName" id="adminName" />
+                                </div>
+                                <input type="hidden" id="id" name="programmerReportId" />
+                                <input type="hidden" id="softwareUserRequestId" name="softwareUserRequestId" />
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade " id="divApprover" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <p class="heading card-title" id="exampleModalLabel">
+                    <h5 class="heading card-title d-flex justify-content-center text-center ">  Report Details</h5>
+                </p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body pt-3">
+                            <form id="approver">
+                                <div class="row">
+                                    <div class=" text-center mt-3">
+                                        <small class="card-title">Division Approver</small>
+                                    </div>
+                                    <div class="form-group col-8 col-sm-6 mt-3">
+                                        <label for="">Approved By</label>
+                                        <input type="text" class="form-control mb-2" name="fullName" id="fullName" />
+                                    </div>
+                                    <div class="form-group col-8 col-sm-6 mt-3">
+                                        <label for="">Date Approved</label>
+                                        <input type="text" class="form-control mb-2" name="dateAdded" id="dateAdded" />
+                                    </div>
+                                    <div class="form-group col-sm-6 mt-3">
+                                        <label for="">Department</label>
+                                        <input type="text" class="form-control mb-2" name="departmentName" id="departmentName" />
+                                    </div>
+                                    <div class="form-group col-sm-6 mt-3">
+                                        <label for="">Division</label>
+                                        <input type="text" class="form-control mb-2" name="divisionName" id="divisionName" />
+                                    </div>
+                                    <input type="hidden" id="id" name="programmerReportId" />
+                                    <input type="hidden" id="softwareUserRequestId" name="softwareUserRequestId" />
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade " id="programmerModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <p class="heading card-title" id="exampleModalLabel">
+                    <h5 class="heading card-title d-flex justify-content-center text-center ">  Report Details</h5>
+                </p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body pt-3">
+                            <form id="prog">
+                                <div class="row">
+                                    <div class=" text-center mt-3">
+                                        <small class="card-title">Assigned Programmer</small>
+                                    </div>
+                                    <div class="form-group col-8 col-sm-6 mt-3">
+                                        <label for="">Date Assigned</label>
+                                        <input type="text" class="form-control mb-2" name="dateAdded" id="dateAdded" />
+                                    </div>
+                                    <div class="form-group col-8 col-sm-6 mt-3">
+                                        <label for="">Programmer</label>
+                                        <input type="text" class="form-control mb-2" name="programmerName" id="programmerName" />
+                                    </div>
+                                    <div class="form-group col-8 col-sm-6 mt-3">
+                                        <label for="">Date Started</label>
+                                        <input type="text" class="form-control mb-2" name="dateAssigned" id="dateAssigned" />
+                                    </div>
+                                    <div class="form-group col-8 col-sm-6 mt-3">
+                                        <label for="">Date Ended</label>
+                                        <input type="text" class="form-control mb-2" name="programmerName" id="programmerName" />
+                                    </div>
+                                    <input type="hidden" id="id" name="programmerReportId" />
+                                    <input type="hidden" id="softwareUserRequestId" name="softwareUserRequestId" />
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade " id="superAdminModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <p class="heading card-title" id="exampleModalLabel">
+                    <h5 class="heading card-title d-flex justify-content-center text-center ">  Report Details</h5>
+                </p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body pt-3">
+                            <form id="saform">
+                                <div class="row">
+                                    <div class=" text-center mt-3">
+                                        <small class="card-title">Approved By</small>
+                                    </div>
+                                    <div class="form-group col-8 col-sm-6 mt-3">
+                                        <label for="">Date Approved</label>
+                                        <input type="text" class="form-control mb-2" name="dateApprove" id="dateApprove" />
+                                    </div>
+                                    <div class="form-group col-8 col-sm-6 mt-3">
+                                        <label for="">Approved By</label>
+                                        <input type="text" class="form-control mb-2" name="nameApproval" id="nameApproval" />
+                                    </div>
+                                    <input type="hidden" id="id" name="programmerReportId" />
+                                    <input type="hidden" id="softwareUserRequestId" name="softwareUserRequestId" />
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section scripts{
     <script>

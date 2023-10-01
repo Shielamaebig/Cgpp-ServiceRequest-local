@@ -1,0 +1,441 @@
+﻿
+@{
+    ViewBag.Title = "SoftwareRequest";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (User.IsInRole("Users"))
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title d-flex justify-content-between mx-2">
+                        Software Category Services
+                    </h4>
+                    <h6 class="card-subtitle"></h6>
+                    <div class="table-responsive">
+                        <table id="softwareList" class="table table-condensed display">
+                            <thead>
+                                <tr>
+                                    <th>Software</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="AddSoftware" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-m modal-notify modal-info" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="heading" id="exampleModalLabel"><h4 class="card-title d-flex justify-content-between">Software Category Services</h4></p>
+                </div>
+                <div class="modal-body">
+                    <form id="save">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="">Name</label>
+                                <input type="text" class="form-control mt-2 mb-3" name="name" placeholder="Category Services" id="name" required />
+                            </div>
+                        </div>
+                        <input type="hidden" id="id" name="id" />
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" value=" submit" class="btn btn-success " id="btnSubmit">Submit</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-m modal-notify modal-info" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="heading" id="exampleModalLabel"><h4 class="card-title d-flex justify-content-between">Software Category Services</h4></p>
+                </div>
+                <div class="modal-body">
+                    <form id="edit">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="">Name</label>
+                                <input type="text" class="form-control mt-2 mb-3" name="name" placeholder="Category Services" id="name" required />
+                            </div>
+                        </div>
+                        <input type="hidden" id="id" name="id" />
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" value=" submit" class="btn btn-success " id="updateDate">Submit</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*Modal Request*@
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="softwarerequest" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-notify modal-info" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <p class="heading" id="exampleModalLabel"><h5 class="card-title d-flex justify-content-between  text-white">Service Request Form</h5></p>
+                </div>
+                <div class="modal-body">
+                    <form id="SaveRequest" name="SaveRequest" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="form-group col-md-6 mt-3 mb-3">
+                                <label for="">Information System</label>
+                                <select class="form-control" id="informationSystemId" name="informationSystemId"> </select>
+                            </div>
+                            <div class="form-group col-md-6 mt-3 mb-3">
+                                <label for="">Request For</label>
+                                <input class="form-control" id="requestFor" name="requestFor" />
+                            </div>
+                            <div class="row mt-3">
+                                <label for="FileName" class="col col-form-label ">Subject : </label>
+                                <div class="col-md-11">
+                                    <input type="text" class="form-control ms-4" id="FileName" name="FileName" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="mt-3">Description</label>
+                                <textarea class="form-control" id="description" name="description" style="height: 300px;"> </textarea>
+                            </div>
+
+
+                            <div class="row mt-4 mb-3">
+                                <label class="col-md-2 col-form-label"> Add Image </label>
+                                <div class="col-md-5">
+                                    <input name="files" type="file" class="form-control" id="files" multiple>
+                                </div>
+                            </div>
+                            <input type="hidden" id="softwareId" name="softwareId" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnRequest" type="submit" value=" submit" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (User.IsInRole("SoftwareAdmin") || User.IsInRole("HardwareAdmin") || User.IsInRole("SuperAdmin") || User.IsInRole("Developer"))
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title d-flex justify-content-between mx-2">
+                        Software Category Services
+                        <button class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#AddSoftware">
+                            <i class="fas fa-solid fa-plus fa-sm text-white-50"></i> Add Category Services
+                        </button>
+                    </h4>
+                    <h6 class="card-subtitle"></h6>
+                    <div class="table-responsive">
+                        <table id="softwareList2" class="table table-condensed display">
+                            <thead>
+                                <tr>
+                                    <th>Software</th>
+                                    <th>Request</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="AddSoftware" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-m modal-notify modal-info" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="heading" id="exampleModalLabel"><h4 class="card-title d-flex justify-content-between">Software Category Services</h4></p>
+                </div>
+                <div class="modal-body">
+                    <form id="save">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="">Category Services</label>
+                                <input type="text" class="form-control mt-2 mb-3" name="name" id="name" required />
+                            </div>
+                        </div>
+                        <input type="hidden" id="id" name="id" />
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" value=" submit" class="btn btn-success " id="btnSubmit">Submit</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-m modal-notify modal-info" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="heading" id="exampleModalLabel"><h4 class="card-title d-flex justify-content-between">Software Category Services</h4></p>
+                </div>
+                <div class="modal-body">
+                    <form id="edit">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="">Name</label>
+                                <input type="text" class="form-control mt-2 mb-3" name="name" placeholder="Category Services" id="name" required />
+                            </div>
+                        </div>
+                        <input type="hidden" id="id" name="id" />
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" value=" submit" class="btn btn-success " id="updateDate">Submit</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*Modal Request*@
+}
+
+<div class="modal fade" id="pleasewait" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border text-primary mt-3" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="justify-content-center">
+                    <h2 class="text-center ms-3 mt-3" style="font-size:20px;">Loading...</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            UserSoftwareRequestCategory();
+
+            $('#btnRequest').click(function (e) {
+                e.preventDefault();
+                var formData = new FormData(SaveRequest);
+                $.ajax({
+                    url: '/ServiceRequest/api/Software/SaveRequest',
+                    type: 'POST',
+                    data: formData,
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                    },
+                    success: function (data) {
+                        $('#softwarerequest').modal('hide');
+                        //show please wait modal
+                        $('#pleasewait').modal('show');
+                        //show toastr after 3
+                        setTimeout(function () {
+                            toastr.success(" Successfully Create Software Request!");
+                            // hide please wait modal
+
+                        }, 2000);
+                        setTimeout(function () {
+                            window.location.href = "/ServiceRequest/SoftwareRequest/RequestList";
+                        }, 3000);
+                    },
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                });
+            });
+
+            Datatables = $("#softwareList2").DataTable({
+                ajax: {
+                    url: "/ServiceRequest/api/soft/get",
+                    dataSrc: "",
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem('access_token')
+                    }
+                },
+                ordering: false,
+                autoWidth: false,
+                columns: [
+
+                    {
+                        data: "name",
+                    },
+
+
+                    {
+                        data: null,
+                        render: function (data) {
+                            return '<button class="btn btn-success btn-sm edit" data-id="' + data.id + '"><i class="fas fa-edit"></i> Edit</button>'
+                                + '  <button class="btn btn-danger btn-sm delete" data-id="' + data.id + '"><i class="fas fa-trash"></i> Delete</button>'
+                        },
+                        orderable: false,
+                    }
+
+                ]
+            });
+
+            $('#btnSubmit').click(function (e) {
+                e.preventDefault();
+
+                //find name
+                var name = $('input[name=name]').val();
+                // data
+                var data = {
+                    name: name,
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: '/ServiceRequest/api/soft/save',
+                    data: data,
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                    },
+                    success: function (data) {
+
+                        $("#AddSoftware").modal('hide');
+                        $("#name").val("");
+                        //show please wait modal
+                        $('#pleasewait').modal('show');
+                        //show toastr after 3
+                        setTimeout(function () {
+                            toastr.success("Data Successfully Added!");
+                            // hide please wait modal
+                        }, 2000);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 3000);
+                    },
+                    //if failed
+                    error: function (data) {
+                        toastr.error("Name Already Exist In the Database/ Invalid")
+                    }
+                });
+            });
+
+            //Get edit
+            $("#softwareList2").on('click', '.edit', function () {
+                var id = $(this).attr('data-id');
+                var url = '/ServiceRequest/api/soft/getsoftware/' + id;
+                // alert(id);
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    success: function (data) {
+                        $("#editmodal").modal('show');
+                        $('#edit').find('input[name="id"]').val(data.id);
+                        $('#edit').find('input[name="name"]').val(data.name);
+                    },
+                    //if failed
+                    error: function (data) {
+                        // console.log(data, data.id, data.name);
+                        toastr.error("Error")
+                    }
+                })
+            })
+
+            //Update
+            $("#updateDate").click(function (e) {
+                e.preventDefault();
+                var data = {
+                    name: $('#edit').find('input[name=name]').val(),
+                };
+                var id = $('#edit').find('input[name="id"]').val();
+                $.ajax({
+                    type: 'PUT',
+                    url: '/ServiceRequest/api/soft/updateSoftware/' + id,
+                    data: data,
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                    },
+                    success: function (data) {
+                        $('#editmodal').modal('hide');
+                        //show please wait modal
+                        $('#pleasewait').modal('show');
+                        //show toastr after 3
+                        setTimeout(function () {
+                            toastr.success("Data Successfully Updated!");
+                            // hide please wait modal
+                        }, 2000);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 3000);
+                    },
+                    //if failed
+                    error: function (data) {
+                        toastr.error("Error")
+                    }
+                });
+            });
+
+            $('#softwareList2').on('click', '.delete', function () {
+                var id = $(this).attr('data-id');
+                var url = '/ServiceRequest/api/soft/Delete/' + id;
+                $.ajax({
+                    // confirm before delete
+                    beforeSend: function (xhr) {
+                        // use bootbox
+                        bootbox.confirm({
+                            message: "Are you sure you want to delete this record?",
+                            buttons: {
+                                // yes and no sequence
+
+                                confirm: {
+                                    label: 'Yes',
+                                    className: 'btn-success btn-sm'
+                                },
+                                cancel: {
+                                    label: 'No',
+                                    className: 'btn-danger btn-sm'
+                                }
+                            },
+                            callback: function (result) {
+                                if (result) {
+                                    $.ajax({
+                                        type: 'DELETE',
+                                        url: url,
+                                        headers: {
+                                            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                                        },
+                                        success: function (data) {
+                                            //show please wait modal
+                                            $('#pleasewait').modal('show');
+                                            //show toastr after 3
+                                            setTimeout(function () {
+                                                toastr.success("Data Successfully Deleted!");
+                                                // hide please wait modal
+                                            }, 2000);
+                                            setTimeout(function () {
+                                                window.location.reload();
+                                            }, 3000);
+                                        },
+                                        //if failed
+                                        error: function (data) {
+                                            toastr.error("Error")
+                                        }
+                                    });
+                                }
+                            }
+                        });
+
+                    },
+                });
+            });
+        });
+    </script>
+}

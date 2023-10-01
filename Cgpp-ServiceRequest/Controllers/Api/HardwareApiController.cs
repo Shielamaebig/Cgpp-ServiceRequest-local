@@ -60,7 +60,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Added A Hardware Service Category",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
 
@@ -105,7 +106,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Edited A Hardware Service Category",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             _db.SaveChanges();
@@ -128,7 +130,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Developr Delete A Request",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Ok();

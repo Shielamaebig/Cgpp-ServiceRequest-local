@@ -1,0 +1,200 @@
+﻿.firstBlur.modalBlur > *:not(.modal) {
+    -webkit-filter: blur(1px);
+}
+
+.firstBlur.modalDesaturate > *:not(.modal) {
+    -webkit-filter: saturate(0%);
+}
+/* === SOFTEN THE MODAL BACKDROP SO THE EFFECT IS MORE VISIBLE === */
+.modal-backdrop {
+    opacity: 0.65;
+    filter: blur(1px);
+}
+
+.space {
+    border-bottom: 1px solid #DEE2E6;
+}
+
+.Online:before {
+    background-color: #77AB47;
+    border-color: #77AB47;
+}
+
+.Online:after {
+    border-radius: 50%;
+    border: 1px solid #77AB47;
+    box-shadow: 0 0 4px rgba($color-online, .6), inset 0 0 4px rgba($color-online, .6);
+    content: "";
+    height: 2em;
+    margin: -1.1em 0 0 -.5em;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 2em;
+    -webkit-transform: scale(0);
+    /*    // Hide if webkit doesn't support animations -webkit-animation: online-ping 2.5s ease-in-out infinite; animation: online-ping 2.5s ease-in-out infinite;
+*/
+}
+
+.led-green {
+    margin: 20px auto;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    box-shadow: #000 0 -1px 7px 1px, inset #460 0 -1px 9px, #7D0 0 2px 12px;
+}
+
+.btn-Admin {
+    padding-right: 16px;
+}
+.btn-verified {
+    padding-right: 24px;
+}
+/*.btn-view {
+    padding-right: 15px;
+}*/
+/*.btn-status {
+    padding-right: 54px;
+}*/
+.btn-view-admin {
+    padding-right: 14px;
+}
+/*.button {
+    width: 200px;
+    height: 45px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: 1px #fff;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+}*/
+
+/*.btn-primary:hover {
+    background-color: #0D6EFD;
+    border: #0D6EFD;
+    box-shadow: 0 10px 10px rgba(72,75,60,.6);
+    color: #fff;
+}
+.btn-danger:hover {
+    background-color: #BB2D3B;
+    border: #BB2D3B;
+    box-shadow: 0 10px 10px rgba(72,75,60,.6);
+    color: #fff;
+}
+.btn-success:hover {
+    background-color: #198754;
+    border: #198754;
+    box-shadow: 0 10px 10px rgba(72,75,60,.6);
+    color: #fff;
+}
+.btn-info:hover {
+    background-color: #0DCAF0;
+    border: #0DCAF0;
+    box-shadow: 0 10px 10px rgba(72,75,60,.6);
+    color: #fff;
+}*/
+
+/*.brand_logo_container {
+    position: absolute;
+    height: 170px;
+    width: 170px;
+    top: -75px;
+    border-radius: 2%;
+    padding: 10px;
+    text-align: center;
+}
+.brand_logo {
+    height: 50px;
+    width: 50px;
+    border-radius: 10%;
+    border: 2px solid white;
+}
+.brand_logo img {
+    height: 50px;
+    width: 50px;
+    border-radius: 10%;
+    border: 2px solid white;
+}*/
+/*.printbody {
+    display:none;
+}*/
+
+.back{
+    background-color:white;
+}
+.printbody {
+    border: 2px solid;
+}
+.ticketDate {
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+}
+.datenow {
+    border-left: 2px solid;
+    border-right: 2px solid;
+}
+.ticketnow {
+    border-left: 2px solid;
+}
+.harwareSc {
+    border-bottom: 2px solid;
+}
+.harwareSc2 {
+    border-left: 2px solid;
+}
+.harwareSc3 {
+    border-left: 2px solid;
+    border-right: 2px solid;
+}
+.Sn {
+    border-bottom: 2px solid;
+}
+.serialNumber {
+    border-left: 2px solid;
+    border-right: 2px solid;
+}
+.controlNumber {
+    border-left: 2px solid;
+}
+@media print {
+    #PrintModal {
+        display: block;
+    }
+
+    @page {
+        size: auto;
+        margin: 5mm;
+    }
+
+    .modal-header {
+        display:none;
+    }
+    .closebtn {
+        display:none;
+    }
+    .row .card {
+        display: none;
+    }
+    .header {
+        display: none;
+    }
+    body{
+        background-color: white;
+    }
+    .maintenance {
+        display:none;
+    }
+    .name {
+        display:none;
+    }
+    .imgs {
+        display: none;
+    }
+}

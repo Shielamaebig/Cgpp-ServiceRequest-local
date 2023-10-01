@@ -13,7 +13,7 @@
                     Hardware Request List
                 </h4>
                 <h6 class="card-subtitle"></h6>
-                
+
                 <div class="table-responsive">
                     <table id="hardwareRequestList" class="table table-condensed display">
                         <thead>
@@ -512,49 +512,15 @@
 </div>
 
 @section scripts
-{
-    <script>
-        function printthispage() {
-            document.getElementById('divButtons').style.visibility = 'hidden';
-            window.print();
-            document.getElementById('divButtons').style.visibility = 'visible';
-        }
-        $(document).ready(function () {
-            HardwareDeveloper();
-            $('#viewmodal').on('click', '.printing', function () {
-                var id = $(this).attr('data-id');
-                var url = '/api/hardwareRequest/GetRequestbyId/' + id;
-
-                $.ajax({
-                    type: 'GET',
-                    url: url,
-                    success: function (data) {
-                        $('#PrintModal').modal('show');
-
-                        $('#print').find('input[name="id"]').val(data.id);
-                        $('#print').find('input[name="ticket"]').val(data.ticket);
-                        $('#print').find('input[name="fullName"]').val(data.fullName);
-                        $('#print').find('select[name="hardwareId"]').val(data.hardwareId);
-                        $('#print').find('input[name="description"]').val(data.description);
-                        $('#print').find('select[name="departmentsId"]').val(data.departmentsId);
-                        $('#print').find('select[name="divisionsId"]').val(data.divisionsId);
-                        $('#print').find('select[name="hardwareTechnicianId"]').val(data.hardwareTechnicianId);
-                        $('#print').find('select[name="findingId"]').val(data.findingId);
-                        $('#print').find('input[name="possibleCause"]').val(data.possibleCause);
-                        $('#print').find('input[name="remarks"]').val(data.remarks);
-                        $('#print').find('input[name="dateStarted"]').val(data.dateStarted);
-                        $('#print').find('input[name="dateEnded"]').val(data.dateEnded);
-                        $('#print').find('input[name="dateEnded"]').val(data.dateEnded);
-                        $('#print').find('input[name="approver"]').val(data.approver);
-                        $('#print').find('input[name="viewer"]').val(data.viewer);
-                        $('#print').find('input[name="timeStarted"]').val(data.timeStarted);
-                        $('#print').find('input[name="timeEnded"]').val(data.timeEnded);
-                        $('#print').find('input[name="serialNumber"]').val(data.serialNumber);
-                        $('#print').find('input[name="controlNumber"]').val(data.controlNumber);
-                    }
+    {
+            <script>
+                function printthispage() {
+                    document.getElementById('divButtons').style.visibility = 'hidden';
+                    window.print();
+                    document.getElementById('divButtons').style.visibility = 'visible';
+                }
+                $(document).ready(function () {
+                    HardwareDeveloper();
                 })
-            })
-
-        })
-    </script>
+            </script>
 }

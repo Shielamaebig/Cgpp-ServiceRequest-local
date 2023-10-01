@@ -52,15 +52,17 @@ namespace Cgpp_ServiceRequest.Controllers
                     fc.End = fullCalendar.End;
                     fc.IsFullDay = fullCalendar.IsFullDay;
                     fc.ThemeColor = fullCalendar.ThemeColor;
+                    fc.Name = User.Identity.GetFirstName() + " " + User.Identity.GetLastName();
                 }
             }
             else
             {
-               db.FullCalendars.Add(fullCalendar);
+                fullCalendar.Name = User.Identity.GetFullName();
+                db.FullCalendars.Add(fullCalendar);
             }
             db.LoginActivity.Add(new LoginActivity()
             {
-                UserName = User.Identity.GetFullName(),
+                UserName = User.Identity.GetFirstName() + " " + User.Identity.GetLastName(),
                 ActivityMessage = "Added A Event in Calendar",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
@@ -81,7 +83,7 @@ namespace Cgpp_ServiceRequest.Controllers
                 db.FullCalendars.Remove(v);
                 db.LoginActivity.Add(new LoginActivity()
                 {
-                    UserName = User.Identity.GetFullName(),
+                    UserName = User.Identity.GetFirstName() + " " + User.Identity.GetLastName(),
                     ActivityMessage = "Remove Event in Calendar",
                     ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                     Email = User.Identity.GetUserName(),

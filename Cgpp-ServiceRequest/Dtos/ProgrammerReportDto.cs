@@ -44,6 +44,7 @@ namespace Cgpp_ServiceRequest.Dtos
         public int? SoftwareAcceptsRequestId { get; set; }
         public string RemarksApproval { get; set; }
         public string MobileNumber { get; set; }
+        public string SmsMessage { get; set; }
 
     }
 }

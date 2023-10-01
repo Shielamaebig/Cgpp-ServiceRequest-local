@@ -7,7 +7,7 @@ namespace Cgpp_ServiceRequest.Models
 {
     public class SoftwareApproved
     {
-        public int Id { get; set; }
+    public int Id { get; set; }
         public string NameApproval { get; set; }
         public string EmailApproval { get; set; }
         public string RemarksApproval { get; set; }
@@ -17,6 +17,6 @@ namespace Cgpp_ServiceRequest.Models
         public ProgrammerReport ProgrammerReport { get; set; }
         public int? ProgrammerReportId { get; set; }
         public SoftwareVerification SoftwareVerification { get; set; }
-        public int? SoftwareVerificationId { get;set; }
+        public int? SoftwareVerificationId { get; set; }
     }
 }

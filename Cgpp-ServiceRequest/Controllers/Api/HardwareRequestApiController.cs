@@ -55,7 +55,13 @@ namespace Cgpp_ServiceRequest.Controllers.Api
             return Ok(Mapper.Map<HardwareUserRequest, HardwareUserRequestDto>(hardwareRequestList));
         }
 
-
+        [HttpGet]
+        [Route("api/HardwareUserRequest/get/Admin")]
+        public IHttpActionResult GetAllHardwareRequest()
+        {
+            var req = _db.HardwareUserRequests.ToList();
+            return Ok(req.OrderByDescending(x => x.Id).Take(8));
+        }
 
         //Get Department
         [Route("api/hardwareRequest/department")]
@@ -106,8 +112,121 @@ namespace Cgpp_ServiceRequest.Controllers.Api
             return Ok(hardware);
         }
 
+        [HttpPut]
+        [Route("api/hardware/approve/{id}")]
+        public IHttpActionResult UpdateApproverHr(int id, HardwareUserRequestDto hardwareUserRequestDto)
+        {
+            int depId = Convert.ToInt32(User.Identity.GetUserDepartment());
+            int divId = Convert.ToInt32(User.Identity.GetUserDivision());
+
+            var hardwareInDb = _db.HardwareUserRequests.SingleOrDefault(h => h.Id == id);
+
+            hardwareInDb.Id = id;
+            hardwareUserRequestDto.Id = id;
+            hardwareInDb.Status = "Open";
+            hardwareInDb.IsNew = false;
+            _db.LoginActivity.Add(new LoginActivity()
+            {
+                UserName = User.Identity.GetFullName(),
+                ActivityMessage = "Accept A Request",
+                ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
+                Email = User.Identity.GetLogEmail(),
 
 
+            });
+            _db.SaveChanges();
+            return Ok();
+        }
+
+        //From Returned
+        [HttpPut]
+        [Route("api/hardware/approve/returned/{id}")]
+        public IHttpActionResult UpdateApproverReturns(int id, HardwareUserRequestDto hardwareUserRequestDto)
+        {
+            int depId = Convert.ToInt32(User.Identity.GetUserDepartment());
+            int divId = Convert.ToInt32(User.Identity.GetUserDivision());
+
+            var hardwareInDb = _db.HardwareUserRequests.SingleOrDefault(h => h.Id == id);
+
+            hardwareInDb.Id = id;
+            hardwareUserRequestDto.Id = id;
+            hardwareInDb.Status = "In Progress";
+            hardwareInDb.IsNew = false;
+            _db.LoginActivity.Add(new LoginActivity()
+            {
+                UserName = User.Identity.GetFullName(),
+                ActivityMessage = "Accept A Request",
+                ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
+                Email = User.Identity.GetLogEmail(),
+
+
+            });
+
+
+            _db.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("api/hardware/cancel/{id}")]
+        public IHttpActionResult UpdateCancel(int id, HardwareUserRequestDto hardwareUserRequestDto)
+        {
+            int depId = Convert.ToInt32(User.Identity.GetUserDepartment());
+            int divId = Convert.ToInt32(User.Identity.GetUserDivision());
+
+            var hardwareInDb = _db.HardwareUserRequests.SingleOrDefault(h => h.Id == id);
+
+            hardwareInDb.Id = id;
+            hardwareUserRequestDto.Id = id;
+            hardwareInDb.Status = "Cancel";
+            hardwareInDb.IsNew = false;
+            _db.LoginActivity.Add(new LoginActivity()
+            {
+                UserName = User.Identity.GetFullName(),
+                ActivityMessage = "Canceled A Request",
+                ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
+                Email = User.Identity.GetLogEmail(),
+
+
+            });
+            _db.SaveChanges();
+            return Ok();
+        }
+
+
+        [HttpPut]
+        [Route("api/hardware/returned/{id}")]
+        public IHttpActionResult UpdateReturn(int id, HardwareUserRequestDto hardwareUserRequestDto)
+        {
+            int depId = Convert.ToInt32(User.Identity.GetUserDepartment());
+            int divId = Convert.ToInt32(User.Identity.GetUserDivision());
+
+            var hardwareInDb = _db.HardwareUserRequests.SingleOrDefault(h => h.Id == id);
+
+            hardwareInDb.Id = id;
+            hardwareUserRequestDto.Id = id;
+            hardwareInDb.Status = "Return Request";
+            hardwareInDb.IsNew = false;
+            _db.LoginActivity.Add(new LoginActivity()
+            {
+                UserName = User.Identity.GetFullName(),
+                ActivityMessage = "Return Request to User",
+                ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
+                Email = User.Identity.GetLogEmail(),
+
+
+            });
+
+            Db.Drafts.Add(new Draft
+            {
+                Sendto = hardwareInDb.MobileNumber,
+                msg = "Your Request Returned",
+                tag = 0
+            });
+            Db.SaveChanges();
+            _db.SaveChanges();
+            return Ok();
+        }
         //Post //hardwareUserRequest v2
         [HttpPost]
         [Route("api/hardwareRequest/v2/SaveRequest")]
@@ -120,6 +239,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
             int divId = Convert.ToInt32(User.Identity.GetUserDivision());
             //var hardwareTech = _db.HardwareTechnician.SingleOrDefault(d => d.Id == hardwareRequestDto.HardwareTechnicianId).Email;
             //int hardware = _db.Hardware.SingleOrDefault(x=>x.Id == ).Name;
+
+
 
             Random rand = new Random();
             int codeNum = rand.Next(00000, 99999);
@@ -134,7 +255,9 @@ namespace Cgpp_ServiceRequest.Controllers.Api
             //var ftpUserName = "shielamaemalaque2022@outlook.com";
             //var ftpPassword = "Malaque@22+08";
 
-            var ftpAddress = _db.Departments.Include(x=>x.Ftp).SingleOrDefault(x=>x.Id == depId).Ftp.FtpHost;
+
+
+            var ftpAddress = _db.Departments.Include(x => x.Ftp).SingleOrDefault(x => x.Id == depId).Ftp.FtpHost;
             var ftpUserName = _db.Departments.Include(x => x.Ftp).SingleOrDefault(x => x.Id == depId).Ftp.FtpUsername;
             var ftpPassword = _db.Departments.Include(x => x.Ftp).SingleOrDefault(x => x.Id == depId).Ftp.FtpPassword;
             FtpClient ftpClient = new FtpClient(ftpAddress, ftpUserName, ftpPassword);
@@ -151,7 +274,7 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                     hardwareuseReq.DocumentLabel = provider.FormData["FileName"];
                     hardwareuseReq.DateAdded = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt");
                     hardwareuseReq.DateCreated = DateTime.Now;
-                    hardwareuseReq.FullName = User.Identity.GetFirstName() + ' ' + User.Identity.GetMiddleName() + ' ' +User.Identity.GetLastName();
+                    hardwareuseReq.FullName = User.Identity.GetFirstName() + ' ' + User.Identity.GetMiddleName() + ' ' + User.Identity.GetLastName();
                     hardwareuseReq.FirstName = User.Identity.GetFirstName();
                     hardwareuseReq.LastName = User.Identity.GetLastName();
                     hardwareuseReq.MiddleName = User.Identity.GetMiddleName();
@@ -169,7 +292,106 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                     hardwareuseReq.HardwareId = Convert.ToInt32(provider.FormData["hardwareId"]);
                     hardwareuseReq.HardwareName = _db.Hardware.SingleOrDefault(x => x.Id == hardwareuseReq.HardwareId).Name;
                     hardwareuseReq.Ticket = DateTime.Now.ToString("Mddyyyy") + codeNum;
-                    hardwareuseReq.Status = "Open";
+                    hardwareuseReq.AnyDesk = provider.FormData["anyDesk"];
+                    hardwareuseReq.TelNumber = provider.FormData["telNumber"];
+
+
+                    //var isApprover = _db.Divisions.SingleOrDefault(x => x.Id == divId).IsDivisionApprover;
+                    //var deptApprover = _db.Departments.SingleOrDefault(x => x.Id == depId).IsDepartmentApprover;
+                    var isApprover = _db.Divisions.SingleOrDefault(x => x.Id == divId).IsDivisionApprover;
+                    var deptApprover = _db.Departments.SingleOrDefault(x => x.Id == depId).IsDepartmentApprover;
+                    if (deptApprover == true)
+                    {
+                        hardwareuseReq.Status = "Pending Department Approval";
+
+                        var roles = _db.Roles.Where(r => r.Name == "DepartmentApprover");
+
+                        var approvers = new List<ApplicationUser>();
+
+                        if (roles.Any())
+                        {
+                            var roleId = roles.First().Id;
+                            approvers = _db.Users.Include(u => u.Roles).Where(u => u.Roles.Any(r => r.RoleId == roleId) && u.DepartmentsId == hardwareuseReq.DepartmentsId).ToList();
+
+
+                        }
+
+                        foreach (var approver in approvers)
+                        {
+
+                            Db.Drafts.Add(new Draft
+                            {
+                                Sendto = approver.MobileNumber,
+                                msg = " New Hardware Request" + "  " + "Reported By :" + hardwareuseReq.FullName + " " + "Issue :" + hardwareuseReq.HardwareName + " " + "Department : " + " " + hardwareuseReq.DepartmentName,
+                                tag = 0
+                            });
+                        }
+
+                        Db.SaveChanges();
+                    }
+                    else if (isApprover == true)
+                    {
+                        hardwareuseReq.Status = "Pending Division Approval";
+
+                        var roles = _db.Roles.Where(r => r.Name == "DivisionApprover");
+
+                        var approvers = new List<ApplicationUser>();
+
+                        if (roles.Any())
+                        {
+                            var roleId = roles.First().Id;
+                            approvers = _db.Users.Include(u => u.Roles).Where(u => u.Roles.Any(r => r.RoleId == roleId) && u.DivisionsId == hardwareuseReq.DivisionsId).ToList();
+
+
+                        }
+
+                        foreach (var approver in approvers)
+                        {
+
+                            Db.Drafts.Add(new Draft
+                            {
+                                Sendto = approver.MobileNumber,
+                                msg = " New Hardware Request" + "  " + "Reported By :" + hardwareuseReq.FullName + " " + "Issue :" + hardwareuseReq.HardwareName + " " + "Department : " + " " + hardwareuseReq.DepartmentName,
+                                tag = 0
+                            });
+                        }
+
+                        Db.SaveChanges();
+                    }
+
+                    else
+                    {
+                        hardwareuseReq.Status = "Open";
+
+                        Db.Drafts.Add(new Draft
+                        {
+                            Sendto = mich,
+                            msg = " New Hardware Request" + "  " + "Reported By :" + hardwareuseReq.FullName + " " + "Issue :" + hardwareuseReq.HardwareName + " " + "Department : " + " " + hardwareuseReq.DepartmentName,
+                            tag = 0
+                        });
+                        Db.Drafts.Add(new Draft
+                        {
+                            Sendto = devNumber,
+                            msg = " New Hardware Request" + "  " + "Reported By :" + hardwareuseReq.FullName + " " + "Issue :" + hardwareuseReq.HardwareName + " " + "Department : " + " " + hardwareuseReq.DepartmentName,
+                            tag = 0
+                        });
+                        Db.Drafts.Add(new Draft
+                        {
+                            Sendto = mark,
+                            msg = " New Hardware Request" + "  " + "Reported By :" + hardwareuseReq.FullName + " " + "Issue :" + hardwareuseReq.HardwareName + " " + "Department : " + " " + hardwareuseReq.DepartmentName,
+                            tag = 0
+                        });
+                        Db.Drafts.Add(new Draft
+                        {
+                            Sendto = jess,
+                            msg = " New Hardware Request" + "  " + "Reported By :" + hardwareuseReq.FullName + " " + "Issue :" + hardwareuseReq.HardwareName + " " + "Department : " + " " + hardwareuseReq.DepartmentName,
+                            tag = 0
+                        });
+                        Db.SaveChanges();
+                    }
+
+
+
                     hardwareuseReq.IsNew = true;
                     _db.HardwareUserRequests.Add(hardwareuseReq);
 
@@ -180,20 +402,13 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                         HardwareUserRequestId = hardwareuseReq.Id,
                     });
 
-                    //_db.FtpHardwareModel.Add(new FtpHardwareModel()
-                    //{
-                    //    FtpHost = "172.16.1.225",
-                    //    FtpUsername = "shielamaemalaque2022@outlook.com",
-                    //    FtpPassword = "Malaque@22+08",
-                    //    FtpPort = "21",
-                    //    HardwareUserRequestId = hardwareuseReq.Id,
-                    //});
+
                     _db.RequestHistory.Add(new RequestHistory()
                     {
                         UserName = User.Identity.GetFullName(),
                         Email = User.Identity.GetLogEmail(),
-                        DivisionsId =  divId,
-                        DepartmentsId =depId,
+                        DivisionsId = divId,
+                        DepartmentsId = depId,
                         Category = false,
                         UploadDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                         UploadMessage = "Added a new Hardware Request",
@@ -205,32 +420,12 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                         ActivityMessage = "Added a new Hardware Request",
                         ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                         Email = User.Identity.GetLogEmail(),
+                        DivisionName = User.Identity.GetDivisionName(),
+                        DepartmentName = User.Identity.GetDepartmentName(),
+
+
                     });
-                    Db.Drafts.Add(new Draft
-                    {
-                        Sendto = mich,
-                        msg = " New Hardware Request" + "  " + "Reported By :" + hardwareuseReq.FullName + " " + "Issue :" + hardwareuseReq.HardwareName + " " + "Department : "+ " " + hardwareuseReq.DepartmentName,
-                        tag = 0
-                    });
-                    Db.Drafts.Add(new Draft
-                    {
-                        Sendto = devNumber,
-                        msg = " New Hardware Request" + "  " + "Reported By :" + hardwareuseReq.FullName + " " + "Issue :" + hardwareuseReq.HardwareName + " " + "Department : " + " " + hardwareuseReq.DepartmentName,
-                        tag = 0
-                    });
-                    Db.Drafts.Add(new Draft
-                    {
-                        Sendto = mark,
-                        msg = " New Hardware Request" + "  " + "Reported By :" + hardwareuseReq.FullName + " " + "Issue :" + hardwareuseReq.HardwareName + " " + "Department : " + " " + hardwareuseReq.DepartmentName,
-                        tag = 0
-                    });
-                    Db.Drafts.Add(new Draft
-                    {
-                        Sendto = jess,
-                        msg = " New Hardware Request" + "  " + "Reported By :" + hardwareuseReq.FullName + " " + "Issue :" + hardwareuseReq.HardwareName + " " + "Department : " + " " + hardwareuseReq.DepartmentName,
-                        tag = 0
-                    });
-                    Db.SaveChanges();
+
                 }
 
                 _db.SaveChanges();
@@ -258,7 +453,7 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                                 ftpClient.UploadFile(localFileName, folderName + codeNumber + name);
 
                                 File.Delete(localFileName);
-                                
+
 
 
                                 HardwareUserUploads hardwareuserUps = new HardwareUserUploads();
@@ -267,7 +462,7 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                                 hardwareuserUps.HardwareUserRequestId = hardwareuseReq.Id;
                                 hardwareuserUps.DateAdded = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt");
                                 hardwareuserUps.FileExtension = Path.GetExtension(name);
-                                hardwareuserUps.FtpId = _db.Departments.SingleOrDefault(x=>x.Id == depId).FtpId;
+                                hardwareuserUps.FtpId = _db.Departments.SingleOrDefault(x => x.Id == depId).FtpId;
                                 _db.HardwareUserUploads.Add(hardwareuserUps);
                                 _db.SaveChanges();
                             }
@@ -288,12 +483,38 @@ namespace Cgpp_ServiceRequest.Controllers.Api
 
 
 
+        [HttpGet]
+        [Route("api/v2/Approver/hardware/{id}")]
+        public IHttpActionResult GetPendings(int id)
+        {
+            var accepts = _db.HardwareUserRequests.SingleOrDefault(x => x.Id == id);
+            if (accepts == null)
+            {
+                return NotFound();
+            }
+            return Ok(Mapper.Map<HardwareUserRequest, HardwareUserRequestDto>(accepts));
+        }
 
 
 
 
 
+        [HttpGet]
+        [Route("api/v2/hr/assign")]
+        public IHttpActionResult GetDashProgrammers()
+        {
+            var progDto = _db.TechnicianReports
+                .Include(x => x.Hardware)
+                .Include(x => x.HardwareUserRequest)
+                .ToList().Select(Mapper.Map<TechnicianReport, TechnicianReportDto>);
+            if (User.IsInRole("Technicians"))
+            {
+                var progEmail = User.Identity.GetUserEmail();
+                progDto = new List<TechnicianReportDto>(progDto.Where(x => x.TechEmail == progEmail));
+            }
 
+            return Ok(progDto.OrderByDescending(x => x.Id).Take(5));
+        }
 
 
         // Post
@@ -302,14 +523,17 @@ namespace Cgpp_ServiceRequest.Controllers.Api
         public IHttpActionResult AssignedRequest(TechnicianReportDto technicianReportDto)
         {
             var assigned = Mapper.Map<TechnicianReportDto, TechnicianReport>(technicianReportDto);
-            var userEmail = User.Identity.GetUserEmail();
+            var userEmail = User.Identity.GetFullName();
             TechnicianReport technician = new TechnicianReport();
             technicianReportDto.Id = assigned.Id;
             technician.DateAssigned = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt");
             technician.HardwareUserRequestId = technicianReportDto.HardwareUserRequestId;
-            technician.HardwareTechnicianId = _db.HardwareTechnician.SingleOrDefault(x=>x.Email ==  userEmail).Id;
-            technician.TechEmail = _db.HardwareTechnician.SingleOrDefault(x => x.Id == technician.HardwareTechnicianId).Email;
-            technician.TechnicianName = _db.HardwareTechnician.SingleOrDefault(x => x.Id == technician.HardwareTechnicianId).Name;
+            technician.HardwareTechnicianId = _db.HardwareTechnician.SingleOrDefault(x => x.Name == userEmail).Id;
+            technician.TechnicianName = User.Identity.GetFullName();
+            technician.TechEmail = User.Identity.GetLogEmail();
+            //technician.HardwareTechnicianId = _db.HardwareTechnician.SingleOrDefault(x=>x.Name ==  userEmail).Id;
+            //technician.TechEmail = _db.HardwareTechnician.SingleOrDefault(x => x.Id == technician.HardwareTechnicianId).Email;
+            //technician.TechnicianName = _db.HardwareTechnician.SingleOrDefault(x => x.Id == technician.HardwareTechnicianId).Name;
             technician.DateCreated = DateTime.Now;
             technician.DateStarted = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt");
             technician.Status = "In Progress";
@@ -327,7 +551,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Assigned A Technician",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetLogEmail(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
 
             _db.SaveChanges();
@@ -353,7 +578,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Re-ssigned A Hardware Request",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetLogEmail(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Ok();
@@ -411,12 +637,146 @@ namespace Cgpp_ServiceRequest.Controllers.Api
 
 
 
+        //edit Request by User If technican/Admin
+        [HttpPut]
+        [Route("api/hardwareRequest/v2/Request/{id}")]
+        public IHttpActionResult UpdateRequestDetailsTech(int id, HardwareUserRequestDto hardwareUserRequestDto)
+        {
+            var devNumber = "09165778160";
+            var mich = "09666443665";
+            var mark = "09491511839";
+            var jess = "09182695626";
+
+            var hardwareRequestInDb = _db.HardwareUserRequests.SingleOrDefault(h => h.Id == id);
+
+            hardwareRequestInDb.Id = id;
+            hardwareUserRequestDto.Id = id;
+            hardwareRequestInDb.UnitTypeId = hardwareUserRequestDto.UnitTypeId;
+            hardwareRequestInDb.UniTypes = _db.UnitType.SingleOrDefault(x => x.Id == hardwareUserRequestDto.UnitTypeId).Name;
+            hardwareRequestInDb.HardwareId = hardwareUserRequestDto.HardwareId;
+            hardwareRequestInDb.HardwareName = _db.Hardware.SingleOrDefault(x => x.Id == hardwareUserRequestDto.HardwareId).Name;
+            hardwareRequestInDb.BrandName = hardwareUserRequestDto.BrandName;
+            hardwareRequestInDb.Description = hardwareUserRequestDto.Description;
+            hardwareRequestInDb.ModelName = hardwareUserRequestDto.ModelName;
+            hardwareRequestInDb.DocumentLabel = hardwareUserRequestDto.DocumentLabel;
+
+
+
+            int depId = Convert.ToInt32(User.Identity.GetUserDepartment());
+            int divId = Convert.ToInt32(User.Identity.GetUserDivision());
+            var divApprover = _db.Divisions.SingleOrDefault(x => x.Id == divId).IsDivisionApprover;
+            var deptApprover = _db.Departments.SingleOrDefault(x => x.Id == depId).IsDepartmentApprover;
+
+            if (deptApprover == true)
+            {
+                hardwareRequestInDb.Status = "Pending Approval";
+
+                var roles = _db.Roles.Where(r => r.Name == "DepartmentApprover");
+
+                var approvers = new List<ApplicationUser>();
+
+                if (roles.Any())
+                {
+                    var roleId = roles.First().Id;
+                    approvers = _db.Users.Include(u => u.Roles).Where(u => u.Roles.Any(r => r.RoleId == roleId) && u.DepartmentsId == hardwareRequestInDb.DepartmentsId).ToList();
+
+
+                }
+
+                foreach (var approver in approvers)
+                {
+
+                    Db.Drafts.Add(new Draft
+                    {
+                        Sendto = approver.MobileNumber,
+                        msg = " New Hardware Request" + "  " + "Reported By :" + hardwareRequestInDb.FullName + " " + "Issue :" + hardwareRequestInDb.HardwareName + " " + "Department : " + " " + hardwareRequestInDb.DepartmentName,
+                        tag = 0
+                    });
+                }
+
+                Db.SaveChanges();
+
+            }
+            else if (divApprover == true)
+            {
+                hardwareRequestInDb.Status = "Pending Approval";
+
+
+                var roles = _db.Roles.Where(r => r.Name == "DivisionApprover");
+
+                var approvers = new List<ApplicationUser>();
+
+                if (roles.Any())
+                {
+                    var roleId = roles.First().Id;
+                    approvers = _db.Users.Include(u => u.Roles).Where(u => u.Roles.Any(r => r.RoleId == roleId) && u.DivisionsId == hardwareRequestInDb.DivisionsId).ToList();
+
+
+                }
+
+                foreach (var approver in approvers)
+                {
+
+                    Db.Drafts.Add(new Draft
+                    {
+                        Sendto = approver.MobileNumber,
+                        msg = " New Hardware Request" + "  " + "Reported By :" + hardwareRequestInDb.FullName + " " + "Issue :" + hardwareRequestInDb.HardwareName + " " + "Department : " + " " + hardwareRequestInDb.DepartmentName,
+                        tag = 0
+                    });
+                }
+
+                Db.SaveChanges();
+
+            }
+            else
+            {
+                hardwareRequestInDb.Status = "In Progress";
+
+                Db.Drafts.Add(new Draft
+                {
+                    Sendto = mich,
+                    msg = " New Hardware Request" + "  " + "Reported By :" + hardwareRequestInDb.FullName + " " + "Issue :" + hardwareRequestInDb.HardwareName + " " + "Department : " + " " + hardwareRequestInDb.DepartmentName,
+                    tag = 0
+                });
+                Db.Drafts.Add(new Draft
+                {
+                    Sendto = devNumber,
+                    msg = " New Hardware Request" + "  " + "Reported By :" + hardwareRequestInDb.FullName + " " + "Issue :" + hardwareRequestInDb.HardwareName + " " + "Department : " + " " + hardwareRequestInDb.DepartmentName,
+                    tag = 0
+                });
+                Db.Drafts.Add(new Draft
+                {
+                    Sendto = mark,
+                    msg = " New Hardware Request" + "  " + "Reported By :" + hardwareRequestInDb.FullName + " " + "Issue :" + hardwareRequestInDb.HardwareName + " " + "Department : " + " " + hardwareRequestInDb.DepartmentName,
+                    tag = 0
+                });
+                Db.Drafts.Add(new Draft
+                {
+                    Sendto = jess,
+                    msg = " New Hardware Request" + "  " + "Reported By :" + hardwareRequestInDb.FullName + " " + "Issue :" + hardwareRequestInDb.HardwareName + " " + "Department : " + " " + hardwareRequestInDb.DepartmentName,
+                    tag = 0
+                });
+                Db.SaveChanges();
+            }
+
+
+            _db.LoginActivity.Add(new LoginActivity()
+            {
+                UserName = User.Identity.GetFullName(),
+                ActivityMessage = "Edit A Hardware Request",
+                ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
+                Email = User.Identity.GetLogEmail(),
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
+            });
+            _db.SaveChanges();
+            return Ok();
+        }
 
 
 
 
 
-        //edit Request by User If Status is not updated by technican/Admin
         [HttpPut]
         [Route("api/hardwareRequest/Request/{id}")]
         public IHttpActionResult UpdateRequestDetails(int id, HardwareUserRequestDto hardwareUserRequestDto)
@@ -445,7 +805,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Edit A Hardware Request",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetLogEmail(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Ok();
@@ -455,18 +816,16 @@ namespace Cgpp_ServiceRequest.Controllers.Api
         [Route("api/dev/hardwaretech/Edit/{id}")]
         public IHttpActionResult UpdateTechReport(int id, TechnicianReportDto technicianReportDto)
         {
-            var techReportDto = _db.TechnicianReports.SingleOrDefault(x=>x.Id == id);
+            var techReportDto = _db.TechnicianReports.SingleOrDefault(x => x.Id == id);
 
             technicianReportDto.Id = id;
             techReportDto.Id = id;
             techReportDto.UnitTypeId = technicianReportDto.UnitTypeId;
-            techReportDto.UniTypes = _db.UnitType.SingleOrDefault(x=>x.Id == technicianReportDto.UnitTypeId).Name;
+            techReportDto.UniTypes = _db.UnitType.SingleOrDefault(x => x.Id == technicianReportDto.UnitTypeId).Name;
             techReportDto.HardwareId = technicianReportDto.HardwareId;
             techReportDto.HardwareName = _db.Hardware.SingleOrDefault(x => x.Id == technicianReportDto.HardwareId).Name;
             techReportDto.BrandName = technicianReportDto.BrandName;
             techReportDto.ModelName = technicianReportDto.ModelName;
-            techReportDto.DateStarted = technicianReportDto.DateStarted;
-            techReportDto.DateEnded = technicianReportDto.DateEnded;
             techReportDto.Remarks = technicianReportDto.Remarks;
 
             _db.LoginActivity.Add(new LoginActivity()
@@ -475,7 +834,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Edit A Hardware Request",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetLogEmail(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Ok();
@@ -505,7 +865,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Cancelled A Hardware Request",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetLogEmail(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Ok();
@@ -578,13 +939,149 @@ namespace Cgpp_ServiceRequest.Controllers.Api
         [Route("api/v2/hrdTech/count")]
         public IHttpActionResult TechCountList()
         {
-            var result = _db.TechnicianReports.GroupBy(r => new { r.DateCreated.Year, r.DateCreated.Month, r.HardwareTechnician.Name })
+            var result = _db.TechnicianReports.GroupBy(r => new { r.HardwareTechnician.Name })
                             .Where(grp => grp.Count() > 0)
+                            .Select(g => new { g.Key.Name, Count = g.Count() })
+                            .ToList();
+            return Ok(result);
+        }
+
+
+        [HttpGet]
+        [Route("api/v2/div/count")]
+        public IHttpActionResult DivisionCountList()
+        {
+            var divName = User.Identity.GetDivisionName();
+
+            var hr = _db.HardwareUserRequests.Where(x => x.DivisionName == divName);
+            var reports = hr.GroupBy(x => new { x.DateCreated.Year, x.DateCreated.Month, x.FullName, x.HardwareName })
+                .Where(grp => grp.Count() > 0)
+                            .Select(g => new { g.Key.Year, g.Key.Month, g.Key.HardwareName, g.Key.FullName, Count = g.Count() })
+                            .ToList();
+            return Ok(reports);
+        }
+        [HttpGet]
+        [Route("api/v2/dept/count")]
+        public IHttpActionResult DepartmentCountList()
+        {
+            var deptName = User.Identity.GetDepartmentName();
+
+            var hr = _db.HardwareUserRequests.Where(x => x.DepartmentName == deptName);
+            var reports = hr.GroupBy(x => new { x.DateCreated.Year, x.DateCreated.Month, x.FullName, x.HardwareName })
+                .Where(grp => grp.Count() > 0)
+                            .Select(g => new { g.Key.Year, g.Key.Month, g.Key.HardwareName, g.Key.FullName, Count = g.Count() })
+                            .ToList();
+            return Ok(reports);
+        }
+        [HttpGet]
+        [Route("api/v2/div/Yearly/count")]
+        public IHttpActionResult DivisionYearlyCountList()
+        {
+            var divName = User.Identity.GetDivisionName();
+            var hr = _db.HardwareUserRequests.Where(x => x.DivisionName == divName);
+            var reports = hr.GroupBy(x => new { x.DateCreated.Year, x.FullName })
+                            .Select(g => new { g.Key.Year, g.Key.FullName, Count = g.Count() })
+                            .ToList();
+            return Ok(reports);
+        }
+
+        //MyReport
+        [HttpGet]
+        [Route("api/v2/myReport/count")]
+        public IHttpActionResult MyReportList()
+        {
+            var techName = User.Identity.GetFullName();
+            var result = _db.TechnicianReports.GroupBy(r => new { r.DateCreated.Year, r.HardwareTechnician.Name })
+                            .Where(grp => grp.Count() > 0)
+                            .Select(g => new { g.Key.Year, g.Key.Name, Count = g.Count() })
+                            .Where(x => x.Name == techName)
+                            .ToList();
+            return Ok(result);
+        }
+
+        //all yearly
+        [HttpGet]
+        [Route("api/v2/AllYearly/count")]
+        public IHttpActionResult YearlyReport()
+        {
+            var result = _db.TechnicianReports.GroupBy(r => new { r.DateCreated.Year })
+                            .Where(grp => grp.Count() > 0)
+                            .Select(g => new { g.Key.Year, Count = g.Count() })
+                            .ToList();
+            return Ok(result);
+        }
+        //monthly
+        [HttpGet]
+        [Route("api/v2/mytech/count")]
+        public IHttpActionResult MonthlytechList()
+        {
+            int dateNow = Convert.ToInt32(DateTime.Now.Year.ToString());
+            var techName = User.Identity.GetFullName();
+            var result = _db.TechnicianReports.GroupBy(r => new { r.DateCreated.Year, r.DateCreated.Month, r.HardwareTechnician.Name })
                             .Select(g => new { g.Key.Year, g.Key.Month, g.Key.Name, Count = g.Count() })
+                            .Where(x => x.Year == dateNow && x.Name == techName)
+                            .OrderBy(x => x.Year).ThenBy(x => x.Month)
+                            .ToList();
+
+            return Ok(result);
+        }
+
+
+        [HttpGet]
+        [Route("api/getfullName/count")]
+        public IHttpActionResult fullName()
+        {
+            var techName = User.Identity.GetFullName();
+
+            return Ok(techName);
+        }
+        //count monthly All
+
+        [HttpGet]
+        [Route("api/v2/alltech/count")]
+        public IHttpActionResult AlltechList()
+        {
+            int dateNow = Convert.ToInt32(DateTime.Now.Year.ToString());
+            var result = _db.TechnicianReports.GroupBy(r => new { r.DateCreated.Year, r.DateCreated.Month, r.HardwareTechnician.Name })
+                            .Select(g => new { g.Key.Year, g.Key.Month, g.Key.Name, Count = g.Count() })
+                            .Where(x => x.Year == dateNow)
+                            .OrderBy(x => x.Year).ThenBy(x => x.Month)
+                            .ToList();
+
+            return Ok(result);
+        }
+
+        //6months
+        [HttpGet]
+        [Route("api/v2/SixMonths/count")]
+        public IHttpActionResult SixMonthAYear()
+        {
+            int dateNow = Convert.ToInt32(DateTime.Now.Year.ToString());
+            //int sixMonths = Convert.ToInt32((DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(-5));
+
+            var result = _db.TechnicianReports.GroupBy(r => new { r.DateCreated.Year, r.DateCreated.Month, r.HardwareTechnician.Name })
+                            .Select(g => new { g.Key.Year, g.Key.Month, g.Key.Name, Count = g.Count() })
+                            .Where(x => x.Month == dateNow)
                             .OrderBy(x => x.Year).ThenBy(x => x.Month)
                             .ToList();
             return Ok(result);
         }
+        //count perTech
+        [HttpGet]
+        [Route("api/v2/perTech/count")]
+        public IHttpActionResult PerTechList()
+        {
+            var techName = "Technician Developer Tech";
+            int dateNow = Convert.ToInt32(DateTime.Now.Year.ToString());
+            var result = _db.TechnicianReports.GroupBy(r => new { r.DateCreated.Year, r.DateCreated.Month, r.HardwareTechnician.Name })
+                            .Select(g => new { g.Key.Year, g.Key.Month, g.Key.Name, Count = g.Count() })
+                            .Where(x => x.Name == techName && x.Year == dateNow)
+                            .OrderBy(x => x.Year).ThenBy(x => x.Month)
+                            .ToList();
+
+            return Ok(result);
+        }
+
         [HttpGet]
         [Route("api/v2/hrdServices/count")]
         public IHttpActionResult HardwareServices()
@@ -638,6 +1135,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Deleted a Hardware Request Image file",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetLogEmail(),
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Ok();
@@ -706,7 +1205,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                                     ActivityMessage = "Added Image in Hardware Request",
                                     ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                                     Email = User.Identity.GetLogEmail(),
-
+                                    DepartmentName = User.Identity.GetDepartmentName(),
+                                    DivisionName = User.Identity.GetDivisionName(),
                                 });
                                 _db.SaveChanges();
                             }
@@ -726,6 +1226,35 @@ namespace Cgpp_ServiceRequest.Controllers.Api
 
         }
 
+        [HttpPut]
+        [Route("api/v2/sms/techReport/{id}")]
+        public IHttpActionResult SendSms(int id, TechnicianReportDto technicianReportDto)
+        {
+
+            var techReports = _db.TechnicianReports.SingleOrDefault(h => h.Id == id);
+
+
+            technicianReportDto.Id = techReports.Id;
+            techReports.SmsMessage = technicianReportDto.SmsMessage;
+            techReports.DateSend = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt");
+            _db.LoginActivity.Add(new LoginActivity()
+            {
+                UserName = User.Identity.GetFullName(),
+                ActivityMessage = "Send a Message",
+                ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
+                Email = User.Identity.GetLogEmail(),
+            });
+
+            Db.Drafts.Add(new Draft
+            {
+                Sendto = technicianReportDto.MobileNumber,
+                msg = techReports.SmsMessage + "This message is system-generated. No need to reply. Thank you. From: Office of the City Management Information System",
+                tag = 0
+            });
+            Db.SaveChanges();
+            _db.SaveChanges();
+            return Ok();
+        }
         [HttpPost]
         [Route("api/tech/saveFile")]
         public async Task<string> SaveUpload3()
@@ -734,16 +1263,16 @@ namespace Cgpp_ServiceRequest.Controllers.Api
             var root = ctx.Server.MapPath("~/HardwareImage/");
 
 
-            int depId = Convert.ToInt32(User.Identity.GetUserDepartment());
-            int divId = Convert.ToInt32(User.Identity.GetUserDivision());
+            var dept = User.Identity.GetDepartmentName();
+            var div = User.Identity.GetDivisionName();
             Random rand = new Random();
             int codeNum = rand.Next(00000, 99999);
 
             var provider = new MultipartFormDataStreamProvider(root);
 
-            var ftpAddress = _db.Departments.Include(x => x.Ftp).SingleOrDefault(x => x.Id == depId).Ftp.FtpHost;
-            var ftpUserName = _db.Departments.Include(x => x.Ftp).SingleOrDefault(x => x.Id == depId).Ftp.FtpUsername;
-            var ftpPassword = _db.Departments.Include(x => x.Ftp).SingleOrDefault(x => x.Id == depId).Ftp.FtpPassword;
+            var ftpAddress = _db.Departments.Include(x => x.Ftp).SingleOrDefault(x => x.Name == dept).Ftp.FtpHost;
+            var ftpUserName = _db.Departments.Include(x => x.Ftp).SingleOrDefault(x => x.Name == dept).Ftp.FtpUsername;
+            var ftpPassword = _db.Departments.Include(x => x.Ftp).SingleOrDefault(x => x.Name == dept).Ftp.FtpPassword;
 
 
             FtpClient ftpClient = new FtpClient(ftpAddress, ftpUserName, ftpPassword);
@@ -771,7 +1300,7 @@ namespace Cgpp_ServiceRequest.Controllers.Api
 
                                 var localFileName = file.LocalFileName;
                                 var filePath = Path.Combine(root, codeNumber + name);
-                                var folderName = _db.Departments.SingleOrDefault(x => x.Id == depId).Ftp.FolderName;
+                                var folderName = _db.Departments.SingleOrDefault(x => x.Name == dept).Ftp.FolderName;
                                 ftpClient.UploadFile(localFileName, folderName + codeNumber + name);
 
 
@@ -782,8 +1311,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                                 techUploads.ImagePath = folderName;
                                 techUploads.TechnicianReportId = Convert.ToInt32(val);
                                 techUploads.DateAdded = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt");
-                                techUploads.FileExtension = Path.GetExtension(name); 
-                                techUploads.FtpId = _db.Departments.SingleOrDefault(x => x.Id == depId).FtpId;
+                                techUploads.FileExtension = Path.GetExtension(name);
+                                techUploads.FtpId = _db.Departments.SingleOrDefault(x => x.Name == dept).FtpId;
                                 _db.TechnicianUploads.Add(techUploads);
                                 _db.LoginActivity.Add(new LoginActivity()
                                 {
@@ -791,6 +1320,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                                     ActivityMessage = "Added Image attachment in Hardware Request",
                                     ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                                     Email = User.Identity.GetLogEmail(),
+                                    DepartmentName = User.Identity.GetDepartmentName(),
+                                    DivisionName = User.Identity.GetDivisionName(),
                                 });
                                 _db.SaveChanges();
                             }
@@ -818,7 +1349,7 @@ namespace Cgpp_ServiceRequest.Controllers.Api
         [Route("api/hardware/acceptAssigned/{id}")]
         public IHttpActionResult HardwareAccepts(int id, HardwareRequestDto hardwareRequestDto)
         {
-            var hardwareRequest = _db.HardwareUserRequests.SingleOrDefault(s =>s.Id == id);
+            var hardwareRequest = _db.HardwareUserRequests.SingleOrDefault(s => s.Id == id);
             hardwareRequestDto.Id = hardwareRequest.Id;
             hardwareRequest.Status = "Pending Assigned Request";
             hardwareRequest.IsNew = false;
@@ -828,7 +1359,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Accept Assigned Request",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetLogEmail(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Ok();
@@ -873,13 +1405,22 @@ namespace Cgpp_ServiceRequest.Controllers.Api
         [Route("api/techAssign/get/{id}")]
         public IHttpActionResult GetRequestList(int id)
         {
-            var assign = _db.HardwareTasksLists.Include(x=>x.TechnicianReport).Include(x=>x.HardwareUserRequest).Include(x=>x.HardwareVerify).Include(x=>x.HardwareApproval).SingleOrDefault(x=>x.Id == id);
+            var assign = _db.HardwareTasksLists.Include(x => x.TechnicianReport).Include(x => x.HardwareUserRequest).Include(x => x.HardwareVerify).Include(x => x.HardwareApproval).Include(x => x.HardwareAcceptsRequest).SingleOrDefault(x => x.Id == id);
             if (assign == null)
             {
                 return NotFound();
             }
-            return Ok(Mapper.Map<HardwareTasksList,HardwareTasksListDto>(assign));
+            return Ok(Mapper.Map<HardwareTasksList, HardwareTasksListDto>(assign));
         }
+        [HttpGet]
+        [Route("api/tech/hardwareAccepts/{id}")]
+        public IHttpActionResult GetHardwareAcceptsRequest(int id)
+        {
+            var test = _db.HardwareTasksLists.Include(x => x.HardwareAcceptsRequest).SingleOrDefaultAsync(x => x.Id == id);
+
+            return Ok(test);
+        }
+
         [HttpGet]
         [Route("api/userRequest/getbyId/{id}")]
         public IHttpActionResult GetRequest(int id)
@@ -1011,7 +1552,7 @@ namespace Cgpp_ServiceRequest.Controllers.Api
         [Route("api/userTask/getbyId/{id}")]
         public IHttpActionResult GetTask(int id)
         {
-            var task = _db.HardwareTasksLists.Include(x => x.HardwareUserRequest).Include(x => x.HardwareTask).Include(x => x.TechnicianReport).Include(x=>x.HardwareVerify).Include(x=>x.HardwareApproval).ToList().Select(Mapper.Map<HardwareTasksList, HardwareTasksListDto>);
+            var task = _db.HardwareTasksLists.Include(x => x.HardwareUserRequest).Include(x => x.HardwareTask).Include(x => x.TechnicianReport).Include(x => x.HardwareVerify).Include(x => x.HardwareApproval).Include(x => x.HardwareAcceptsRequest).ToList().Select(Mapper.Map<HardwareTasksList, HardwareTasksListDto>);
             task = new List<HardwareTasksListDto>(task.Where(x => x.HardwareUserRequestId == id));
 
             return Ok(task);
@@ -1127,13 +1668,14 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Reported A Hardware Request",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetLogEmail(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
 
             Db.Drafts.Add(new Draft
             {
                 Sendto = technicianReportDto.MobileNumber,
-                msg = "Your Service Request is Resolved" + " " + technicianReportDto.Remarks,
+                msg = "Your Service Request" + " " + "Ticket No. : " + technicianReportDto.Ticket + " " + "Is Resolved",
                 tag = 0
             });
             Db.SaveChanges();
@@ -1180,7 +1722,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Reported A Hardware Request",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetLogEmail(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
 
 
@@ -1211,6 +1754,16 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 TechnicianReportId = hardwareVerifyDto.TechnicianReportId,
                 HardwareVerifyId = verified.Id
             });
+            _db.LoginActivity.Add(new LoginActivity()
+            {
+                UserName = User.Identity.GetFullName(),
+                ActivityMessage = "Verified a Hardware Request",
+                ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
+                Email = User.Identity.GetLogEmail(),
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
+            });
+
             _db.SaveChanges();
             return Created(new Uri(Request.RequestUri + "/" + verified.Id), hardwareVerifyDto);
         }
@@ -1238,7 +1791,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Assigned A Technician",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetLogEmail(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Created(new Uri(Request.RequestUri + "/" + assigned.Id), technicianReportDto);
@@ -1290,7 +1844,7 @@ namespace Cgpp_ServiceRequest.Controllers.Api
             var verifyname = _db.TechnicianReports.SingleOrDefault(h => h.Id == id);
             verifyname.Id = id;
             technicianReportDto.Id = id;
-            verifyname.AdminName = User.Identity.GetFullName();
+            verifyname.AdminName = "JOSE PEPITO BONETE JR.";
             verifyname.SuperAdminId = 1;
             verifyname.SuperName = _db.SuperAdmins.SingleOrDefault(x => x.Id == 1).Name;
             _db.SaveChanges();
@@ -1312,6 +1866,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Accepts a Hardware Request",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetLogEmail(),
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Ok();
@@ -1326,13 +1882,6 @@ namespace Cgpp_ServiceRequest.Controllers.Api
             requestList.Id = id;
             hardwareUserRequestDto.Id = id;
             requestList.Status = "Verified";
-            _db.LoginActivity.Add(new LoginActivity()
-            {
-                UserName = User.Identity.GetFullName(),
-                ActivityMessage = "Verified a Hardware Request",
-                ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
-                Email = User.Identity.GetLogEmail(),
-            });
             _db.SaveChanges();
             return Ok();
         }
@@ -1347,7 +1896,7 @@ namespace Cgpp_ServiceRequest.Controllers.Api
             //    return NotFound();
             //}
             //return Ok(Mapper.Map<HardwareTasksList, HardwareTasksListDto>(report));
-            var report = _db.HardwareTasksLists.Include(x => x.HardwareUserRequest).Include(x=>x.TechnicianReport).SingleOrDefault(x => x.Id == id);
+            var report = _db.HardwareTasksLists.Include(x => x.HardwareUserRequest).Include(x => x.TechnicianReport).SingleOrDefault(x => x.Id == id);
             if (report == null)
             {
                 return NotFound();
@@ -1413,6 +1962,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Approved Hardware Request",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetLogEmail(),
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Created(new Uri(Request.RequestUri + "/" + approved.Id), hardwareApprovalDto);
@@ -1479,9 +2030,9 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                     hardwareR.Email = provider.FormData["email"];
                     hardwareR.MobileNumber = provider.FormData["mobileNumber"];
                     hardwareR.DepartmentsId = Convert.ToInt32(provider.FormData["departmentsId"]);
-                    hardwareR.DepartmentName = _db.Departments.SingleOrDefault(x=>x.Id == hardwareR.DepartmentsId).Name;
+                    hardwareR.DepartmentName = _db.Departments.SingleOrDefault(x => x.Id == hardwareR.DepartmentsId).Name;
                     hardwareR.DivisionsId = Convert.ToInt32(provider.FormData["divisionsId"]);
-                    hardwareR.DivisionName = _db.Divisions.SingleOrDefault(x=>x.Id == hardwareR.DivisionsId).Name;
+                    hardwareR.DivisionName = _db.Divisions.SingleOrDefault(x => x.Id == hardwareR.DivisionsId).Name;
                     hardwareR.Description = provider.FormData["description"];
                     hardwareR.UnitTypeId = Convert.ToInt32(provider.FormData["unitTypeId"]);
                     hardwareR.UniTypes = _db.UnitType.SingleOrDefault(x => x.Id == hardwareR.UnitTypeId).Name;
@@ -1518,6 +2069,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                         ActivityMessage = "Added a Manual Hardware Request",
                         ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                         Email = User.Identity.GetLogEmail(),
+                        DepartmentName = User.Identity.GetDepartmentName(),
+                        DivisionName = User.Identity.GetDivisionName(),
                     });
                 }
 
@@ -1608,6 +2161,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Edited a Hardware Request",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetLogEmail(),
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Ok();
@@ -1639,7 +2194,7 @@ namespace Cgpp_ServiceRequest.Controllers.Api
             techReports.DateEnded = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt");
             techReports.AdminName = User.Identity.GetFullName();
             techReports.SuperAdminId = 1;
-            techReports.SuperName = _db.SuperAdmins.SingleOrDefault(x=>x.Id == 1).Name;
+            techReports.SuperName = _db.SuperAdmins.SingleOrDefault(x => x.Id == 1).Name;
 
             _db.HardwareVerifies.Add(new HardwareVerify()
             {
@@ -1657,6 +2212,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Reported a Hardware Request",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetLogEmail(),
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
 
             _db.HardwareTasksLists.Add(new HardwareTasksList()
@@ -1747,6 +2304,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Developer Delete A Request",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetLogEmail(),
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Ok();
@@ -1769,6 +2328,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Developer Delete A Request",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetLogEmail(),
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Ok();
@@ -1792,6 +2353,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Developer Delete A Request",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetLogEmail(),
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Ok();
@@ -1815,6 +2378,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Developer Delete A Request",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetLogEmail(),
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Ok();
@@ -1839,6 +2404,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Developer Delete A Request",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetLogEmail(),
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Ok();
@@ -1864,7 +2431,135 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Developer Delete A Request",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetLogEmail(),
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
+            _db.SaveChanges();
+            return Ok();
+        }
+
+
+        [HttpPost]
+        [Route("api/accepts/hr/save")]
+        public IHttpActionResult AccepstsHardware2(HardwareAcceptsRequestDto hardwareAcceptsRequestDto)
+        {
+            var acceptshardware = Mapper.Map<HardwareAcceptsRequestDto, HardwareAcceptsRequest>(hardwareAcceptsRequestDto);
+            HardwareAcceptsRequest approved = new HardwareAcceptsRequest();
+
+            hardwareAcceptsRequestDto.Id = acceptshardware.Id;
+            approved.DateAdded = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt");
+            approved.Email = User.Identity.GetUserName();
+            approved.FullName = User.Identity.GetFullName();
+            approved.DivisionsId = Convert.ToInt32(User.Identity.GetUserDivision());
+            approved.DepartmentsId = Convert.ToInt32(User.Identity.GetUserDepartment());
+            approved.DivisionName = _db.Divisions.SingleOrDefault(x => x.Id == approved.DivisionsId).Name;
+            approved.DepartmentName = _db.Departments.SingleOrDefault(x => x.Id == approved.DepartmentsId).Name;
+            approved.HardwareUserRequestId = hardwareAcceptsRequestDto.HardwareUserRequestId;
+            approved.IsAccept = "seen";
+
+
+            _db.HardwareAcceptsRequests.Add(approved);
+
+            _db.HardwareTasksLists.Add(new HardwareTasksList()
+            {
+                HardwareTaskId = 6,
+                DateAdded = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
+                HardwareAcceptsRequestId = approved.Id,
+                HardwareUserRequestId = hardwareAcceptsRequestDto.HardwareUserRequestId,
+            });
+
+
+
+
+            var devNumber = "09165778160";
+            var mich = "09666443665";
+            var mark = "09491511839";
+            var jess = "09182695626";
+
+            Db.Drafts.Add(new Draft
+            {
+                Sendto = mich,
+                msg = "New Hardware Request" + " Department :" + approved.DepartmentName + " Division : " + approved.DivisionName,
+                tag = 0
+            });
+            Db.Drafts.Add(new Draft
+            {
+                Sendto = devNumber,
+                msg = "New Hardware Request" + " Department :" + approved.DepartmentName + " Division : " + approved.DivisionName,
+                tag = 0
+            });
+            Db.Drafts.Add(new Draft
+            {
+                Sendto = mark,
+                msg = "New Hardware Request" + " Department :" + approved.DepartmentName + " Division : " + approved.DivisionName,
+                tag = 0
+            });
+            Db.Drafts.Add(new Draft
+            {
+                Sendto = jess,
+                msg = "New Hardware Request" + " Department :" + approved.DepartmentName + " Division : " + approved.DivisionName,
+
+                tag = 0
+            });
+            Db.SaveChanges();
+
+            _db.SaveChanges();
+            return Created(new Uri(Request.RequestUri + "/" + approved.Id), hardwareAcceptsRequestDto);
+
+
+        }
+
+        [HttpPut]
+        [Route("api/hardware/acceptsReturn/{id}")]
+        public IHttpActionResult HardwareReturn(int id, HardwareUserRequestDto hardwareUserRequestDto)
+        {
+
+            var hardwareUser = _db.HardwareUserRequests.SingleOrDefault(h => h.Id == id);
+
+
+            hardwareUserRequestDto.Id = hardwareUser.Id;
+            hardwareUser.Status = "Pending Division Approval";
+            _db.LoginActivity.Add(new LoginActivity()
+            {
+                UserName = User.Identity.GetFullName(),
+                ActivityMessage = "Added a new Hardware Request",
+                ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
+                Email = User.Identity.GetLogEmail(),
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
+
+            });
+            _db.SaveChanges();
+            return Ok();
+        }
+
+
+
+        [HttpPut]
+        [Route("api/v2/sms/adminApprover/{id}")]
+        public IHttpActionResult SendSmsAdmin(int id, HardwareUserRequestDto hardwareUserRequestDto)
+        {
+
+            var hardwareSms = _db.HardwareUserRequests.SingleOrDefault(h => h.Id == id);
+
+
+            hardwareUserRequestDto.Id = hardwareSms.Id;
+
+            _db.LoginActivity.Add(new LoginActivity()
+            {
+                UserName = User.Identity.GetFullName(),
+                ActivityMessage = "Send a Message",
+                ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
+                Email = User.Identity.GetLogEmail(),
+            });
+
+            Db.Drafts.Add(new Draft
+            {
+                Sendto = hardwareUserRequestDto.MobileNumber,
+                msg = hardwareUserRequestDto.SmsMessage + "This message is system-generated. No need to reply. Thank you. From: Office of the City Management Information System",
+                tag = 0
+            });
+            Db.SaveChanges();
             _db.SaveChanges();
             return Ok();
         }

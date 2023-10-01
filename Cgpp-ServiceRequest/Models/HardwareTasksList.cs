@@ -19,5 +19,7 @@ namespace Cgpp_ServiceRequest.Models
         public int? HardwareVerifyId { get; set; }
         public HardwareApproval HardwareApproval { get; set; }
         public int? HardwareApprovalId { get; set; }
+        public HardwareAcceptsRequest HardwareAcceptsRequest { get; set; }
+        public int? HardwareAcceptsRequestId { get; set; }
     }
 }

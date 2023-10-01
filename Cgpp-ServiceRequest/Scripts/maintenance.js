@@ -1,4 +1,5 @@
-﻿
+﻿var apiLocal = '/api';
+var apiLive = '/ServiceRequest/api';
 $(document).ready(function () {
     ManageMaintenance();
     GetMaintenance();
@@ -35,7 +36,7 @@ function ManageMaintenance() {
         };
         $.ajax({
             type: 'PUT',
-            url: '/api/maintenance/UpdateMaintenance/' + 1,
+            url: apiLocal + '/maintenance/UpdateMaintenance/' + 1,
             data: data,
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -61,7 +62,7 @@ function GetMaintenance() {
     setInterval(function () {
         $.ajax({
             type: 'GET',
-            url: '/api/maintenance/GetMaintenance',
+            url: apiLocal + '/maintenance/GetMaintenance',
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('access_token')
             },
@@ -114,7 +115,7 @@ function GetMaintenanceNotif() {
     setInterval(function () {
         $.ajax({
             type: 'GET',
-            url: '/api/sf/getnewRequest',
+            url: apiLocal + '/sf/getnewRequest',
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('access_token')
             },
@@ -127,7 +128,7 @@ function GetMaintenanceNotif() {
                 });
                 if (count == 0) {
                     $('#notifBar6').html(`
-                            <a class="dropdown-item" href="/SoftwareRequest/AcceptList"> 
+                            <a class="dropdown-item" href="/ServiceRequest/SoftwareRequest/AcceptList"> 
                                 <i class="fas fa-check mr-2" aira-hidden="true"></i>
                                 <span>No New Repair</span>
                             </a>
@@ -137,7 +138,7 @@ function GetMaintenanceNotif() {
                 for (var i = currentCount; i < count; i++) {
                     var value = data[i];
                     $('#notifBar6').append(`
-                        <a class="dropdown-item" href="/SoftwareRequest/AcceptList"> 
+                        <a class="dropdown-item" href="/ServiceRequest/SoftwareRequest/AcceptList"> 
                             <i class="bi bi-person-fill mr-2" aira-hidden="true"></i>
                             <span>${value.fullName}</span>
                            <span class="float-right"><i class="far fa-clock ms-2" aria-hidden="true"></i>
@@ -158,7 +159,7 @@ function GetMaintenanceNotif() {
     setInterval(function () {
         $.ajax({
             type: 'GET',
-            url: '/api/sf/v4/getnewRequesth',
+            url: apiLocal + '/sf/v4/getnewRequesth',
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('access_token')
             },
@@ -171,7 +172,7 @@ function GetMaintenanceNotif() {
                 });
                 if (count == 0) {
                     $('#notifBar').html(`
-                            <a class="dropdown-item" href="/SoftwareRequest/RequestList2"> 
+                            <a class="dropdown-item" href="/ServiceRequest/SoftwareRequest/RequestList2"> 
                                 <i class="fas fa-check mr-2" aira-hidden="true"></i>
                                 <span>No New Repair</span>
                             </a>
@@ -181,7 +182,7 @@ function GetMaintenanceNotif() {
                 for (var i = currentCount; i < count; i++) {
                     var value = data[i];
                     $('#notifBar').append(`
-                        <a class="dropdown-item" href="/SoftwareRequest/RequestList2"> 
+                        <a class="dropdown-item" href="/ServiceRequest/SoftwareRequest/RequestList2"> 
                             <i class="bi bi-person-fill mr-2" aira-hidden="true"></i>
                             <span>${value.fullName}</span>
                            <span class="float-right"><i class="far fa-clock ms-2" aria-hidden="true"></i>
@@ -204,7 +205,7 @@ function GetMaintenanceNotif2() {
     setInterval(function () {
         $.ajax({
             type: 'GET',
-            url: '/api/sf/v4/getnewRequesth',
+            url: apiLocal + '/sf/v4/getnewRequesth',
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('access_token')
             },
@@ -217,7 +218,7 @@ function GetMaintenanceNotif2() {
                 });
                 if (count == 0) {
                     $('#notifBar1').html(`
-                            <a class="dropdown-item" href="/SoftwareRequest/Admin"> 
+                            <a class="dropdown-item" href="/ServiceRequest/SoftwareRequest/Admin"> 
                                 <i class="fas fa-check mr-2" aira-hidden="true"></i>
                                 <span>No New Repair</span>
                             </a>
@@ -227,7 +228,7 @@ function GetMaintenanceNotif2() {
                 for (var i = currentCount; i < count; i++) {
                     var value = data[i];
                     $('#notifBar1').append(`
-                        <a class="dropdown-item" href="/SoftwareRequest/Admin"> 
+                        <a class="dropdown-item" href="/ServiceRequest/SoftwareRequest/Admin"> 
                             <i class="fas fa-cog mr-2" aira-hidden="true"></i>
                             <span>${value.fullName}</span>
                            <span class="float-right"><i class="far fa-clock ms-2" aria-hidden="true"></i>
@@ -250,7 +251,7 @@ function GetMaintenanceNotif3() {
     setInterval(function () {
         $.ajax({
             type: 'GET',
-            url: '/api/hd/getnewRequesth',
+            url: apiLocal + '/hd/getnewRequesth',
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('access_token')
             },
@@ -263,7 +264,7 @@ function GetMaintenanceNotif3() {
                 });
                 if (count == 0) {
                     $('#notifBar3').html(`
-                            <a class="dropdown-item" href="/HardwareRequest/UserRequestList"> 
+                            <a class="dropdown-item" href="/ServiceRequest/HardwareRequest/UserRequestList"> 
                                 <i class="fas fa-check mr-2" aira-hidden="true"></i>
                                 <span>No New Repair</span>
                             </a>
@@ -273,7 +274,7 @@ function GetMaintenanceNotif3() {
                 for (var i = currentCount; i < count; i++) {
                     var value = data[i];
                     $('#notifBar3').append(`
-                        <a class="dropdown-item" href="/HardwareRequest/UserRequestList"> 
+                        <a class="dropdown-item" href="/ServiceRequest/HardwareRequest/UserRequestList"> 
                             <i class="fas fa-cog mr-2" aira-hidden="true"></i>
                             <span>${value.fullName}</span>
                             <span class="float-right"><i class="far fa-clock ms-2" aria-hidden="true"></i> 
@@ -296,7 +297,7 @@ function GetMaintenanceNotif4() {
     setInterval(function () {
         $.ajax({
             type: 'GET',
-            url: '/api/hd/getnewRequesth',
+            url: apiLocal + '/hd/getnewRequesth',
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('access_token')
             },
@@ -309,7 +310,7 @@ function GetMaintenanceNotif4() {
                 });
                 if (count == 0) {
                     $('#notifBar4').html(`
-                            <a class="dropdown-item" href="/HardwareRequest/AdminRequestList"> 
+                            <a class="dropdown-item" href="/ServiceRequest/HardwareRequest/AdminRequestList"> 
                                 <i class="fas fa-check mr-2" aira-hidden="true"></i>
                                 <span>No New Repair</span>
                             </a>
@@ -319,14 +320,13 @@ function GetMaintenanceNotif4() {
                 for (var i = currentCount; i < count; i++) {
                     var value = data[i];
                     $('#notifBar4').append(`
-                        <a class="dropdown-item" href="/HardwareRequest/AdminRequestList"> 
+                        <a class="dropdown-item" href="/ServiceRequest/HardwareRequest/AdminRequestList"> 
                             <i class="fas fa-cog mr-2" aira-hidden="true"></i>
                             <span>${value.fullName}</span>
                             <span class="float-right"><i class="far fa-clock ms-2" aria-hidden="true"></i>
                             <time class="timeago" datetime="${moment(value.dateAdded).format('M/D/Y LT')}">
                                 ${moment(value.dateAdded).format('M/D/Y LT')}
-                            </time>
-                            </span>
+                            </time>                            
                         </a>
                     `);
 
@@ -341,7 +341,7 @@ function GetMaintenanceNotif5() {
     setInterval(function () {
         $.ajax({
             type: 'GET',
-            url: '/api/sf/v4/getnewRequesth',
+            url: apiLocal + '/sf/v4/getnewRequesth',
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('access_token')
             },
@@ -354,7 +354,7 @@ function GetMaintenanceNotif5() {
                 });
                 if (count == 0) {
                     $('#notifBarsuper').html(`
-                            <a class="dropdown-item" href="/SoftwareRequest/RequestList2"> 
+                            <a class="dropdown-item" href="/ServiceRequest/SoftwareRequest/RequestList2"> 
                                 <i class="fas fa-check mr-2" aira-hidden="true"></i>
                                 <span>No New Repair</span>
                             </a>
@@ -364,7 +364,7 @@ function GetMaintenanceNotif5() {
                 for (var i = currentCount; i < count; i++) {
                     var value = data[i];
                     $('#notifBarsuper').append(`
-                        <a class="dropdown-item" href="/SoftwareRequest/Admin"> 
+                        <a class="dropdown-item" href="/ServiceRequest/SoftwareRequest/Admin"> 
                             <i class="fas fa-cog mr-2" aira-hidden="true"></i>
                             <span>${value.fullName}</span>
                            <span class="float-right"><i class="far fa-clock ms-2" aria-hidden="true"></i>
@@ -390,7 +390,7 @@ function GetuserApproval() {
 
         $.ajax({
             type: 'GET',
-            url: '/api/roles/current',
+            url: apiLocal + '/roles/current',
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('access_token')
             },
@@ -426,7 +426,7 @@ function GetuserApproval() {
         localStorage.removeItem('access_token');
         localStorage.removeItem('username');
 
-        window.location.href = "//login";
+        window.location.href = "/ServiceRequest/login";
     });
 
 }
@@ -435,7 +435,7 @@ function GetNewUserNotif() {
     setInterval(function () {
         $.ajax({
             type: 'GET',
-            url: '/api/newusers/get',
+            url: apiLocal + '/newusers/get',
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('access_token')
             },
@@ -448,7 +448,7 @@ function GetNewUserNotif() {
                 });
                 if (count == 0) {
                     $('#newAccountList').html(`
-                            <a class="dropdown-item" href="/LoginActivity/RegistrationRequest"> 
+                            <a class="dropdown-item" href="/ServiceRequest/LoginActivity/RegistrationRequest"> 
                                 <i class="fas fa-check mr-2" aira-hidden="true"></i>
                                 <span>No New Request Account</span>
                             </a>
@@ -458,7 +458,7 @@ function GetNewUserNotif() {
                 for (var i = currentCount; i < count; i++) {
                     var value = data[i];
                     $('#newAccountList').append(`
-                        <a class="dropdown-item" href="/LoginActivity/RegistrationRequest"> 
+                        <a class="dropdown-item" href="/ServiceRequest/LoginActivity/RegistrationRequest"> 
                             <i class="bi bi-person-fill mr-2" aira-hidden="true"></i>
                             <span>${value.fullName}</span>
                            <span class="float-right"><i class="far fa-clock ms-2" aria-hidden="true"></i>
@@ -481,7 +481,7 @@ function GetNewUserForgot() {
     setInterval(function () {
         $.ajax({
             type: 'GET',
-            url: '/api/forgotPass/get',
+            url: apiLocal + '/forgotPass/get',
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('access_token')
             },
@@ -494,7 +494,7 @@ function GetNewUserForgot() {
                 });
                 if (count == 0) {
                     $('#newforgotList').html(`
-                            <a class="dropdown-item" href="/LoginActivity/ForgotRequest"> 
+                            <a class="dropdown-item" href="/ServiceRequest/LoginActivity/ForgotRequest"> 
                                 <i class="fas fa-check mr-2" aira-hidden="true"></i>
                                 <span>No New Forgot Password</span>
                             </a>
@@ -504,7 +504,7 @@ function GetNewUserForgot() {
                 for (var i = currentCount; i < count; i++) {
                     var value = data[i];
                     $('#newforgotList').append(`
-                        <a class="dropdown-item" href="/LoginActivity/ForgotRequest"> 
+                        <a class="dropdown-item" href="/ServiceRequest/LoginActivity/ForgotRequest"> 
                             <i class="bi bi-person-fill mr-2" aira-hidden="true"></i>
                             <span>${value.fullName}</span>
                            <span class="float-right"><i class="far fa-clock ms-2" aria-hidden="true"></i>
@@ -527,7 +527,7 @@ function GetNewDivRequest() {
     setInterval(function () {
         $.ajax({
             type: 'GET',
-            url: '/api/NewDivRequest/get',
+            url: apiLocal + '/NewDivRequest/get',
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('access_token')
             },
@@ -540,9 +540,9 @@ function GetNewDivRequest() {
                 });
                 if (count == 0) {
                     $('#newRequestList').html(`
-                            <a class="dropdown-item" href="/SoftwareRequest/AcceptList"> 
+                            <a class="dropdown-item" href="/ServiceRequest/SoftwareRequest/AcceptList"> 
                                 <i class="fas fa-check mr-2" aira-hidden="true"></i>
-                                <span>No New Forgot Password</span>
+                                <span>No New Request</span>
                             </a>
                         `);
                 }
@@ -550,7 +550,7 @@ function GetNewDivRequest() {
                 for (var i = currentCount; i < count; i++) {
                     var value = data[i];
                     $('#newRequestList').append(`
-                        <a class="dropdown-item" href="/SoftwareRequest/AcceptList"> 
+                        <a class="dropdown-item" href="/ServiceRequest/SoftwareRequest/AcceptList"> 
                             <i class="bi bi-person-fill mr-2" aira-hidden="true"></i>
                             <span>${value.fullName}</span>
                            <span class="float-right"><i class="far fa-clock ms-2" aria-hidden="true"></i>

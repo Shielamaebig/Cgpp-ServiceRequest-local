@@ -92,7 +92,7 @@ namespace Cgpp_ServiceRequest.Controllers.Api
             var hreq = _db.RequestHistory
             .Include(x => x.Departments)
             .Include(x => x.Divisions)
-            .Include(x=>x.HardwareUserRequest)
+            .Include(x => x.HardwareUserRequest)
             .ToList().Select(Mapper.Map<RequestHistory, RequestHistoryDto>);
 
             if (User.IsInRole("HardwareAdmin"))
@@ -107,20 +107,14 @@ namespace Cgpp_ServiceRequest.Controllers.Api
         [Route("api/users/GetSoftwareReqAdmin")]
         public IHttpActionResult GetlogSoftReq()
         {
-            var sreq = _db.RequestHistory
+            var sreq = _db.SoftwareUserRequests
             .Include(x => x.Departments)
             .Include(x => x.Divisions)
-            .Include(x => x.SoftwareUserRequest)
-            .ToList().Select(Mapper.Map<RequestHistory, RequestHistoryDto>);
-
-            if (User.IsInRole("SoftwareAdmin"))
-            {
-                
-                sreq = new List<RequestHistoryDto>(sreq.Where(x => x.Category == true));
-
-            }
+            .ToList().Select(Mapper.Map<SoftwareUserRequest, SoftwareUserRequestDto>);
             return Ok(sreq.OrderByDescending(x => x.Id).Take(8));
         }
+
+
 
         //[HttpGet]
         //[Route("api/v2/sr/assign")]
@@ -130,7 +124,7 @@ namespace Cgpp_ServiceRequest.Controllers.Api
         //        .Include(x => x.Software)
         //        .Include(x => x.SoftwareUserRequest)
         //        .ToList().Select(Mapper.Map<ProgrammerReport, ProgrammerReportDto>);
-        //    if (User.IsInRole("Programmers") || User.IsInRole("Hardware&Software"))
+        //    if (User.IsInRole("Programmers") || User.IsInRole("Technicians/Programmer"))
         //    {
         //        var progEmail = User.Identity.GetUserEmail();
         //        progDto = new List<ProgrammerReportDto>(progDto.Where(x => x.ProgrammerEmail == progEmail));
@@ -205,7 +199,7 @@ namespace Cgpp_ServiceRequest.Controllers.Api
         public IHttpActionResult GetCountProgrammer()
         {
             var techDto = _db.TechnicianReports.ToList();
-            if (User.IsInRole("Technicians") || User.IsInRole("Hardware&Software"))
+            if (User.IsInRole("Technicians") || User.IsInRole("Technicians/Programmer"))
             {
                 var techEmail = User.Identity.GetUserEmail();
                 techDto = new List<TechnicianReport>(techDto.Where(x => x.TechEmail == techEmail));
@@ -219,7 +213,7 @@ namespace Cgpp_ServiceRequest.Controllers.Api
         public IHttpActionResult GetCountTechnician()
         {
             var progDto = _db.ProgrammerReport.ToList();
-            if (User.IsInRole("Programmers") || User.IsInRole("Hardware&Software"))
+            if (User.IsInRole("Programmers") || User.IsInRole("Technicians/Programmer"))
             {
                 var progEmail = User.Identity.GetUserEmail();
                 progDto = new List<ProgrammerReport>(progDto.Where(x => x.ProgrammerEmail == progEmail));
@@ -278,7 +272,7 @@ namespace Cgpp_ServiceRequest.Controllers.Api
         public IHttpActionResult GetUserActivity2()
         {
             var loginDto = _db.LoginActivity.ToList();
-            if (User.IsInRole("Users") || User.IsInRole("Programmers") || User.IsInRole("Technicians") || User.IsInRole("SoftwareAdmin") || User.IsInRole("HardwareAdmin") || User.IsInRole("SuperAdmin") || User.IsInRole("Developer") || User.IsInRole("DivisionApprover") || User.IsInRole("Hardware&Software"))
+            if (User.IsInRole("Users") || User.IsInRole("Programmers") || User.IsInRole("Technicians") || User.IsInRole("SoftwareAdmin") || User.IsInRole("HardwareAdmin") || User.IsInRole("SuperAdmin") || User.IsInRole("Developer") || User.IsInRole("DivisionApprover") || User.IsInRole("Technicians/Programmer") || User.IsInRole("Programmer/Admin"))
             {
                 var userEmail = User.Identity.GetUserEmail();
                 var logEmail = User.Identity.GetLogEmail();
@@ -300,9 +294,10 @@ namespace Cgpp_ServiceRequest.Controllers.Api
         [Route("api/UserRegistration/register")]
         public IHttpActionResult GetUserReg()
         {
-            var user = _db.UserRegistrations.ToList().Select(Mapper.Map<UserRegistration, UserRegistrationDto>);
-            return Ok(user.OrderByDescending(x => x.Id));
+            var user = _db.UserRegistrations.ToList().OrderByDescending(x => x.Id);
+            return Ok(user);
         }
+
 
         //Post user Registration
         [HttpPost]
@@ -381,6 +376,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Check User Request Account",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Ok();
@@ -402,7 +399,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Deleted A Department",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Ok();
@@ -414,8 +412,24 @@ namespace Cgpp_ServiceRequest.Controllers.Api
             var user = _db.UserForgotPasswords.ToList().Select(Mapper.Map<UserForgotPassword, UserForgotPasswordsDto>);
             return Ok(user.OrderByDescending(x => x.Id));
         }
+        //[HttpGet]
+        //[Route("api/AccountDept/get")]
+        //public IHttpActionResult GetDept()
+        //{
+        //    var users = _db.Users.ToList();
+        //    return Ok(users.Count());
+        //}
 
-
+        [HttpGet]
+        [Route("api/AccountDept/get")]
+        public IHttpActionResult GetDeptUsers()
+        {
+            var result = _db.Users.GroupBy(r => new { r.DepartmentName })
+                            .Where(grp => grp.Count() > 0)
+                            .Select(g => new { g.Key.DepartmentName, Count = g.Count() })
+                            .ToList();
+            return Ok(result);
+        }
         //Notification
         [HttpGet]
         [Route("api/forgotPass/get")]
@@ -538,6 +552,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Check User Request Account",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Ok();
@@ -559,7 +575,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Deleted A Forgot Password Request",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Ok();
@@ -587,7 +604,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Added A Hardware Technician",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
 

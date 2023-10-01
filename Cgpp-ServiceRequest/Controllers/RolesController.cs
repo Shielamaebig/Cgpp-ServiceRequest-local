@@ -51,6 +51,8 @@ namespace Cgpp_ServiceRequest.Controllers
                 ActivityMessage = "Added A new Role",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
 
             });
             _db.SaveChanges();
@@ -101,7 +103,7 @@ namespace Cgpp_ServiceRequest.Controllers
                                       Role = string.Join(",", p.RoleNames),
                                       DateCreated = p.DateCreated,
 
-                                  });
+                                  }).OrderByDescending(x=>x.DateCreated);
 
             return View(usersWithRoles);
         }
@@ -229,6 +231,8 @@ namespace Cgpp_ServiceRequest.Controllers
                     ActivityMessage = "Assigned a new Role to a User",
                     ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                     Email = User.Identity.GetUserName(),
+                    DepartmentName = User.Identity.GetDepartmentName(),
+                    DivisionName = User.Identity.GetDivisionName(),
                 });
                 _db.SaveChanges();
 
@@ -500,6 +504,8 @@ namespace Cgpp_ServiceRequest.Controllers
                     ActivityMessage = "Assigned a new Role to a User",
                     ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                     Email = User.Identity.GetUserName(),
+                    DepartmentName = User.Identity.GetDepartmentName(),
+                    DivisionName = User.Identity.GetDivisionName(),
                 });
                 _db.SaveChanges();
 

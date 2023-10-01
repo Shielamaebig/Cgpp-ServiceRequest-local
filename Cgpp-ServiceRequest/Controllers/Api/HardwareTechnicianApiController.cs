@@ -54,7 +54,6 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 return BadRequest("Department name already Exist");
             }
             hardwareTech.DateAdded = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt");
-            SoftwareTechnician stech = new SoftwareTechnician();
             hardwareTechnicianDto.Id = hardwareTech.Id;
             _db.HardwareTechnician.Add(hardwareTech);
 
@@ -64,7 +63,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Added A Hardware Technician",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
 
@@ -110,7 +110,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Edited A Hardware Technician",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
 
             _db.SaveChanges();
@@ -134,7 +135,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Deleted A Hardware Technician",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Ok();

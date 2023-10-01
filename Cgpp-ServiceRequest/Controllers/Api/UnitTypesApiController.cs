@@ -76,7 +76,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Added A Unit type",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
 
@@ -114,7 +115,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Updated A Unit type",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Ok();
@@ -137,7 +139,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Deleted A Unit type",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Ok();

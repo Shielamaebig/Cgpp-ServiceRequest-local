@@ -29,5 +29,13 @@ namespace Cgpp_ServiceRequest.Controllers
         {
             return View();
         }
+        public ActionResult MyreportList()
+        {
+            return View();
+        }
+        public ActionResult MichChart()
+        {
+            return View();
+        }
     }
 }

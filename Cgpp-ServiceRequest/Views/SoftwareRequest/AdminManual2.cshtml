@@ -12,14 +12,15 @@
                 <form id="manualRequest" enctype="multipart/form-data">
                     <div class="row">
                         <div class="ms-2 mb-3">
-                            <div class="mb-4 text-center mt-4">
-                                <small class="card-title">Client Information</small>
-                            </div>
+                              <div class="mb-4 text-center mt-4">
+                            <h5 class="fw-semibold">Manual Request</h5>
+                            <small class="card-title fw-semibold">Client Information</small>
+                        </div>
 
                         </div>
 
                         <div class="row" id="SearchData">
-                            <h3 class="card-title ms-3">Without User Account</h3>
+                            <h3 class="card-title ms-3 fw-semibold">Without User Account</h3>
 
                           <div class="form-group col-8 col-md-4 mb-2 ">
                                 <label for="">First Name</label>
@@ -34,7 +35,7 @@
                                 <input type="text" class="form-control text-lowercase" name="lastName" id="fullName" />
                             </div>
 
-                            <div class="col-md-6 mb-2"></div>
+                           
                             <div class="form-group col-md-6 mb-2">
                                 <label for="">Email</label>
                                 <input type="text" class="form-control" name="email" id="email" />
@@ -118,7 +119,7 @@
                 var formData = new FormData(manualRequest);
                 $.ajax({
                     type: 'POST',
-                    url: '/api/manual/saveRequest',
+                    url: '/ServiceRequest/api/manual/saveRequest',
                     data: formData,
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -132,7 +133,7 @@
 
                             }, 2000);
                             setTimeout(function () {
-                                window.location.href = "/SoftwareRequest/AdminIndex";
+                                window.location.href = "/ServiceRequest/SoftwareRequest/AdminIndex";
                             }, 3000);
                         }
                         else

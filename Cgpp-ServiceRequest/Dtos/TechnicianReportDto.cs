@@ -46,5 +46,9 @@ namespace Cgpp_ServiceRequest.Dtos
         public int SuperAdminId { get; set; }
         public string SuperName { get; set; }
         public string MobileNumber { get; set; }
+        public string SmsMessage { get; set; }
+        public string DateSend { get; set; }
+        public string Ticket { get; set; }
+
     }
 }

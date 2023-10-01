@@ -8,8 +8,8 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title d-flex justify-content-between mx-2">
-                    Software Request List
+                <h4 class="card-title d-flex justify-content-between mx-2 fw-semibold">
+                    System Request List
                 </h4>
                 <h6 class="card-subtitle"></h6>
                 <div class="table-responsive">
@@ -1032,26 +1032,26 @@
 
 @section scripts
     {
-            <script>
-                function printthispage() {
-                    document.getElementById('divButtons').style.visibility = 'hidden';
-                    window.print();
-                    document.getElementById('divButtons').style.visibility = 'visible';
-                }
-                function enforceMinMax(el) {
-                    if (el.value != "") {
-                        if (parseInt(el.value) < parseInt(el.min)) {
-                            el.value = el.min;
+                    <script>
+                        function printthispage() {
+                            document.getElementById('divButtons').style.visibility = 'hidden';
+                            window.print();
+                            document.getElementById('divButtons').style.visibility = 'visible';
                         }
-                        if (parseInt(el.value) > parseInt(el.max)) {
-                            el.value = el.max;
+                        function enforceMinMax(el) {
+                            if (el.value != "") {
+                                if (parseInt(el.value) < parseInt(el.min)) {
+                                    el.value = el.min;
+                                }
+                                if (parseInt(el.value) > parseInt(el.max)) {
+                                    el.value = el.max;
+                                }
+                            }
                         }
-                    }
-                }
 
-                $(document).ready(function () {
+                        $(document).ready(function () {
 
-                    NewSystemRequest();
-                });
-            </script>
+                            NewSystemRequest();
+                        });
+                    </script>
 }

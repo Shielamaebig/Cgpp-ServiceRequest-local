@@ -1,0 +1,264 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Register</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="~/Content/assets/img/cgpp-2.png" rel="icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <link href="~/Content/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <!-- Vendor CSS Files -->
+    <link href="~/Content/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/toastr.css" rel="stylesheet" />
+    <link href="~/Content/custom.css" rel="stylesheet" />
+    <!-- Template Main CSS File -->
+    <link href="~/Content/assets/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container h-100">
+        <div class="d-flex justify-content-center h-100">
+            <div class="user_card_register">
+                <div class="d-flex justify-content-center">
+
+                </div>
+                <div class="justify-content-center mt-5">
+                    <h5 class="card-title text-center  fs-4">Cgpp - Service Desk</h5>
+                    <p class="mt-0 text-center small"> Register Account</p>
+
+                </div>
+                <div class="d-flex justify-content-center">
+                    <form class="row g-3 needs-validation" id="registerForm" novalidate>
+                        <div>
+                            <label for="fullName" class="form-label">Full Name</label>
+                            <div class="input-group has-validation">
+                                <input type="text" name="fullName" class="form-control" id="fullName" placeholder=" Ex. Juan Dela Cruz" required>
+                                <div class="invalid-feedback mb-0">Please enter your Full Name.</div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 mb-2">
+                            <label for="fullName" class="form-label">Department</label>
+                            <div class="input-group has-validation">
+                                <select class="form-control" name="departmentsId" id="departmentsId"></select>
+                                <div class="invalid-feedback mb-0">Please enter your Full Name.</div>
+                            </div>
+                        </div>
+                        <div class=" col-sm-6 mb-2">
+                            <label for="phoneNumber" class="form-label">Division</label>
+                            <div class="input-group has-validation">
+                                <select class="form-control" name="divisionsId" id="divisionsId">
+                                    <option>Select Division</option>
+                                </select>
+                                <div class="invalid-feedback">Please enter your Full Name.</div>
+                            </div>
+                        </div>
+
+                        <div class=" col-sm-6 mt-0">
+                            <label for="phoneNumber" class="form-label">Mobile Number</label>
+                            <div class="input-group has-validation">
+                                <span class="input-group-text" id="inputGroupPrepend"><i class="fas fa-mobile-alt"></i></span>
+                                <input type="text" name="mobileNumber" class="form-control" id="mobileNumber" placeholder="(63) 02 xxxx-xxxx " required>
+                                <div class="invalid-feedback">Please enter your Full Name.</div>
+                            </div>
+                        </div>
+
+                        <div class=" col-sm-6 mt-0">
+                            <label for="yourUsername" class="form-label">Email</label>
+                            <div class="input-group has-validation">
+                                <span class="input-group-text" id="inputGroupPrepend"><i class="fas fa-envelope"></i></span>
+                                <input type="text" name="email" class="form-control" id="email" placeholder="JuanDelaCruz@gmail.com" required>
+                                <div class="invalid-feedback">Please enter your username.</div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label for="Password" class="form-label">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text fas fa-eye-slash field-icon toggle-password" id="revealPassword"></span>
+                                <input type="password" name="password" class="form-control" id="password" required>
+                                <div class="invalid-feedback">Please enter your password!</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="ConfirmPassword" class="form-label">Confirm Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text fas fa-eye-slash field-icon toggle-password" id="revealPasswordconfirm"></span>
+                                <input type="password" name="confirmPassword" class="form-control" id="confirmPassword" required>
+                                <div class="invalid-feedback">Pleas enter your password!</div>
+                            </div>
+                        </div>
+                        <span class="col-12 text-center align-center m-0 p-0" id="confirm_password_msg"></span>
+                        <div>
+                            <button class="btn btn-primary w-100" type="submit" id="FormSubmit">Submit</button>
+                        </div>
+                        <div class="alert alert-info mt-3 mb-0" style="font-size:13px;">
+                            Password must have at least one non letter or digit character.
+                            <br />
+                            Password must have at least one digit ('0'-'9').
+                            <br />
+                            Password must have at least one uppercase ('A'-'Z').
+                            <br />
+                            Example:  DelaCruz@22
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+
+
+</body>
+</html>
+<!-- Vendor JS Files -->
+<script src="/ServiceRequest/Scripts/jquery-3.4.1.js"></script>
+
+<script src="/ServiceRequest/Scripts/bootbox.js"></script>
+<script src="/ServiceRequest/Content/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/ServiceRequest/Scripts/toastr.js"></script>
+<script src="/ServiceRequest/Scripts/moment.js"></script>
+
+<script src="/ServiceRequest/Scripts/custom.js"></script>
+<script src="/ServiceRequest/Scripts/bootstrap-datepicker.js"></script>
+
+<!-- Template Main JS File -->
+<script src="/ServiceRequest/Content/assets/js/main.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(function () {
+            //Password Reveal
+            $('#revealPassword').click(function () {
+                if ($(this).hasClass('fa-eye-slash')) {
+                    $(this).removeClass('fa-eye-slash');
+                    $(this).addClass('fa-eye');
+                    $('#password').attr('type', 'text');
+                } else {
+                    $(this).removeClass('fa-eye');
+                    $(this).addClass('fa-eye-slash');
+                    $('#password').attr('type', 'password');
+                }
+            });
+        });
+
+        $(function () {
+            //Password Reveal
+            $('#revealPasswordconfirm').click(function () {
+                if ($(this).hasClass('fa-eye-slash')) {
+                    $(this).removeClass('fa-eye-slash');
+                    $(this).addClass('fa-eye');
+                    $('#confirmPassword').attr('type', 'text');
+                } else {
+                    $(this).removeClass('fa-eye');
+                    $(this).addClass('fa-eye-slash');
+                    $('#confirmPassword').attr('type', 'password');
+                }
+            });
+        });
+
+        $("#confirmPassword").bind('keyup change', function () {
+            check_Password($("#password").val(), $("#confirmPassword").val())
+        })
+
+        $("#FormSubmit").click(function () {
+            check_Password($("#password").val(), $("#confirmPassword").val())
+        })
+
+
+        function check_Password(Pass, Con_Pass) {
+
+            if (Pass === "") {
+
+            } else if (Pass === Con_Pass) {
+
+                $("#FormSubmit").removeAttr("onclick")
+                $('#confirm_password_msg').show()
+                $("#confirm_password_msg").html('<div class=" alert alert-success">Password matched</div>')
+
+                setTimeout(function () {
+                    $('#confirm_password_msg').fadeOut('slow');
+                }, 4000);
+
+            } else {
+                $("#confirm_password").focus()
+                $('#confirm_password_msg').show()
+                $("#confirm_password_msg").html('<div class=" alert alert-danger">Password did not matched</div>')
+
+                setTimeout(function () {
+                    $('#confirm_password_msg').fadeOut('slow');
+                }, 4000);
+            }
+        }
+
+
+
+        $('#registerForm').submit(function (e) {
+            e.preventDefault();
+            var valdata = $(this).serialize();
+            $.ajax({
+                url: '/ServiceRequest/api/Account/Register',
+                type: 'POST',
+                data: valdata,
+                success: function (data) {
+                    toastr.success('Success');
+                },
+                error: function (data) {
+                    toastr.error('Error');
+                }
+            })
+        });
+
+        FecthDepDiv();
+        function FecthDepDiv() {
+            $.ajax({
+                type: 'GET',
+                url: '/ServiceRequest/api/hardwareRequest/department',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                },
+                success: function (data) {
+                    var html = '<option value="">Select Department</option>';
+                    $.each(data, function (i, item) {
+                        html += '<option value="' + item.id + '">' + item.name + '</option>';
+                    });
+                    $('select[name=departmentsId]').html(html);
+                    // render divisionsId2 select
+                    // console log on select change
+                    $('select[name=departmentsId]').on('change', function () {
+                        var depId = $('select[name=departmentsId]').val();
+                        $.ajax({
+                            type: 'GET',
+                            url: '/ServiceRequest/api/div/fetchbyid/' + depId,
+                            headers: {
+                                'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                            },
+                            success: function (data) {
+                                var html = '<option value="0">Select Division</option>';
+                                $.each(data, function (i, item) {
+                                    html += '<option value="' + item.id + '">' + item.name + '</option>';
+                                });
+                                //console.log(data);
+                                $('select[name=divisionsId]').html(html);
+                            }
+                        });
+                    });
+                }
+            });
+        }
+    });
+</script>

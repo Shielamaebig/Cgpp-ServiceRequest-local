@@ -139,5 +139,13 @@ namespace Cgpp_ServiceRequest.Controllers
         {
             return View();
         }
+        public ActionResult PendingRequest()
+        {
+            return View();
+        }
+        public ActionResult AllRequestDivision()
+        {
+            return View();
+        }
     }
 }

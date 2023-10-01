@@ -62,7 +62,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Added A Software Services Category",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Created(new Uri(Request.RequestUri + "/" + software.Id), softwareDto);
@@ -104,7 +105,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Updated A Software Services Category",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Ok();
@@ -127,7 +129,8 @@ namespace Cgpp_ServiceRequest.Controllers.Api
                 ActivityMessage = "Deleted A Software Services Category",
                 ActivityDate = DateTime.Now.ToString("MMMM dd yyyy hh:mm tt"),
                 Email = User.Identity.GetUserName(),
-
+                DepartmentName = User.Identity.GetDepartmentName(),
+                DivisionName = User.Identity.GetDivisionName(),
             });
             _db.SaveChanges();
             return Ok();

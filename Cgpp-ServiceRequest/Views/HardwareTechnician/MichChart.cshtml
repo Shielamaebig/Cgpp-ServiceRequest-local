@@ -1,0 +1,223 @@
+﻿
+@{
+    ViewBag.Title = "MichChart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body mb-4">
+                <h4 class="card-title d-flex fw-semibold">
+                    My Total Reports (Yearly)
+                </h4>
+                <div class="chartSize" style="height: 40%; width: 100%; ">
+                    <canvas id="myReport" height="60"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body mb-4">
+                <div class="justify-content-between d-flex">
+                    <div>
+                        <h4 class="card-title d-flex fw-semibold">
+                            Monthly (2023)
+                        </h4>
+                    </div>
+                    <div class="m-3">
+                        <button class="btn btn-sm btn-outline-danger" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">Technicians</button>
+                    </div>
+                </div>
+                <div class="chartSize" style="height: 40%; width: 100%; ">
+                    <canvas id="techchart" height="60"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title fw-semibold card-title" id="offcanvasExampleLabel">Charts</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <ul class="sidebar-nav" id="sidebar-nav">
+            <li class="nav-item mt-3">
+                <a class="nav-link collapsed" href="/ServiceRequest/Login.cshtml">
+                    <i class="bi bi-person"></i>
+                    <span>Mich Aaron</span>
+
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="@Url.Action("Activity", "LoginActivity")">
+                    <i class="bi bi-person"></i>
+                    <span>Marck Anthony</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="@Url.Action("UserProfile", "Roles")">
+                    <i class="bi bi-person"></i>
+                    <span>Mario</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="@Url.Action("UserProfile", "Roles")">
+                    <i class="bi bi-person"></i>
+                    <span>Milan</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            HardwareList();
+
+
+
+            $.ajax({
+                type: 'GET',
+                url: '/api/v2/mytech/count',
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("access_token"),
+                },
+                success: function (res) {
+                    var labels = [];
+                    var data = [];
+                    var total = 0;
+
+                    $.each(res, function (i, item) {
+                        labels.push(moment(item.month, 'M').format('MMMM'));
+                        data.push(item.count);
+                        total += item.data;
+                    });
+
+
+                    console.log(data);
+                    new Chart(document.getElementById("techchart"), {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [
+                                {
+                                    data: data,
+                                    label: "Total",
+                                    borderColor: "#3cba9f",
+                                    fill: false
+                                }]
+                        },
+                        options: {
+                            legend: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: 'Chart JS Line Chart Example'
+                            }
+                        }
+                    });
+                }
+
+            });
+
+            $.ajax({
+                type: 'GET',
+                url: '/api/v2/myReport/count',
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("access_token"),
+                },
+                success: function (res) {
+                    var labels = [];
+                    var data = [];
+                    var colors = [];
+                    var hoverColors = [];
+                    var total = 0;
+                    $.each(res, function (i, item) {
+                        labels.push(item.year);
+                        data.push(item.count);
+                        colors.push('#' + (Math.random() * 0xFFFFFF << 0).toString(16));
+                        total == item.data;
+                    });
+                    /*console.log(res);*/
+                    var ctxP3 = document.getElementById("myReport").getContext('2d');
+                    if (window.ctxP3 != undefined)
+                        window.ctxP3.destroy();
+                    window.ctxP2 = new Chart(ctxP3, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                data: data,
+                                label: "",
+                                backgroundColor: colors,
+                                borderColor: colors,
+                                borderWidth: 1,
+                                fill: false
+                            }]
+                        },
+                        options: {
+                            legend: {
+                                display: false
+                            },
+                            responsive: true,
+                            maintainAspectRation: false,
+                            events: false,
+                            tooltips: {
+                                enabled: false,
+                                callbacks: {
+                                    label: function (tooltipItem) {
+                                        return tooltipItem.yLabel;
+                                    }
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Chart JS Line Chart Example'
+                            },
+                            hover: {
+                                animationDuration: 1
+                            },
+                            animation: {
+                                duration: 1,
+                                onComplete: function () {
+                                    var chartInstance = this.chart,
+                                        ctx = chartInstance.ctx;
+                                    ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+                                    ctx.textAlign = 'center';
+                                    ctx.textBaseline = 'bottom';
+
+                                    this.data.datasets.forEach(function (dataset, i) {
+                                        var meta = chartInstance.controller.getDatasetMeta(i);
+                                        meta.data.forEach(function (bar, index) {
+                                            var data = dataset.data[index];
+                                            ctx.fillText(data, bar._model.x, bar._model.y - 5);
+                                        });
+                                    });
+                                }
+                            }
+                        }
+                    });
+                },
+                //if failed
+                error: function (data) {
+
+                    // toastr.info("Success")
+                }
+            });
+
+
+        });
+    </script>
+}
+
+
+
+

@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title d-flex justify-content-between mx-2">
+                    Programmers List
+                </h4>
+                <h6 class="card-subtitle"></h6>
+                <div class="table-responsive">
+                    <table id="softwaretechList" class="table table-condensed display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Date Added</th>
+                                <th>Programmers</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="Stechnicianmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-m modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="heading" id="exampleModalLabel"><h4 class="card-title d-flex justify-content-between" style="padding:0;">Software Technician</h4></p>
+            </div>
+            <div class="modal-body">
+                <form id="save">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="">Name</label>
+                            <input type="text" class="form-control mt-2 mb-3" name="name" placeholder="Technician" id="name" required />
+                        </div>
+                    </div>
+                    <input type="hidden" id="id" name="id" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" value=" submit" class="btn btn-success " id="btnSubmit">Save</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="editmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-m modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="heading" id="exampleModalLabel"><h4 class="card-title d-flex justify-content-between" style="padding:0;">Software Technician</h4></p>
+            </div>
+            <div class="modal-body">
+                <form id="edit">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="">Name</label>
+                            <input type="text" class="form-control mt-2 mb-3" name="name" placeholder="Technician" id="name" required />
+                        </div>
+                    </div>
+                    <input type="hidden" id="id" name="id" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" value=" submit" class="btn btn-success " id="Updatetech">Save</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            GetSoftwareTechnician();
+        });
+    </script>
+}
+

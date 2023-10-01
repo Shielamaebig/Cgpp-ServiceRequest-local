@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cgpp_ServiceRequest.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,5 +14,7 @@ namespace Cgpp_ServiceRequest.Dtos
 
         public DepartmentDto Departments { get; set; }
         public int DepartmentsId { get; set; }
+
+        public bool IsDivisionApprover { get; set; }
     }
 }

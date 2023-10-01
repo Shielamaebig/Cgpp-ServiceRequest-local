@@ -1,0 +1,282 @@
+﻿
+@{
+    ViewBag.Title = "Admin2";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title d-flex justify-content-between mx-2">
+                    Hardware Request List
+                </h4>
+                <h6 class="card-subtitle"></h6>
+                <div class="table-responsive">
+                    <table id="hardwareRequestList" class="table table-condensed display">
+                        <thead>
+                            <tr>
+                                <th>Ticket</th>
+                                <th>Date Posted</th>
+                                <th>Reported by</th>
+                                <th>Status</th>
+                                <th>Date Verified</th>
+                                <th>Date Approved</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="hardwareRequestModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="heading card-title" id="exampleModalLabel"><h5 class="card-title d-flex justify-content-between">  Request Details</h5></p>
+            </div>
+            <div class="modal-body">
+                <form id="EditRequest">
+                    <div class="row">
+                        <div class="mb-3 text-center">
+                            <small>Client Information</small>
+                        </div>
+                        <div class="form-group col-8 col-sm-6">
+                            <label for="">Name</label>
+                            <input type="text" class="form-control mb-2" name="fullName" id="fullName" readonly />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="">Phone Number</label>
+                            <input type="text" class="form-control mb-2" name="mobileNumber" id="mobileNumber" readonly />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="">Department</label>
+                            <select class="form-control departments" id="departmentsId" name="departmentsId">Select Departments</select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="">Division</label>
+                            <select class="form-control" id="divisionsId" name="divisionsId">Select Departments</select>
+                        </div>
+                        <div class="space mt-3"></div>
+                        <div class="mt-2 text-center">
+                            <small>Request for Technical Services / Problem</small>
+                        </div>
+                        <div class="form-group col-8 col-sm-6 mt-3">
+                            <label for="">Service Category</label>
+                            <select type="text" class="form-control " name="hardwareId" id="hardwareId"></select>
+                        </div>
+                        <div class="form-group col-sm-6 mt-3">
+                            <label for=""> Model Name</label>
+                            <input type="text" class="form-control " name="modelName" id="modelName" readonly />
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for=""> Unit</label>
+                            <select class="form-control" id="unitTypeId" name="unitTypeId">Select UnitType</select>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="">Brand Name</label>
+                            <input class="form-control" id="brandName" name="brandName" readonly />
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="mt-3">Description</label>
+                            <textarea class="form-control mb-5" id="description" name="description" style="height: 200px;" readonly> </textarea>
+                        </div>
+
+
+                        <div class="space"></div>
+
+                        <div class="mt-2 text-center">
+                            <small>Technician Comprehensive / Analysis Report</small>
+                        </div>
+                        <div class="form-group col-8 col-sm-6 mt-2">
+                            <label for=""> Status </label>
+                            <select type="text" class="form-control" name="statusId" id="statusId"></select>
+                        </div>
+                        <div class="form-group col-md-6 mt-2">
+                            <label for=""> Assign Tecnician</label>
+                            <select class="form-control" name="hardwareTechnicianId" id="hardwareTechnicianId">
+                            </select>
+                        </div>
+                        <div class="form-group col-8 col-sm-6 mt-3">
+                            <label for="">Possible Cause</label>
+                            <input type="text" class="form-control " name="possibleCause" id="possibleCause" readonly />
+                        </div>
+                        <div class="form-group col-sm-6 mt-3">
+                            <label for="">Findings After Repair</label>
+                            <select class="form-control col-sm-6" id="findingId" name="findingId"></select>
+                        </div>
+
+
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="">Date Started</label>
+                            <div class='input-group date'>
+                                <span class="input-group-text pb-0 pt-0" id="inputGroupPrepend">
+                                    <span class="far fa-calendar-alt"></span>
+                                </span>
+                                <input class="form-control dateStarted" type="date" name="dateStarted" id="dateStarted" />
+                                <span class="input-group-text" id="inputGroupPrepend">
+                                    <span class="far fa-clock"></span>
+                                </span>
+                                <input class="form-control timeStarted" type="time" name="timeStarted" id="timeStarted" />
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="">Date Ended</label>
+                            <div class='input-group date'>
+                                <span class="input-group-text pb-0 pt-0" id="inputGroupPrepend">
+                                    <span class="far fa-calendar-alt"></span>
+                                </span>
+                                <input class="form-control dateEnded" type="date" name="dateEnded" id="dateEnded" />
+                                <span class="input-group-text" id="inputGroupPrepend">
+                                    <span class="far fa-clock"></span>
+                                </span>
+                                <input class="form-control timeEnded" type="time" name="timeEnded" id="timeEnded" />
+                            </div>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="" class="mt-3">Remarks</label>
+                            <textarea class="form-control" id="remarks" name="remarks" style="height: 200px;" readonly> </textarea>
+                        </div>
+                        <div class="space my-4"></div>
+
+                        <div class=" text-center">
+                            <small>Hardware Admin</small>
+                        </div>
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="">Verified By</label>
+                            <input class="form-control " type="text" name="approver" id="approver" />
+                        </div>
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="">Date Approved</label>
+                            <input class="form-control " type="text" name="dateApproved" id="dateApproved" />
+                        </div>
+                        <div class="form-group mt-3 mb-2">
+                            <label for="">Remakrs</label>
+                            <textarea class="form-control " name="approverRemarks" id="approverRemarks" style="height:200px"></textarea>
+                        </div>
+
+                        <div class="space my-4"></div>
+
+                        <div class=" text-center">
+                            <small>Super Admin</small>
+                        </div>
+
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="">Approved By</label>
+                            <input class="form-control " type="text" name="viewer" id="viewer" />
+                        </div>
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="">Date Viewed</label>
+                            <input class="form-control " type="text" name="dateView" id="dateApproved" />
+                        </div>
+                        <div class="form-group mt-3 mb-5">
+                            <label for="">Remakrs</label>
+                            <textarea class="form-control " name="viewedRemarks" id="viewedRemarks" style="height:200px"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="StatusModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-s modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="heading card-title" id="exampleModalLabel"><h5 class="card-title d-flex justify-content-between">Assign Technician</h5></p>
+            </div>
+            <div class="modal-body">
+                <form id="assign">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="">Status</label>
+                            <select type="text" class="form-control mb-2 statusId" name="statusId" id="statusId">
+                            </select>
+                        </div>
+                    </div>
+                    <input type="hidden" id="id" name="id" />
+                    <input type="hidden" id="hardwareTechnicianId" name="hardwareTechcnicianId" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="updateStatus" type="button" class="btn btn-success update-status">Submit</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="TechnicianModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-s modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="heading card-title" id="exampleModalLabel"><h5 class="card-title d-flex justify-content-between">Assign Technician</h5></p>
+            </div>
+            <div class="modal-body">
+                <form id="assignTech">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="">Technician</label>
+                            <select type="text" class="form-control mb-2 hardwareTechnicianId" name="hardwareTechnicianId" id="hardwareTechnicianId">
+                            </select>
+                        </div>
+                    </div>
+                    <input type="hidden" id="id" name="id" />
+                    <input type="hidden" id="statusId" name="statusId" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="updateTechnician" type="button" class="btn btn-success update-technician">Submit</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="ApprovedByModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-s modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="heading card-title" id="exampleModalLabel"><h5 class="card-title d-flex justify-content-between">Approve by</h5></p>
+            </div>
+            <div class="modal-body">
+                <form id="approve">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="" class="mt-3">Remarks</label>
+                            <textarea class="form-control" id="approverRemarks" name="approverRemarks" style="height: 200px;" required> </textarea>
+                        </div>
+
+                    </div>
+                    <input type="hidden" id="id" name="id" />
+                    <input type="hidden" id="statusId" name="statusId" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="Approved" type="button" class="btn btn-success update-verified">Submit</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            HardwareAdmin2();
+        });
+    </script>
+}

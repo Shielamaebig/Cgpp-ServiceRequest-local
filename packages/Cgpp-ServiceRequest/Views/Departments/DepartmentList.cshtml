@@ -1,0 +1,127 @@
+﻿
+@{
+    ViewBag.Title = "DepartmentList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title d-flex justify-content-between mx-2">
+                    Departments
+                </h4>
+                <h6 class="card-subtitle"></h6>
+                <div class="table-responsive">
+                    <table id="departmentList" class="table table-condensed display">
+                        <thead>
+                            <tr>
+                                <th>Date Added</th>
+                                <th>Departments</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="departmentAdd" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-m modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="heading" id="exampleModalLabel"><h4 class="card-title d-flex justify-content-between">Department</h4></p>
+            </div>
+            <div class="modal-body">
+                <form id="save">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="">Department Name</label>
+                            <input type="text" class="form-control mt-3 mb-3" name="name" placeholder="Department" id="name" required />
+                        </div>
+                    </div>
+                    <input type="hidden" id="id" name="id" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" value=" submit" class="btn btn-success " id="btnSubmit">Submit</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="editmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-m modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="heading" id="exampleModalLabel"><h4 class="card-title d-flex justify-content-between">Department</h4></p>
+            </div>
+            <div class="modal-body">
+                <form id="edit">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="">Department Name</label>
+                            <input type="text" class="form-control mt-3 mb-3" name="name" placeholder="Department" id="name" required />
+                        </div>
+                    </div>
+                    <input type="hidden" id="id" name="id" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" value=" submit" class="btn btn-success " id="UpdateRecord">Save</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="deleteModal">
+    <div class="modal-dialog modal-m modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="card-title d-flex justify-content-between modal-title" style="padding:0;">Delete Department</h4>
+                <a href="#" class="close" data-bs-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+                <h6 class="card-subtitle">Are you sure you want to Remove this Department?</h6>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name="DepartmentId" id="DepartmentId" />
+                <a href="#" class="btn btn-danger" id="btnDelete">Confirm</a>
+                <a href="#" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="pleasewait" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border text-primary mt-3" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="justify-content-center">
+                    <h2 class="text-center ms-3 mt-3" style="font-size:20px;">Loading...</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+
+        $(document).ready(function () {
+            Departments();
+        });
+    </script>
+}
+

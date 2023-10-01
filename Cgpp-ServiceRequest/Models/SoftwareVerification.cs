@@ -15,7 +15,6 @@ namespace Cgpp_ServiceRequest.Models
         public int? SoftwareUserRequestId { get; set; }
         public ProgrammerReport ProgrammerReport { get; set; }
         public int ProgrammerReportId { get; set; }
-        public SoftwareAcceptsRequest SoftwareAcceptsRequest { get; set; }
-        public int? SoftwareAcceptsRequestId { get; set; }
+
     }
 }

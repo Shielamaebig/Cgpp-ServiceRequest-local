@@ -1,0 +1,1154 @@
+﻿
+@if (User.IsInRole("Technicians"))
+{
+    <div class="row dashboard">
+        <div class="col-md-3">
+            <div class="card info-card sales-card">
+                <div class="card-body">
+                    <h5 class="dash-title text-center"></h5>
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <div class="ps-3 text-end justify-content-end">
+                            <h6 id="usercount" class="text-center"></h6>
+                            <small style="font-size:12px; color:gray;">Total Users</small>
+                            <span class="text-success small pt-1 fw-bold">  </span> <span class="text-muted small pt-2 ps-1"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card info-card sales-card">
+                <div class="card-body">
+                    <h5 class="dash-title text-center"></h5>
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-building"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6 id="depcount" class="text-center"></h6>
+                            <small style="font-size:12px; color:gray;">Total Departments</small>
+                            <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card info-card revenue-card">
+                <div class="card-body">
+                    <h5 class="dash-title text-center"></h5>
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-pc-display"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6 id="AssignedRequests" class="text-center"></h6>
+                            <small style="font-size:12px; color:gray;">Assigned Request</small>
+                            <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card info-card revenue-card">
+
+
+                <div class="card-body">
+                    <h5 class="dash-title text-center"></h5>
+
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-list-ul"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6 id="hardwareRequest" class="text-center"></h6>
+                            <small style="font-size:12px; color:gray;">Hardware Request</small>
+                            <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <h5 class="card-title">Hardware Request Activitiy</h5>
+                    <div class="table-responsive">
+                        <table class="table table-condensed" id="HardwareActivity">
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Division</th>
+                                    <th>Log</th>
+                                    <th>Date Activity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="text-end m-3">
+                        <button type="button" class="btn btn-primary" style="border-radius:20px;" onclick="location.href ='@Url.Action("HardwareRequests","LoginActivity")'">See all Activity</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <h5 class="card-title">Assigned Request</h5>
+                    <div class="table-responsive">
+                        <table class="table table-condensed" id="hardwareProgrammer">
+                            <thead>
+                                <tr>
+                                    <th class="bg-warning  text-white">Ticket #</th>
+                                    <th class="bg-warning  text-white">Date Posted</th>
+                                    <th class="bg-warning  text-white">Full Name</th>
+                                    <th class="bg-warning  text-white">Department</th>
+                                    <th class="bg-warning  text-white">Division</th>
+                                    <th class="bg-warning  text-white">Software Service</th>
+                                    <th class="bg-warning  text-white">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="text-end m-3">
+                        <button type="button" class="btn btn-primary" style="border-radius:20px;" onclick="location.href ='@Url.Action("Index","HardwareRequest")'">See all Activity</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <h5 class="card-title">Recent Activitiy</h5>
+
+                    <table class="table table-condensed" id="userlogs">
+                        <thead class="bg-info text-white">
+                            <tr>
+                                <th>Name</th>
+                                <th>Log</th>
+                                <th>Date Activity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <div class="text-end m-3">
+                        <button type="button" class="btn btn-primary" style="border-radius:20px;" onclick="location.href ='@Url.Action("Activity","LoginActivity")'">See all Activity</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+}
+
+@if (User.IsInRole("HardwareAdmin"))
+{
+    <div class="row dashboard">
+        <div class="col-md-3">
+            <div class="card info-card sales-card">
+                <div class="card-body">
+                    <h5 class="dash-title text-center"></h5>
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <div class="ps-3 text-end justify-content-end">
+                            <h6 id="usercount" class="text-center"></h6>
+                            <small style="font-size:12px; color:gray;">Total Users</small>
+                            <span class="text-success small pt-1 fw-bold">  </span> <span class="text-muted small pt-2 ps-1"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card info-card sales-card">
+                <div class="card-body">
+                    <h5 class="dash-title text-center"></h5>
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-building"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6 id="depcount" class="text-center"></h6>
+                            <small style="font-size:12px; color:gray;">Total Departments</small>
+                            <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card info-card revenue-card">
+                <div class="card-body">
+                    <h5 class="dash-title text-center"></h5>
+
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6 id="Technician" class="text-center"></h6>
+                            <small style="font-size:12px; color:gray;">Total Technicians</small>
+
+                            <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card info-card revenue-card">
+
+
+                <div class="card-body">
+                    <h5 class="dash-title text-center"></h5>
+
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-list-ul"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6 id="hardwareRequest" class="text-center"></h6>
+                            <small style="font-size:12px; color:gray;">Hardware Request</small>
+
+                            <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <h5 class="card-title">Hardware Request Activitiy</h5>
+                    <div class="table-responsive">
+                        <table class="table table-condensed" id="HardwareActivity">
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Division</th>
+                                    <th>Log</th>
+                                    <th>Date Activity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="text-end m-3">
+                        <button type="button" class="btn btn-primary" style="border-radius:20px;" onclick="location.href ='@Url.Action("HardwareRequests","LoginActivity")'">See all Activity</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <h5 class="card-title">Status</h5>
+                    <div class="table-responsive">
+                        <table class="table table-condensed" id="statusListcount2">
+                            <thead>
+                                <tr>
+                                    <th class="bg-warning text-white">Status</th>
+                                    <th class="bg-warning text-white">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="mt-5">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <h5 class="card-title">Recent Activitiy</h5>
+
+                    <table class="table table-condensed" id="userlogs">
+                        <thead class="bg-info text-white">
+                            <tr>
+                                <th>Name</th>
+                                <th>Log</th>
+                                <th>Date Activity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <div class="text-end m-3">
+                        <button type="button" class="btn btn-primary" style="border-radius:20px;" onclick="location.href ='@Url.Action("Activity","LoginActivity")'">See all Activity</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+@if (User.IsInRole("Programmers"))
+{
+    <div class="row dashboard">
+        <div class="col-md-3">
+            <div class="card info-card sales-card">
+                <div class="card-body">
+                    <h5 class="dash-title text-center"></h5>
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <div class="ps-3 text-end justify-content-end">
+                            <h6 id="usercount" class="text-center"></h6>
+                            <small style="font-size:12px; color:gray;">Total Users</small>
+                            <span class="text-success small pt-1 fw-bold">  </span> <span class="text-muted small pt-2 ps-1"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card info-card sales-card">
+                <div class="card-body">
+                    <h5 class="dash-title text-center"></h5>
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-building"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6 id="depcount" class="text-center"></h6>
+                            <small style=" font-size:12px; color:gray;">Total Departments</small>
+                            <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card info-card revenue-card">
+                <div class="card-body">
+                    <h5 class="dash-title text-center"></h5>
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-window-plus"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6 id="AssignedSoftware" class="text-center"></h6>
+                            <small style="font-size:12px; color:gray;">Assigned Request</small>
+                            <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card info-card revenue-card">
+                <div class="card-body">
+                    <h5 class="dash-title"></h5>
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-list-ul"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6 id="softwareRequest" class="text-center"></h6>
+                            <small style=" font-size:12px; color:gray;">Software Request</small>
+                            <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <h5 class="card-title">Software Request Activity</h5>
+                    <div class="table-responsive">
+                        <table class="table table-condensed" id="softwareActivity">
+                            <thead>
+                                <tr>
+                                    <th class="bg-primary text-white">Name</th>
+                                    <th class="bg-primary text-white">Department</th>
+                                    <th class="bg-primary text-white">Division</th>
+                                    <th class="bg-primary text-white">Log</th>
+                                    <th class="bg-primary text-white">Date Activity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="text-end m-3">
+                        <button type="button" class="btn btn-primary" style="border-radius:20px;" onclick="location.href ='@Url.Action("SoftwareRequests","LoginActivity")'">See all Activity</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <h5 class="card-title">Assigned Request</h5>
+                    <div class="table-responsive">
+                        <table class="table table-condensed" id="softwareProgrammer">
+                            <thead>
+                                <tr>
+                                    <th class="bg-warning  text-white">Ticket #</th>
+                                    <th class="bg-warning  text-white">Date Posted</th>
+                                    <th class="bg-warning  text-white">Full Name</th>
+                                    <th class="bg-warning  text-white">Department</th>
+                                    <th class="bg-warning  text-white">Division</th>
+                                    <th class="bg-warning  text-white">Software Service</th>
+                                    <th class="bg-warning  text-white">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-end m-3">
+                        <button type="button" class="btn btn-primary" style="border-radius:20px;" onclick="location.href ='@Url.Action("Index","SoftwareRequest")'">See all Activity</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <h5 class="card-title">Recent Activitiy</h5>
+
+                    <table class="table table-condensed" id="userlogs">
+                        <thead class="bg-info text-white">
+                            <tr>
+                                <th>Name</th>
+                                <th>Log</th>
+                                <th>Date Activity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <div class="text-end m-3">
+                        <button type="button" class="btn btn-primary" style="border-radius:20px;" onclick="location.href ='@Url.Action("Activity","LoginActivity")'">See all Activity</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+}
+
+@if (User.IsInRole("SoftwareAdmin"))
+{
+    <div class="row dashboard">
+        <div class="col-md-3">
+            <div class="card info-card sales-card">
+                <div class="card-body">
+                    <h5 class="dash-title text-center"></h5>
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <div class="ps-3 text-end justify-content-end">
+                            <h6 id="usercount" class="text-center"></h6>
+                            <small style="font-size:12px; color:gray;">Total Users</small>
+                            <span class="text-success small pt-1 fw-bold">  </span> <span class="text-muted small pt-2 ps-1"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card info-card sales-card">
+                <div class="card-body">
+                    <h5 class="dash-title text-center"></h5>
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-building"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6 id="depcount" class="text-center"></h6>
+                            <small style=" font-size:12px; color:gray;">Total Departments</small>
+                            <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card info-card revenue-card">
+                <div class="card-body">
+                    <h5 class="dash-title"></h5>
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6 id="ProgCount" class="text-center" s></h6>
+                            <small style=" font-size:12px; color:gray;">Total Programmers</small>
+                            <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card info-card revenue-card">
+                <div class="card-body">
+                    <h5 class="dash-title"></h5>
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-list-ul"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6 id="softwareRequest" class="text-center"></h6>
+                            <small style=" font-size:12px; color:gray;"> Software Request</small>
+                            <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <h5 class="card-title">Software Request Activitiy</h5>
+                    <div class="table-responsive">
+                        <table class="table table-condensed" id="softwareActivityAdmin">
+                            <thead>
+                                <tr>
+                                    <th class="bg-primary text-white">Name</th>
+                                    <th class="bg-primary text-white">Department</th>
+                                    <th class="bg-primary text-white">Division</th>
+                                    <th class="bg-primary text-white">Log</th>
+                                    <th class="bg-primary text-white">Date Activity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-end m-3">
+                        <button type="button" class="btn btn-primary" style="border-radius:20px;" onclick="location.href ='@Url.Action("SoftwareRequests","LoginActivity")'">See all Activity</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <h5 class="card-title">Status</h5>
+                    <div class="table-responsive">
+                        <table class="table table-condensed" id="statusListcount">
+                            <thead>
+                                <tr>
+                                    <th class="bg-warning text-white">Status</th>
+                                    <th class="bg-warning text-white">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-5">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <h5 class="card-title">Recent Activitiy</h5>
+                    <table class="table table-condensed" id="userlogs">
+                        <thead class="bg-info text-white">
+                            <tr>
+                                <th>Name</th>
+                                <th>Log</th>
+                                <th>Date Activity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <div class="text-end m-3">
+                        <button type="button" class="btn btn-primary" style="border-radius:20px;" onclick="location.href ='@Url.Action("Activity","LoginActivity")'">See all Activity</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+}
+
+@if (User.IsInRole("SuperAdmin"))
+{
+    <div class="row dashboard">
+        <div class="col-md-3">
+            <div class="card info-card sales-card">
+                <div class="card-body">
+                    <h5 class="dash-title text-center"></h5>
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <div class="ps-3 text-end justify-content-end">
+                            <h6 id="usercount" class="text-center"></h6>
+                            <small style="font-size:12px; color:gray;">Total Users</small>
+                            <span class="text-success small pt-1 fw-bold">  </span> <span class="text-muted small pt-2 ps-1"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card info-card sales-card">
+                <div class="card-body">
+                    <h5 class="dash-title text-center"></h5>
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-building"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6 id="depcount" class="text-center"></h6>
+                            <small style="font-size:12px; color:gray;">Total Departments</small>
+                            <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card info-card revenue-card">
+                <div class="card-body">
+                    <h5 class="dash-title text-center"></h5>
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-pc-display"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6 id="hardwareRequest" class="text-center"></h6>
+                            <small style="font-size:12px; color:gray;">Total Hardware Request</small>
+                            <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card info-card revenue-card">
+                <div class="card-body">
+                    <h5 class="dash-title text-center"></h5>
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-window-plus"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6 id="softwareRequest" class="text-center"></h6>
+                            <small style="font-size:12px; color:gray;">Total Software Request</small>
+                            <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <h5 class="card-title">Request Activity</h5>
+                    <div class="table-responsive">
+                        <table class="table table-condensed" id="requestActivity">
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Division</th>
+                                    <th>Log</th>
+                                    <th>Date Activity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-end m-3">
+                        <button type="button" class="btn btn-primary" style="border-radius:20px;" onclick="location.href ='@Url.Action("RequestActivities","LoginActivity")'">See all Activity</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body pb-0">
+                        <h5 class="card-title">Recent Activitiy</h5>
+                        <table class="table table-condensed" id="userlogs">
+                            <thead class="bg-warning text-white">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Log</th>
+                                    <th>Date Activity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <div class="text-end m-3">
+                            <button type="button" class="btn btn-primary" style="border-radius:20px;" onclick="location.href ='@Url.Action("Activity","LoginActivity")'">See all Activity</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (User.IsInRole("Developer"))
+{
+    <div class="row dashboard">
+        <div class="col-md-3">
+            <div class="card info-card sales-card">
+                <div class="card-body">
+                    <h5 class="dash-title text-center"></h5>
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <div class="ps-3 text-end justify-content-end">
+                            <h6 id="usercount" class="text-center"></h6>
+                            <small style="font-size:12px; color:gray;">Total Users</small>
+                            <span class="text-success small pt-1 fw-bold">  </span> <span class="text-muted small pt-2 ps-1"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card info-card sales-card">
+                <div class="card-body">
+                    <h5 class="dash-title text-center"></h5>
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-building"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6 id="depcount" class="text-center"></h6>
+                            <small style="font-size:12px; color:gray;">Total Departments</small>
+                            <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card info-card revenue-card">
+                <div class="card-body">
+                    <h5 class="dash-title text-center"></h5>
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-pc-display"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6 id="hardwareRequest" class="text-center"></h6>
+                            <small style="font-size:12px; color:gray;">Total Hardware Request</small>
+                            <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card info-card revenue-card">
+                <div class="card-body">
+                    <h5 class="dash-title text-center"></h5>
+                    <div class="d-flex justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-window-plus"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6 id="softwareRequest" class="text-center"></h6>
+                            <small style="font-size:12px; color:gray;">Total Software Request</small>
+                            <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <h5 class="card-title">Request Activity</h5>
+                    <div class="table-responsive">
+                        <table class="table table-condensed" id="requestActivity">
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Division</th>
+                                    <th>Log</th>
+                                    <th>Date Activity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-end m-3">
+                        <button type="button" class="btn btn-primary" style="border-radius:20px;" onclick="location.href ='@Url.Action("RequestActivities","LoginActivity")'">See all Activity</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body pb-0">
+                        <h5 class="card-title">Recent Activitiy</h5>
+                        <table class="table table-condensed" id="userlogs">
+                            <thead class="bg-warning text-white">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Log</th>
+                                    <th>Date Activity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <div class="text-end m-3">
+                            <button type="button" class="btn btn-primary" style="border-radius:20px;" onclick="location.href ='@Url.Action("Activity","LoginActivity")'">See all Activity</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body pb-0">
+                        <h5 class="card-title">All Recent Activity</h5>
+                        <div class="table-responsive">
+                            <table class="table table-condensed" id="activityLogs">
+                                <thead class="bg-warning text-white">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Log</th>
+                                        <th>Date Activity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="text-end m-3">
+                            <button type="button" class="btn btn-primary" style="border-radius:20px;" onclick="location.href ='@Url.Action("Index","LoginActivity")'">See all Activity</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+
+@if (User.IsInRole("Users"))
+{
+    <div class="row dashboard">
+        <div class="col-md-6">
+            <div class="card info-card revenue-card">
+                <div class="card-body">
+                    <h5 class="dash-title text-center"></h5>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-pc-display"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6 id="hardwareuser" class="text-center mt-4"></h6>
+                            <small style=" font-size:12px; color:gray;">Hardware Request</small>
+
+                            <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card info-card revenue-card">
+                <div class="card-body">
+                    <h5 class="card-title text-center"></h5>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-layout-text-window-reverse"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6 id="softwareuser" class="text-center mt-3"></h6>
+                            <small style=" font-size:12px; color:gray;">Software Request</small>
+
+                            <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div><!-- End Revenue Card -->
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card table-responsive">
+                <div class="card-body pb-0">
+                    <h5 class="card-title">Hardware</h5>
+
+                    <div class="table-responsive">
+                        <table class="table table-condensed" id="UserhardwareRequest">
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th>Ticket #</th>
+                                    <th>Date Posted</th>
+                                    <th>Hardware Service</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-end m-3">
+                        <button type="button" class="btn btn-primary" style="border-radius:20px;" onclick="location.href ='@Url.Action("HardwareRequestList","HardwareRequest")'">See all Activity</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card table-responsive">
+                <div class="card-body pb-0">
+                    <h5 class="card-title">Software</h5>
+                    <div class="table-responsive">
+                        <table class="table table-condensed" id="UsersoftwareRequest">
+                            <thead class="bg-warning text-white">
+                                <tr>
+                                    <th>Ticket #</th>
+                                    <th>Date Posted</th>
+                                    <th>Software Service</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-end m-3">
+                        <button type="button" class="btn btn-warning text-white" style="border-radius:20px;" onclick="location.href ='@Url.Action("RequestList","SoftwareRequest")'">See all Activity</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <h5 class="card-title">Recent Activitiy</h5>
+
+                    <table class="table table-condensed" id="userlogs">
+                        <thead class="bg-info text-white">
+                            <tr>
+                                <th>Name</th>
+                                <th>Log</th>
+                                <th>Date Activity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <div class="text-end m-3">
+                        <button type="button" class="btn btn-primary" style="border-radius:20px;" onclick="location.href ='@Url.Action("Activity","LoginActivity")'">See all Activity</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+}
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            DashBoard();
+            Count();
+            $.ajax({
+                type: 'GET',
+                url: '/ServiceRequest/api/login/current',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                },
+                success: function (data) {
+                    //  alert(data);
+                    var id = data.id;
+                    //   alert(id);
+                    $.ajax({
+                        type: 'POST',
+                        url: 'api/Account/ChangeLogStatus/' + id,
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                        },
+                        success: function (data) {
+
+                        },
+                        error: function (data) {
+
+                        }
+
+                    })
+                },
+                error: function (data) {
+
+                    @* toastr.info("Success") *@
+                }
+            });
+
+            //User Dashboard UserACtivity
+            $.ajax({
+                type: 'GET',
+                url: '/ServiceRequest/api/login/userActivity2',
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem('access_token')
+                },
+                success: function (data) {
+                    $('#userlogs tbody').html('');
+                    $.each(data, function (index, value) {
+                        $('#userlogs tbody').append(
+                            '<tr>' +
+                            '<td>' + '<span style="font-size: 15px;">' + value.userName + '</span>' + '</td>' +
+                            '<td>' + '<span style="font-size: 15px;">' + value.activityMessage + '</span>' + '</td>' +
+                            '<td>' + '<span style="font-size: 15px;">' + value.activityDate + '</span>' + '</td>' + '</tr>'
+                        );
+                    });
+                },
+
+                //if failed
+                error: function (data) {
+
+                    // toastr.info("Success")
+                }
+
+            })
+
+        });
+    </script>
+}

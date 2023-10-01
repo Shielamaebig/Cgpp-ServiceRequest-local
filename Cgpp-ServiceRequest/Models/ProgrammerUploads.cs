@@ -14,5 +14,8 @@ namespace Cgpp_ServiceRequest.Models
         public int ProgrammerReportId { get; set; }
         public string DateAdded { get; set; }
         public string RemarksUploads { get; set; }
+        public string FileExtension { get; set; }
+        public Ftp Ftp { get; set; }
+        public int? FtpId { get; set; }
     }
 }

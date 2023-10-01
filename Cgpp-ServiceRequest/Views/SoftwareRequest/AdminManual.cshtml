@@ -11,11 +11,12 @@
             <div class="card-body">
                 <div class="row">
                     <div class="ms-2 mb-3">
-                        <div class="mb-4 text-center mt-4">
-                            <small class="card-title">Client Information</small>
+                           <div class="mb-4 text-center mt-4">
+                            <h5 class="fw-semibold">Manual Request</h5>
+                            <small class="card-title fw-semibold">Client Information</small>
                         </div>
                     </div>
-                    <h3 class="card-title ms-3">With User Account</h3>
+                    <h3 class="card-title ms-3 fw-semibold">With User Account</h3>
 
                     <div class="form-group col-8 col-md-6 mb-2 ">
                         <label for="">Name</label>
@@ -133,7 +134,7 @@
                 var formData = new FormData(manual);
                 $.ajax({
                     type: 'POST',
-                    url: '/api/manual/saveRequest',
+                    url: '/ServiceRequest/api/manual/saveRequest',
                     data: formData,
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -148,7 +149,7 @@
 
                             }, 2000);
                             setTimeout(function () {
-                                window.location.href = "/SoftwareRequest/AdminIndex";
+                                window.location.href = "/ServiceRequest/SoftwareRequest/AdminIndex";
                             }, 3000);
                         }
                         else

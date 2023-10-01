@@ -1,0 +1,339 @@
+﻿@using Cgpp_ServiceRequest.Models.Extensions
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "RequestList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title d-flex justify-content-between mx-2">
+                    Software Request List
+                </h4>
+                <h6 class="card-subtitle"></h6>
+                <div class="table-responsive">
+                    <table id="softwareRequestList" class="table table-condensed display">
+                        <thead>
+                            <tr>
+                                <th>Ticket</th>
+                                <th>Date Posted</th>
+                                <th>Reported By</th>
+                                <th>Issue</th>
+                                <th>Status</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="softwarerequestmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #0B5ED7;">
+                <p class="heading card-title" id="exampleModalLabel"><h5 class="card-title d-flex justify-content-between text-white">  Request Details</h5></p>
+            </div>
+            <div class="modal-body">
+                <form id="EditRequest">
+                    <div class="row">
+                        <div class="form-group col-8 col-sm-6 mt-3">
+                            <label for="">Service Category</label>
+                            <select type="text" class="form-control mt-2 mb-3" name="softwareId" id="softwareId" ></select>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                        <div class="form-group col-md-6 mt-2 mb-3">
+                            <label for="">Information System</label>
+                            <select class="form-control" id="informationSystemId" name="informationSystemId"> </select>
+                        </div>
+                        <div class="form-group col-md-6 mt-2 mb-3">
+                            <label for="">Request For</label>
+                            <input class="form-control" id="requestFor" name="requestFor" />
+                        </div>
+                        <div class="row mt-3">
+                            <label for="FileName" class="col col-form-label ">Subject : </label>
+                            <div class="col-md-11">
+                                <input type="text" class="form-control ms-4" id="documentLabel" name="FileName" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="mt-3">Description</label>
+                            <textarea class="form-control" id="description" name="description" style="height: 300px;"> </textarea>
+                        </div>
+                        <input type="hidden" id="id" name="id" />
+                        <input type="hidden" id="statusId" name="statusId" />
+                    </div>
+                    <div class="modal-footer">
+                        <button id="editRequest" type="button" class="btn btn-success update-request">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="CancelRequestModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-s modal-notify modal-info" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <form id="cancelRequest">
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="row">
+                        <p>Do you want to Cancel this Request?</p>
+                    </div>
+                    <input type="hidden" id="id" name="id" />
+                    <input type="hidden" id="statusId" name="statusId" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                <button id="cancel" type="button" class="btn btn-success cancel-request">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*Modal for View*@
+<div class="modal fade" id="viewmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center" style="background-color: #31D2F2;">
+                <p class="heading card-title" id="exampleModalLabel"><h5 class="card-title d-flex justify-content-between text-white">  Request Details</h5></p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="viewRequest">
+                    <div class="row">
+                        <div class="mt-3 mb-3 text-center">
+                            <small class="card-title">Software Request Details</small>
+                        </div>
+
+                        <div class="form-group col-8 col-sm-6 mt-3">
+                            <label for="">Service Category</label>
+                            <select type="text" class="form-control mt-2 mb-3" name="softwareId" id="softwareId" disabled></select>
+                        </div>
+                        <div class="col-md-6"></div>
+                        <div class="form-group col-md-6">
+                            <label for="">System</label>
+                            <select class="form-control mt-2 mb-3" id="informationSystemId" name="informationSystemId" disabled> </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="">Request For</label>
+                            <input class="form-control mt-2 mb-3" id="requestFor" name="requestFor" disabled />
+                        </div>
+                        <div class="row mt-2 mb-2">
+                            <label for="FileName" class="col col-form-label ">Subject : </label>
+                            <div class="col-md-11">
+                                <input type="text" class="form-control ms-4" id="documentLabel" name="FileName" disabled />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="">Description</label>
+                            <textarea class="form-control" id="description" name="description" style="height: 200px;" disabled> </textarea>
+                        </div>
+
+                        <input type="hidden" id="softwareRequestId" name="softwareRequestId" />
+                        <div class="mt-5 mb-3 text-center">
+                            <small class="card-title">Technician Analysis Report</small>
+                        </div>
+                        <div class="form-group col-8 col-sm-6 mt-2">
+                            <label for=""> Status </label>
+                            <select type="text" class="form-control" name="statusId" id="statusId" disabled></select>
+                        </div>
+                        <div class="form-group col-md-6 mt-2">
+                            <label for=""> Assign Tecnician</label>
+                            <select class="form-control" name="softwareTechnicianId" id="softwareTechnicianId" disabled>
+                            </select>
+                        </div>
+
+
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="">Date Started</label>
+                            <div class='input-group date'>
+
+                                <input class="form-control dateStarted" type="date" name="dateStarted" id="dateStarted" disabled />
+                                <span class="input-group-text" id="inputGroupPrepend">
+                                    <span class="far fa-clock"></span>
+                                </span>
+                                <input class="form-control timeStarted" type="time" name="timeStarted" id="timeStarted" disabled />
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="">Date Ended</label>
+                            <div class='input-group date'>
+
+                                <input class="form-control dateEnded" type="date" name="dateEnded" id="dateEnded" disabled />
+                                <span class="input-group-text" id="inputGroupPrepend">
+                                    <span class="far fa-clock"></span>
+                                </span>
+                                <input class="form-control timeEnded" type="time" name="timeEnded" id="timeEnded" disabled />
+                            </div>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="" class="mt-3 ">Remarks</label>
+                            <textarea class="form-control" id="remarks" name="remarks" style="height: 200px;" disabled> </textarea>
+                        </div>
+                        <div class="space my-4 mb-4"></div>
+
+                        <div class="row mb-4">
+                            <div class="col-6">
+                                <div class="justify-content-center text-center">
+                                    <div class="mb-4">
+                                        <div class=" text-center">
+                                            <small class="card-title">Hardware Admin</small>
+                                        </div>
+                                        <div class="form-group col-md-12 mt-3">
+                                            <label for="">Verified By</label>
+                                            <input class="form-control text-center mt-2" type="text" name="viewer" id="viewer" style="border-top:none; border-left:none; border-right:none; border-radius:initial;" disabled />
+                                        </div>
+                                        <div class="form-group col-md-12 mt-3">
+                                            <label for="">Date Verified</label>
+                                            <input class="form-control text-center mt-2" type="text" name="dateView" id="dateView" style="border-top:none; border-left:none; border-right:none; border-radius:initial;" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="justify-content-center text-center">
+                                    <div class="mb-4">
+                                        <div class=" text-center">
+                                            <small class="card-title">Super Admin</small>
+                                        </div>
+                                        <div class="form-group col-md-12 mt-3">
+                                            <label for="">Approved By</label>
+                                            <input class="form-control text-center mt-2" type="text" name="approver" id="approver" style="border-top:none; border-left:none; border-right:none; border-radius:initial;" disabled />
+                                        </div>
+                                        <div class="form-group col-md-12 mt-3">
+                                            <label for="">Date Approved</label>
+                                            <input class="form-control text-center mt-2" type="text" name="dateApproved" id="dateApproved" style="border-top:none; border-left:none; border-right:none; border-radius:initial;" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer mt-3">
+                            @*<button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#printPage"
+                    id="softwareRequestId">
+                Generate Report
+            </button>*@
+                            <button type="button" data-bs-dismiss="modal" class="btn-second-modal-close btn btn-default">Close</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="softwareDisplay" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-center justify-content-center">
+                <h4 class="modal-title justify-content-center dash-title text-white">File Attachment</h4>
+            </div>
+            <div class="modal-body">
+                <form id="attachementModel">
+                    <div class="table-responsive">
+                        <table id="UploadList" class="table table-striped" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Date Added
+                                    </th>
+                                    <th>
+                                        Image
+                                    </th>
+                                    <th>
+                                    </th>
+                            </thead>
+                        </table>
+
+                    </div>
+                    <input type="hidden" id="statusId" name="statusId" />
+                    <diav class="row text-center pb-4 ">
+                        <div class="col-md-12">
+                            <button type="button" href="#" class="btn btn-primary btn-sm update-image" data-bs-toggle="modal" data-bs-target="#editModal" data-bs-backdrop="static" data-bs-keyboard="false" id="softwareRequestId" abindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                Add Files
+                            </button>
+                        </div>
+                    </diav>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-bs-dismiss="modal" class="btn-second-modal-close btn btn-default">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-center justify-content-center">
+                <h4 class="modal-title justify-content-center dash-title text-white">Upload Image</h4>
+            </div>
+            <div class="modal-body">
+                <form id="upload2" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input type="hidden" name="softwareRequestId" id="softwareRequestId" />
+                    </div>
+                    <div class="form-group">
+                        <label for="file" class="pb-1">Select File</label>
+                        <input type="file" class="form-control" id="files" name="files" multiple>
+                    </div>
+                    <div class="alert alert-info mt-4" role="alert" style="display: block;">
+                            <strong>Tips!</strong> In Uploading multiple files, hold <strong>CTRL</strong> key and click the
+                            files you want to upload
+                        </div>
+                    <div class="form-group mt-4">
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary  btn-sm">Upload</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="pleasewait" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border text-primary mt-3" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="justify-content-center">
+                    <h2 class="text-center ms-3 mt-3" style="font-size:20px;">Loading...</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            UserSoftwareRequest();
+        });
+    </script>
+}
+

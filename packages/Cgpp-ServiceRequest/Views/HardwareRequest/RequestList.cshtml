@@ -1,0 +1,277 @@
+﻿
+@{
+    ViewBag.Title = "RequestList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title d-flex justify-content-between mx-2">
+                    Hardware Request List
+                </h4>
+                <h6 class="card-subtitle"></h6>
+                <div class="table-responsive">
+                    <table id="hardwareRequestList" class="table table-condensed display">
+                        <thead>
+                            <tr>
+                                <th>Ticket</th>
+                                <th>Date Posted</th>
+                                <th>Reported By</th>
+                                <th>Issue</th>
+                                <th>Technician</th>
+                                <th>Status</th>
+
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="assignToMe" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-s modal-notify modal-info" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <form id="assignTome">
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="row">
+                        <p>Do you want to Assign this Request to you?</p>
+                    </div>
+                    <input type="hidden" id="id" name="id" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                <button id="Assigntome" type="button" class="btn btn-success update-request">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade firstBlur" id="viewmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center" style="background-color: #0DCAF0;">
+                <p class="heading card-title" id="exampleModalLabel">
+                    <h5 class="heading card-title d-flex justify-content-center text-center text-white">  Request Details</h5>
+                </p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="viewRequest">
+                    <div class="row">
+                        <div class="mb-4 text-center mt-4">
+                            <small class="card-title">Client Information</small>
+                        </div>
+                        <div class="form-group col-8 col-sm-6">
+                            <label for="">Name</label>
+                            <input type="text" class="form-control mb-2" name="fullName" id="fullName" disabled />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="">Phone Number</label>
+                            <input type="text" class="form-control mb-2" name="mobileNumber" id="mobileNumber" disabled />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="">Department</label>
+                            <select class="form-control" id="departmentsId" name="departmentsId" disabled>Select Departments</select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="">Division</label>
+                            <select class="form-control" id="divisionsId" name="divisionsId" disabled>Select Departments</select>
+                        </div>
+
+                        <div class="mb-4 text-center mt-5">
+                            <small class="card-title">Hardware Request Details</small>
+                        </div>
+                        <div class="form-group col-8 col-sm-6 mt-3">
+                            <label for="">Service Category</label>
+                            <select type="text" class="form-control mb-2" name="hardwareId" id="hardwareId" disabled></select>
+                        </div>
+                        <div class="form-group col-sm-6 mt-3">
+                            <label for=""> Model Name</label>
+                            <input type="text" class="form-control mb-2" name="modelName" id="modelName" disabled />
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for=""> Unit</label>
+                            <select class="form-control" id="unitTypeId" name="unitTypeId" disabled>Select UnitType</select>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="">Brand Name</label>
+                            <input class="form-control" id="brandName" name="brandName" disabled />
+                        </div>
+                        <div class="row mt-4">
+                            <label for="FileName" class="col col-form-label ">Subject : </label>
+                            <div class="col-md-11">
+                                <input type="text" class="form-control ms-4" id="documentLabel" name="FileName" disabled />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="mt-3">Description</label>
+                            <textarea class="form-control mb-5" id="description" name="description" style="height: 200px;" disabled> </textarea>
+                        </div>
+
+                        <div class="space"></div>
+
+                        <div class="mb-4 text-center mt-5">
+                            <small class="card-title">Technician Analysis Report</small>
+                        </div>
+                        <div class="form-group col-8 col-sm-6 mt-2">
+                            <label for=""> Status </label>
+                            <select type="text" class="form-control" name="statusId" id="statusId" disabled></select>
+                        </div>
+                        <div class="form-group col-md-6 mt-2">
+                            <label for=""> Assign Tecnician</label>
+                            <select class="form-control" name="hardwareTechnicianId" id="hardwareTechnicianId" disabled>
+                            </select>
+                        </div>
+                        <div class="form-group col-8 col-sm-6 mt-2">
+                            <label for="">Possible Cause</label>
+                            <input type="text" class="form-control " name="possibleCause" id="possibleCause" disabled />
+                        </div>
+                        <div class="form-group col-sm-6 mt-2">
+                            <label for="">Findings After Repair</label>
+                            <select class="form-control col-sm-6" id="findingId" name="findingId" disabled></select>
+                        </div>
+                        <div class="form-group col-8 col-sm-6 mt-2">
+                            <label for="">Serial Number</label>
+                            <input type="text" class="form-control " name="serialNumber" id="serialNumber" disabled />
+                        </div>
+                        <div class="form-group col-sm-6 mt-2">
+                            <label for="">Control Number</label>
+                            <input class="form-control col-sm-6" id="controlNumber" name="controlNumber" disabled />
+                        </div>
+
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="">Date Started</label>
+                            <div class='input-group date'>
+                                <input class="form-control dateStarted" type="date" name="dateStarted" id="dateStarted" disabled />
+                                <span class="input-group-text" id="inputGroupPrepend">
+                                    <span class="far fa-clock"></span>
+                                </span>
+                                <input class="form-control timeStarted" type="time" name="timeStarted" id="timeStarted" disabled />
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="">Date Ended</label>
+                            <div class='input-group date'>
+                                <input class="form-control dateEnded" type="date" name="dateEnded" id="dateEnded" disabled />
+                                <span class="input-group-text" id="inputGroupPrepend">
+                                    <span class="far fa-clock"></span>
+                                </span>
+                                <input class="form-control timeEnded" type="time" name="timeEnded" id="timeEnded" disabled />
+                            </div>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="" class="mt-3">Remarks</label>
+                            <textarea class="form-control mb-5" id="remarks" name="remarks" style="height: 200px;" disabled> </textarea>
+                        </div>
+                        <div class="space my-4 mb-4"></div>
+                        <div class="row mb-4">
+                            <div class="col-6">
+                                <div class="justify-content-center text-center">
+                                    <div class="mb-4">
+                                        <div class=" text-center">
+                                            <small class="card-title">Hardware Admin</small>
+                                        </div>
+                                        <div class="form-group col-md-12 mt-3">
+                                            <label for="">Verified By</label>
+                                            <input class="form-control text-center mt-2" type="text" name="viewer" id="approver" style="border-top:none; border-left:none; border-right:none; border-radius:initial;" disabled />
+                                        </div>
+                                        <div class="form-group col-md-12 mt-3">
+                                            <label for="">Date Verified</label>
+                                            <input class="form-control text-center mt-2" type="text" name="dateView" id="dateView" style="border-top:none; border-left:none; border-right:none; border-radius:initial;" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="justify-content-center text-center">
+                                    <div class="mb-4">
+                                        <div class=" text-center">
+                                            <small class="card-title">Super Admin</small>
+                                        </div>
+                                        <div class="form-group col-md-12 mt-3">
+                                            <label for="">Approved By</label>
+                                            <input class="form-control text-center mt-2" type="text" name="approver" id="approver" style="border-top:none; border-left:none; border-right:none; border-radius:initial;" disabled />
+                                        </div>
+                                        <div class="form-group col-md-12 mt-3">
+                                            <label for="">Date Approved</label>
+                                            <input class="form-control text-center mt-2" type="text" name="dateApproved" id="dateApproved" style="border-top:none; border-left:none; border-right:none; border-radius:initial;" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="hidden" id="id" name="id" />
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="pleasewait" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border text-primary mt-3" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="justify-content-center">
+                    <h2 class="text-center ms-3 mt-3" style="font-size:20px;">Loading...</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="hardwareDisplay" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h4 class="modal-title justify-content-center dash-title text-white text-center">File Attachements</h4>
+            </div>
+            <div class="modal-body">
+                <table id="UploadList" class="table table-striped" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                Date Added
+                            </th>
+                            <th>
+                                Image
+                            </th>
+                            <th></th>
+                         </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-bs-dismiss="modal" class="btn-second-modal-close btn btn-default">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            HardwareAssigned();
+        })
+    </script>
+}

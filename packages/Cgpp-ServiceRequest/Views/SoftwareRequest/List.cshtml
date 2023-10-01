@@ -1,0 +1,366 @@
+﻿
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (User.IsInRole("SoftwareAdmin") || User.IsInRole("SuperAdmin") || User.IsInRole("Developer"))
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body mb-4">
+                    <h4 class="card-title d-flex justify-content-between">
+                        Assigned Request
+                    </h4>
+                    <h6 class="card-subtitle"></h6>
+                    <div class="table-responsive">
+                        <table id="proglistCount" class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Year</th>
+                                    <th>Month</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body mb-4">
+                    <h4 class=" card-title d-flex justify-content-between">
+                        Systems
+                    </h4>
+                    <h6 class="card-subtitle"></h6>
+                    <div class="table-responsive">
+                        <table id="sftsystemList" class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Services</th>
+                                    <th>Year</th>
+                                    <th>Month</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body mb-4">
+                    <h4 class="card-title d-flex justify-content-between">
+                        Software Category
+                    </h4>
+                    <h6 class="card-subtitle"></h6>
+                    <div class="table-responsive">
+                        <table id="sftListCount" class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Services</th>
+                                    <th>Year</th>
+                                    <th>Month</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+}
+
+@if (User.IsInRole("Programmers"))
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body mb-4">
+                    <h4 class=" card-title d-flex justify-content-between">
+                        Systems
+                    </h4>
+                    <h6 class="card-subtitle"></h6>
+                    <div class="table-responsive">
+                        <table id="sftsystemList" class="table table-condensed">
+                            <thead class="bg-info text-white">
+                                <tr>
+                                    <th>Services</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body mb-6">
+                    <h4 class="card-title d-flex justify-content-between">
+                        Software Category
+                    </h4>
+                    <h6 class="card-subtitle"></h6>
+                    <div class="table-responsive">
+                        <table id="sftListCount" class="table table-condensed">
+                            <thead class="bg-warning text-white">
+                                <tr>
+                                    <th>Services</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#proglistCount').DataTable({
+                ajax: {
+                    url: '/ServiceRequest/api/sf/bymonth',
+                    dataSrc: "",
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem('access_token')
+                    }
+                },
+                autoWidth: false,
+                columns: [
+                    {
+                        data: 'name',
+                        render: function (data, type, row) {
+                            if (data == null) {
+                                return '--'
+                            }
+                            return `${(data)}`
+                        }
+
+                    },
+
+                    {
+                        // display count
+                        data: 'year',
+                    },
+                    {
+                        data: 'month',
+                        render: function (data, row) {
+                            if (data == 1) {
+                                return 'January'
+                            }
+                            else if (data == 2) {
+                                return 'February '
+                            }
+                            else if (data == 3) {
+                                return 'March'
+                            }
+                            else if (data == 4) {
+                                return 'April'
+                            }
+                            else if (data == 5) {
+                                return 'May '
+                            }
+                            else if (data == 6) {
+                                return 'June '
+                            }
+                            else if (data == 7) {
+                                return 'July '
+                            }
+                            else if (data == 8) {
+                                return 'August '
+                            }
+                            else if (data == 9) {
+                                return 'September '
+                            }
+                            else if (data == 10) {
+                                return 'October '
+                            }
+                            else if (data == 11) {
+                                return 'November '
+                            }
+                            else if (data == 12) {
+                                return 'December '
+                            }
+                            else
+                                return ''
+                        }
+                    },
+                    {
+                        data: "count",
+                    },
+                ]
+            });
+
+            $('#sftsystemList').DataTable({
+                ajax: {
+                    url: '/ServiceRequest/api/sftSystem/count',
+                    dataSrc: "",
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem('access_token')
+                    }
+                },
+                autoWidth: false,
+                columns: [
+                    {
+                        data: 'name',
+                        render: function (data, type, row) {
+                            if (data == null) {
+                                return '--'
+                            }
+                            return `${(data)}`
+                        }
+
+                    },
+
+                    {
+                        // display count
+                        data: 'year',
+                    },
+                    {
+                        data: 'month',
+                        render: function (data, row) {
+                            if (data == 1) {
+                                return 'January'
+                            }
+                            else if (data == 2) {
+                                return 'February '
+                            }
+                            else if (data == 3) {
+                                return 'March'
+                            }
+                            else if (data == 4) {
+                                return 'April'
+                            }
+                            else if (data == 5) {
+                                return 'May '
+                            }
+                            else if (data == 6) {
+                                return 'June '
+                            }
+                            else if (data == 7) {
+                                return 'July '
+                            }
+                            else if (data == 8) {
+                                return 'August '
+                            }
+                            else if (data == 9) {
+                                return 'September '
+                            }
+                            else if (data == 10) {
+                                return 'October '
+                            }
+                            else if (data == 11) {
+                                return 'November '
+                            }
+                            else if (data == 12) {
+                                return 'December '
+                            }
+                            else
+                                return ''
+                        }
+                    },
+                    {
+                        data: "count",
+                    },
+                ]
+            });
+
+            $('#sftListCount').DataTable({
+                ajax: {
+                    url: '/ServiceRequest/api/sftService/count',
+                    dataSrc: "",
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem('access_token')
+                    }
+                },
+                autoWidth: false,
+                columns: [
+                    {
+                        data: 'name',
+                        render: function (data, type, row) {
+                            if (data == null) {
+                                return '--'
+                            }
+                            return `${(data)}`
+                        }
+
+                    },
+
+                    {
+                        // display count
+                        data: 'year',
+                    },
+                    {
+                        data: 'month',
+                        render: function (data, row) {
+                            if (data == 1) {
+                                return 'January'
+                            }
+                            else if (data == 2) {
+                                return 'February '
+                            }
+                            else if (data == 3) {
+                                return 'March'
+                            }
+                            else if (data == 4) {
+                                return 'April'
+                            }
+                            else if (data == 5) {
+                                return 'May '
+                            }
+                            else if (data == 6) {
+                                return 'June '
+                            }
+                            else if (data == 7) {
+                                return 'July '
+                            }
+                            else if (data == 8) {
+                                return 'August '
+                            }
+                            else if (data == 9) {
+                                return 'September '
+                            }
+                            else if (data == 10) {
+                                return 'October '
+                            }
+                            else if (data == 11) {
+                                return 'November '
+                            }
+                            else if (data == 12) {
+                                return 'December '
+                            }
+                            else
+                                return ''
+                        }
+                    },
+                    {
+                        data: "count",
+                    },
+                ]
+            });
+        });
+    </script>
+}

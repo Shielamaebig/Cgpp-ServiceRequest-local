@@ -37,5 +37,9 @@ namespace Cgpp_ServiceRequest.Controllers
         {
             return View();
         }
+        public ActionResult UsersChart()
+        {
+            return View();
+        }
     }
 }

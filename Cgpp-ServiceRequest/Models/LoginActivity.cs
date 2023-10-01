@@ -12,5 +12,7 @@ namespace Cgpp_ServiceRequest.Models
         public string Email { get; set; }
         public string ActivityMessage { get; set; }
         public string ActivityDate { get; set; }
+        public string DepartmentName { get; set; }
+        public string DivisionName { get; set; }
     }
 }

@@ -3,7 +3,7 @@
     ViewBag.Title = "UserRequestList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h4 class="card-title mb-2 ms-2">
+<h4 class="card-title mb-2 ms-2 fw-semibold">
     Hardware Request 
 </h4>
 <div class="row">
@@ -61,113 +61,125 @@
         <div class="modal-content">
             <div class="modal-header justify-content-center" >
                 <p class="heading card-title" id="exampleModalLabel">
-                    <h5 class="heading card-title d-flex justify-content-center text-center ">  Request Details</h5>
+                    <h5 class="heading card-title d-flex justify-content-center text-center fw-semibold">  Request Details</h5>
                 </p>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="col-xl-12">
-                    <div class="card">
-                        <div class="card-body pt-3">
-                            <!-- Bordered Tabs -->
-                            <ul class="nav nav-tabs nav-tabs-bordered">
+                <div class="row m-3">
+                    <ul class="nav nav-tabs nav-tabs-bordered">
+                        <li class="nav-item">
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#client-overview">Client Information</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-overview">Request</button>
+                        </li>
 
-                                <li class="nav-item">
-                                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
-                                </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Attachments</button>
+                        </li>
 
-                                <li class="nav-item">
-                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Attachments</button>
-                                </li>
+                    </ul>
+                    <div class="tab-content pt-2">
+                        <div class="tab-pane fade show active profile-overview" id="client-overview">
+                            <form id="viewRequestclient">
+                                <div class="row">
+                                    <div class=" text-center">
+                                        <small class="card-title fw-semibold">Client Information</small>
+                                    </div>
+                                    <div class="form-group col-8 col-sm-6">
+                                        <label for="">Ticket Number</label>
+                                        <input type="text" class="form-control mb-2" name="ticket" id="ticket" disabled />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for=""> Date Reported</label>
+                                        <input type="text" class="form-control mb-2" name="dateAdded" id="dateAdded" disabled />
+                                    </div>
+                                    <div class="form-group col-8 col-sm-6">
+                                        <label for="">Reported By</label>
+                                        <input type="text" class="form-control mb-2" name="fullName" id="fullName" disabled />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="">Phone Number</label>
+                                        <input type="text" class="form-control mb-2" name="mobileNumber" id="mobileNumber" disabled />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="">Department</label>
+                                        <input class="form-control" id="departmentName" name="departmentName" disabled />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="">Division</label>
+                                        <input class="form-control" id="divisionName" name="divisionName" disabled />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="">Any Desk</label>
+                                        <input class="form-control" id="anyDesk" name="anyDesk" disabled />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="">Telephone No.</label>
+                                        <input class="form-control" id="telNumber" name="telNumber" disabled />
+                                    </div>
+                                    <input type="hidden" id="id" name="id" />
 
-                            </ul>
-                            <div class="tab-content pt-2">
-                                <div class="tab-pane fade show active profile-overview" id="profile-overview">
-                                    <form id="viewRequest">
-                                        <div class="row">
-                                            <div class="mb-4 text-center mt-4">
-                                                <small class="card-title">Client Information</small>
-                                            </div>
-                                            <div class="form-group col-8 col-sm-6">
-                                                <label for="">Ticket Number</label>
-                                                <input type="text" class="form-control mb-2" name="ticket" id="ticket" disabled />
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for=""> Date Reported</label>
-                                                <input type="text" class="form-control mb-2" name="dateAdded" id="dateAdded" disabled />
-                                            </div>
-                                            <div class="form-group col-8 col-sm-6">
-                                                <label for="">Reported By</label>
-                                                <input type="text" class="form-control mb-2" name="fullName" id="fullName" disabled />
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="">Phone Number</label>
-                                                <input type="text" class="form-control mb-2" name="mobileNumber" id="mobileNumber" disabled />
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="">Department</label>
-                                                <input class="form-control" id="departmentName" name="departmentName" disabled />
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="">Division</label>
-                                                <input class="form-control" id="divisionName" name="divisionName" disabled />
-                                            </div>
+                                </div>
+                            </form>
+                        </div>
 
-                                            <div class=" text-center mt-3">
-                                                <small class="card-title">Hardware Request Details</small>
-                                            </div>
-                                            <div class="form-group col-8 col-sm-6 mt-3">
-                                                <label for="">Service Category</label>
-                                                <input type="text" class="form-control mb-2" name="hardwareName" id="hardwareName" disabled />
-                                            </div>
-                                            <div class="form-group col-sm-6 mt-3">
-                                                <label for=""> Model Name</label>
-                                                <input type="text" class="form-control mb-2" name="modelName" id="modelName" disabled />
-                                            </div>
-                                            <div class="form-group col-sm-6">
-                                                <label for=""> Unit</label>
-                                                <input class="form-control" id="uniTypes" name="uniTypes" disabled />
-                                            </div>
-                                            <div class="form-group col-sm-6">
-                                                <label for="">Brand Name</label>
-                                                <input class="form-control" id="brandName" name="brandName" disabled />
-                                            </div>
-                                            <div class="row mt-4">
-                                                <label for="FileName" class="col col-form-label ">Subject : </label>
-                                                <div class="col-md-10">
-                                                    <input type="text" class="form-control ms-4" id="documentLabel" name="FileName" disabled />
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="" class="mt-3">Description</label>
-                                                <textarea class="form-control mb-5" id="description" name="description" style="height: 200px;" disabled> </textarea>
-                                            </div>
-
-                                            <input type="hidden" id="id" name="id" />
-
+                        <div class="tab-pane fade profile-overview" id="profile-overview">
+                            <form id="viewRequest">
+                                <div class="row">
+                                    <div class=" text-center mt-3">
+                                        <small class="card-title fw-semibold">Hardware Request Details</small>
+                                    </div>
+                                    <div class="form-group col-8 col-sm-6 mt-3">
+                                        <label for="">Service Category</label>
+                                        <input type="text" class="form-control mb-2" name="hardwareName" id="hardwareName" disabled />
+                                    </div>
+                                    <div class="form-group col-sm-6 mt-3">
+                                        <label for=""> Model Name</label>
+                                        <input type="text" class="form-control mb-2" name="modelName" id="modelName" disabled />
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for=""> Unit</label>
+                                        <input class="form-control" id="uniTypes" name="uniTypes" disabled />
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="">Brand Name</label>
+                                        <input class="form-control" id="brandName" name="brandName" disabled />
+                                    </div>
+                                    <div class="row mt-4">
+                                        <label for="FileName" class="col col-form-label ">Subject : </label>
+                                        <div class="col-md-10">
+                                            <input type="text" class="form-control ms-4" id="documentLabel" name="FileName" disabled />
                                         </div>
-                                    </form>
-                                </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="mt-3">Description</label>
+                                        <textarea class="form-control mb-5" id="description" name="description" style="height: 80px;" disabled> </textarea>
+                                    </div>
 
-                                <div class="tab-pane fade pt-3" id="profile-change-password">
-                                    <table id="UploadList" class="table table-striped" cellspacing="0" width="100%">
-                                        <thead>
-                                            <tr>
-                                                <th>
-                                                    Date Added
-                                                </th>
-                                                <th>
-                                                    Image
-                                                </th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                    </table>
+                                    <input type="hidden" id="id" name="id" />
+
                                 </div>
-                            </div><!-- End Bordered Tabs -->
+                            </form>
+                        </div>
+
+                        <div class="tab-pane fade pt-3" id="profile-change-password">
+                            <table id="UploadList" class="table table-striped" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Date Added
+                                        </th>
+                                        <th>
+                                            Image
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                            </table>
                         </div>
                     </div>
-
                 </div>
             </div>
             <div class="modal-footer">
@@ -177,27 +189,10 @@
     </div>
 </div>
 
-
-@* <div class="modal fade" id="pleasewait" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered  modal-notify modal-info" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="d-flex justify-content-center">
-                    <div class="spinner-border text-primary mt-3" role="status">
-                        <span class="sr-only">Loading...</span>
-                    </div>
-                </div>
-                <div class="justify-content-center">
-                    <h2 class="text-center ms-3 mt-3" style="font-size:20px;">Loading...</h2>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> *@
 @section Scripts{
-            <script>
-                $(document).ready(function () {
-                    UserRequestList();
-                })
-            </script>
+                        <script>
+                            $(document).ready(function () {
+                                UserRequestList();
+                            })
+                        </script>
 }
